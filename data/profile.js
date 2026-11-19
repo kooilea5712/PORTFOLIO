@@ -58,11 +58,11 @@ window.PROFILE = {
 
   // --- Mạng xã hội (xoá cả dòng để ẩn một mạng). id: github | linkedin | facebook | instagram | tiktok | youtube ---
   socials: [
-    { id: "github",    url: "https://github.com/{{github-user}}",        handle: "@{{github-user}}",    note: "{{Ghi chú GitHub}}" },
+    { id: "github",    url: "https://github.com/kooilea5712",            handle: "@kooilea5712",        note: "{{Ghi chú GitHub}}" },
     { id: "linkedin",  url: "https://linkedin.com/in/{{linkedin-user}}", handle: "{{linkedin-user}}",   note: "{{Ghi chú LinkedIn}}" },
-    { id: "facebook",  url: "https://facebook.com/{{facebook-user}}",    handle: "{{facebook-user}}",   note: "{{Ghi chú Facebook}}" },
-    { id: "instagram", url: "https://instagram.com/{{instagram-user}}",  handle: "@{{instagram-user}}", note: "{{Ghi chú Instagram}}" },
-    { id: "tiktok",    url: "https://tiktok.com/@{{tiktok-user}}",       handle: "@{{tiktok-user}}",    note: "{{Ghi chú TikTok}}" }
+    { id: "facebook",  url: "https://www.facebook.com/kooilea.7512/",    handle: "kooilea.7512",        note: "{{Ghi chú Facebook}}" },
+    { id: "instagram", url: "https://www.instagram.com/bf.material_k/",  handle: "@bf.material_k",      note: "{{Ghi chú Instagram}}" },
+    { id: "tiktok",    url: "https://www.tiktok.com/@the_riu_mc.koy",    handle: "@the_riu_mc.koy",     note: "{{Ghi chú TikTok}}" }
   ],
 
   // --- Khối "Now" (mục Life) ---

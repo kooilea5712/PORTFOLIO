@@ -17,7 +17,7 @@ Mục có **[HTML]** là phần SEO nằm trong HTML (công cụ tìm kiếm đ�
 | Email nhận thư | the.real.mckoy7v@gmail.com | contact, mailto |
 | Thành phố **(VI/EN)** | Ho Chi Minh city | contact ("Vị trí") |
 | Đang tìm việc/thực tập? (có/không) | có | chấm "Open to work" |
-| Câu chào ở hero **(VI/EN)** — vd "xin chào, mình là An" | xin chào, mình là Fein | hero |
+| Câu chào ở hero **(VI/EN)** — vd "xin chào, mình là An" | xin chào, mình là Fein / Hi, I'm Fein Le | hero |
 | Các chữ tự gõ sau "I'M A" (mặc định DEVELOPER, DESIGNER, STUDENT) | DEVELOPER, STUDENT, DESIGNER, TRAVELER | hero |
 
 ## 2. Giới thiệu
@@ -33,8 +33,8 @@ Mục có **[HTML]** là phần SEO nằm trong HTML (công cụ tìm kiếm đ�
 
 | Mục | Điền vào |
 |---|---|
-| Tên tổ chức / đang làm gì **(VI/EN)** — vd "SINH VIÊN ĐẠI HỌC X" | → |
-| Chữ viết tắt/logo lớn mờ làm nền — vd `HUST` | → |
+| Tên tổ chức / đang làm gì **(VI/EN)** — vd "SINH VIÊN ĐẠI HỌC X" | SINH VIÊN TRƯỜNG ĐH CNTT / STUDENT AT UIT |
+| Chữ viết tắt/logo lớn mờ làm nền — vd `HUST` | UIT |
 | Mô tả ngắn **(VI/EN)** | → |
 | Nút "Xem thêm" dẫn tới link nào (mặc định `about.html`) | → |
 
@@ -109,12 +109,12 @@ Chỉ điền cái nào bạn dùng; cái nào không có thì ghi "bỏ".
 
 | Mạng | Link hoặc tên tài khoản | Một dòng mô tả **(VI/EN)** — vd "Code của mình" |
 |---|---|---|
-| GitHub | → | → |
+| GitHub | https://github.com/kooilea5712 | → |
 | LinkedIn | → | → |
-| Facebook | → | → |
-| Instagram | → | → |
-| TikTok | → | → |
-| YouTube (nếu có) | → | → |
+| Facebook | https://www.facebook.com/kooilea.7512/ | → |
+| Instagram | https://www.instagram.com/bf.material_k/ | → |
+| TikTok | https://www.tiktok.com/@the_riu_mc.koy | → |
+| YouTube (nếu có) | → | → | 
 
 ## 10. Liên hệ
 
@@ -127,7 +127,7 @@ Chỉ điền cái nào bạn dùng; cái nào không có thì ghi "bỏ".
 
 | Mục | Điền vào |
 |---|---|
-| Tên miền, không có `https://` (vd `an-nguyen.dev`; chưa có thì ghi "chưa có") | → |
+| Tên miền, không có `https://` (vd `an-nguyen.dev`; chưa có thì ghi "chưa có") | chưa có |
 | Mô tả trang chủ, ~150 ký tự (cho Google) | → |
 | Mô tả trang About / Projects / Life (mỗi cái 1 câu) | → |
 | Chữ cái đầu cho favicon | → |
