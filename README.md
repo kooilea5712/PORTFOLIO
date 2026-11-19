@@ -32,7 +32,7 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | `data/skills.js` | Kỹ năng: mastered / learning / tools | — | — | — |
 | `data/projects.js` | Danh sách dự án | — | — | — |
 | `data/life.js` | Ảnh đời sống | — | — | — |
-| `assets/js/main.js` | Hành vi chung | `initNavbar`, `initMobileMenu`, `initReveal`, `initHeroTyping`, `initBackToTop` | `PROFILE.roles` | `header`, `.hero` |
+| `assets/js/main.js` | Hành vi chung | `initNavbar`, `initMobileMenu`, `initReveal`, `initInViewColor` (mobile: ảnh hiện màu khi cuộn tới), `initHeroTyping`, `initBackToTop` | `PROFILE.roles` | `header`, `.hero` |
 | `assets/css/base.css` | Reset, typography, `.container`, `.section`, `.reveal`, `.visually-hidden` | — | — | — |
 | `components-demo.html` + `components-demo.js` | **Trang tạm** để duyệt component (xoá sau giai đoạn 1) | `initDemoTabs`, `initDemoForm` | — | `.filter-tabs`, `form` |
 | `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid`, `renderProjectCard`, `initProjectFilter`, `renderLife`, `renderSocials`, `renderNow` | tất cả `data/*` | `#skills`, `#projects`, `#life`, `#socials` |

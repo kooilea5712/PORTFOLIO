@@ -323,11 +323,56 @@ window.LIFE = [
 
 ## 8. Yêu cầu chất lượng
 
-- **Responsive**: breakpoint 480 / 768 / 1024 / 1440px. Thiết kế mobile trước. Không cuộn ngang ở 360px.
+- **Responsive**: viết CSS cho mobile trước, rồi mở rộng bằng `min-width`. Chi tiết bố cục từng màn hình ở **mục 8.1**. Không cuộn ngang ở 360px.
 - **Hiệu năng**: ảnh `.webp`, ảnh ngoài màn hình đầu dùng `loading="lazy"`, hero ≤ 300KB, font chỉ tải đúng weight cần dùng.
 - **Accessibility**: HTML ngữ nghĩa (`header/nav/main/section/footer`), mọi ảnh có `alt`, focus bàn phím nhìn thấy được (viền màu nhấn), độ tương phản chữ đạt WCAG AA, nút icon có `aria-label`.
 - **SEO/chia sẻ**: `<title>`, `meta description`, Open Graph image cho từng trang, `favicon.svg`.
 - **Không dùng thư viện nặng**. Được phép: icon SVG nội tuyến, Google Fonts. Tuỳ chọn: GLightbox cho gallery.
+
+### 8.1 Bố cục theo màn hình — bản màn dọc (mobile) & màn rộng (desktop)
+
+Tham chiếu: `docs/reference/figma-mobile.png` (màn dọc) và `docs/reference/figma-desktop.png` (màn rộng).
+Mọi section phải được thiết kế cho **cả hai** — không chỉ thu nhỏ bản desktop.
+
+**Mốc màn hình (đặt tên biến trong `tokens.css` dưới dạng comment, dùng `min-width`):**
+
+| Tên | Chiều rộng | Thiết bị điển hình | Kiểm tra ở |
+|---|---|---|---|
+| `mobile` | < 768px | điện thoại dọc | **375px**, 360px |
+| `tablet` | 768–1023px | tablet, điện thoại xoay ngang | 768px |
+| `desktop` | ≥ 1024px | laptop, màn rộng | **1440px**, 1024px |
+| `wide` | ≥ 1440px | màn lớn | 1920px (nội dung không giãn quá `--container`) |
+
+**Thông số chung thay đổi theo màn hình:**
+
+| Thông số | Mobile | Tablet | Desktop |
+|---|---|---|---|
+| Lề hai bên container | 20px | 40px | tự căn giữa, max `--container` 1120px |
+| `--space-section` | 4.5rem | 6rem | 9rem |
+| Chiều cao navbar | 57px (giống Figma mobile) | 64px | 66px (giống Figma desktop) |
+| `SectionTitle` | padding `.9rem 1.5rem`, viền 3px, `letter-spacing .25em`, cỡ ~1rem, không được tràn ngang | như desktop | padding `1.25rem 2.75rem`, viền 4px, `.35em` |
+| Chữ đoạn văn | 1rem, căn trái (không căn đều — Figma mobile căn đều gây hở chữ tiếng Việt) | 1rem | 1rem, max 720px |
+| Vùng chạm (nút, link, icon) | tối thiểu 44×44px | 44px | không bắt buộc |
+
+**Từng section:**
+
+| Section | Mobile (màn dọc) | Desktop (màn rộng) |
+|---|---|---|
+| Navbar | Logo trái + nút hamburger phải. Ẩn link và nút CONTACT ME. Menu mở: phủ toàn màn hình nền `--dark`, link xếp dọc chữ lớn, icon social ở đáy, nút đóng ✕ góc phải, khoá cuộn trang khi mở. | Logo trái, link + nút pill CONTACT ME phải, một hàng. |
+| Hero | Cao `100svh`. Chữ căn giữa; dòng lớn được phép xuống 2 dòng (`I'M A` / `DEVELOPER`). Icon social hàng ngang dưới zigzag. Ảnh nền `object-position` chỉnh để chủ thể không bị cắt. | Cao `100vh`, chữ một dòng, căn giữa. |
+| Hiện tại (section tối) | Một cột: tiêu đề → đoạn văn → nút. Logo mờ nền thu nhỏ, đặt sau chữ. Nhiều thẻ → xếp dọc. | Tiêu đề + đoạn văn bên trái (~60%), logo mờ lớn bên phải. Nhiều thẻ → 2–3 cột. |
+| About | Ảnh chân dung trên, chữ dưới. 3 khối "Tôi làm gì" **xếp dọc** (giống Figma mobile). | Ảnh trái – chữ phải (2 cột). 3 khối "Tôi làm gì" xếp **so le** như Figma desktop (2 trên, 1 dưới giữa) hoặc 3 cột. |
+| Skills | "Đang dùng": lưới **2 cột** logo (Figma mobile để 1 cột rất dài — rút gọn lại). "Đang học": danh sách dọc, logo trái + tên + thanh tiến độ. "Công cụ": chip tự xuống dòng. | "Đang dùng": lưới 5–6 cột. "Đang học": lưới 3–4 cột. Chip một hàng. |
+| Projects | Tab lọc **cuộn ngang** được (không xuống dòng, ẩn thanh cuộn). Card 1 cột, ảnh full chiều rộng, các nút DEMO/INFO/CODE luôn hiện. | Tab lọc một hàng căn giữa. Card 2 cột. |
+| Life | Lưới ảnh **2 cột**, chú thích hiện sẵn bên dưới ảnh. Khối Now: danh sách dọc. Thẻ social: 1 cột. | Lưới masonry 3 cột, chú thích hiện khi hover. Khối Now: 4 ô một hàng. Thẻ social: 3 cột. |
+| Contact | Một cột: thông tin liên hệ **trên**, form **dưới**, nút GỬI rộng hết hàng. | Hai cột: form trái, thông tin phải. |
+| Footer | Xếp dọc, căn giữa: BACK TO TOP → icon → copyright. | Một hàng hoặc như Figma (căn giữa, xếp dọc gọn). |
+| Trang chi tiết dự án | Hàng nút xuống dòng; iframe web con đổi thành ảnh chụp + nút "Mở toàn màn hình" (iframe quá nhỏ để dùng). Gallery 1 cột, vuốt ngang. | Iframe trong khung trình duyệt giả, gallery lưới 2–3 cột. |
+
+**Hover trên thiết bị cảm ứng** (điện thoại không có chuột):
+- Mọi hiệu ứng hover viết trong `@media (hover: hover)`.
+- Trong `@media (hover: none)`: ảnh grayscale **tự hiện màu khi cuộn vào giữa màn hình** (`IntersectionObserver` thêm class `.is-inview`, threshold ~0.6) — giữ được "điểm màu" trên mobile.
+- Nội dung chỉ hiện khi hover (chú thích ảnh, nút trên card) phải luôn hiện trên mobile.
 
 ---
 
@@ -349,10 +394,11 @@ Mỗi giai đoạn là một phiên làm việc riêng. Mở Claude Code trong t
 
 **Prompt giai đoạn 1**
 ```
-Đọc docs/PORTFOLIO_SPEC.md (mục 1–3, 7) và xem các ảnh trong docs/reference/.
+Đọc docs/PORTFOLIO_SPEC.md (mục 1–3, 7, 8.1) và xem các ảnh trong docs/reference/.
 Tạo nền móng: assets/css/tokens.css, base.css, components.css; index.html chỉ gồm
 navbar (trong suốt → đen khi cuộn, menu mobile toàn màn hình) và footer; assets/js/main.js.
 Dựng một trang demo tạm components-demo.html hiển thị mọi component ở mục 3 để mình duyệt.
+Navbar, footer và mọi component phải làm đủ bản mobile và desktop theo mục 8.1.
 Chưa làm các section khác.
 ```
 
@@ -361,7 +407,8 @@ Chưa làm các section khác.
 Theo mục 5 của docs/PORTFOLIO_SPEC.md, dựng đầy đủ các section trang chủ 5.1 → 5.8.
 Tạo data/profile.js, skills.js, projects.js (3 dự án mẫu: 1 web, 1 desktop, 1 local), life.js
 với dữ liệu mẫu, và assets/js/render.js để sinh HTML từ dữ liệu. Ảnh tạm dùng placeholder
-màu xám có ghi kích thước. Kiểm tra ở 375px và 1440px.
+màu xám có ghi kích thước. Bố cục mobile/desktop từng section theo mục 8.1.
+Kiểm tra ở 375px và 1440px.
 ```
 
 **Prompt giai đoạn 3**
@@ -369,14 +416,14 @@ màu xám có ghi kích thước. Kiểm tra ở 375px và 1440px.
 Theo mục 6 của docs/PORTFOLIO_SPEC.md, tạo projects.html (lọc theo loại, lọc theo công nghệ)
 và project.html đọc ?p=slug từ data/projects.js, hiển thị khối "Xem thử" khác nhau cho
 web (iframe khung trình duyệt) / desktop (video + tải xuống) / local (code block có nút copy).
-Thêm một web con mẫu ở lab/demo-site/ để thử iframe.
+Thêm một web con mẫu ở lab/demo-site/ để thử iframe. Bố cục mobile/desktop theo mục 8.1.
 ```
 
 **Prompt giai đoạn 4**
 ```
 Theo docs/PORTFOLIO_SPEC.md, tạo about.html (bio dài, timeline học tập/kinh nghiệm, nút tải CV),
 life.html (gallery masonry grayscale→màu + lightbox, khối Now, thẻ mạng xã hội) và 404.html.
-Dùng lại component và CSS đã có, không thêm style mới nếu không cần.
+Dùng lại component và CSS đã có, không thêm style mới nếu không cần. Bố cục mobile/desktop theo mục 8.1.
 ```
 
 **Prompt giai đoạn 5**
