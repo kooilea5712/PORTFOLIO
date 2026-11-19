@@ -59,7 +59,7 @@ window.PROFILE = {
   // --- Mạng xã hội (xoá cả dòng để ẩn một mạng). id: github | linkedin | facebook | instagram | tiktok | youtube ---
   socials: [
     { id: "github",    url: "https://github.com/kooilea5712",            handle: "@kooilea5712",        note: "{{Ghi chú GitHub}}" },
-    { id: "linkedin",  url: "https://linkedin.com/in/{{linkedin-user}}", handle: "{{linkedin-user}}",   note: "{{Ghi chú LinkedIn}}" },
+    { id: "linkedin",  url: "https://www.linkedin.com/in/anh-kh%C3%B4i-l%C3%AA-b11410445/", handle: "anh-khôi-lê-b11410445", note: "{{Ghi chú LinkedIn}}" },
     { id: "facebook",  url: "https://www.facebook.com/kooilea.7512/",    handle: "kooilea.7512",        note: "{{Ghi chú Facebook}}" },
     { id: "instagram", url: "https://www.instagram.com/bf.material_k/",  handle: "@bf.material_k",      note: "{{Ghi chú Instagram}}" },
     { id: "tiktok",    url: "https://www.tiktok.com/@the_riu_mc.koy",    handle: "@the_riu_mc.koy",     note: "{{Ghi chú TikTok}}" }
