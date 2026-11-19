@@ -107,6 +107,12 @@ function submitContactForm(data, form, messageEl) {
 function initContactForm() {
   var form = document.getElementById('contact-form');
   if (!form) return;
+
+  /* Chưa có key Web3Forms (vẫn là placeholder) → trên tên miền thật ẩn form, chỉ còn nút copy email. */
+  if (shouldHide(PROFILE.web3formsKey, 'PROFILE.web3formsKey')) {
+    form.hidden = true;
+    return;
+  }
   var messageEl = form.querySelector('[data-form-message]');
 
   form.addEventListener('submit', function handleSubmit(event) {
@@ -131,7 +137,11 @@ function initCopyEmail() {
   if (!button) return;
 
   var textEl = button.querySelector('[data-email-text]');
-  var email = (window.PROFILE && pickLang(PROFILE.email)) || (textEl ? textEl.textContent : '');
+  var email = liveText((window.PROFILE || {}).email, 'PROFILE.email');
+  if (!email) {
+    hideIfEmpty(button, true);
+    return;
+  }
   if (textEl) textEl.textContent = email;
 
   button.addEventListener('click', function handleCopyClick() {

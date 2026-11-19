@@ -130,9 +130,10 @@ var HERO_SWITCH_MS = 400;
 
 function initHeroTyping() {
   var target = document.querySelector('[data-hero-role]');
-  if (!target || !window.PROFILE || !PROFILE.roles || !PROFILE.roles.length) return;
+  if (!target || !window.PROFILE || !PROFILE.roles) return;
 
-  var roles = pickLang(PROFILE.roles);
+  var roles = liveList(PROFILE.roles, 'PROFILE.roles');
+  if (!roles.length) return;
   var srText = document.querySelector('[data-hero-roles-text]');
   if (srText) srText.textContent = roles.join(', ').toLowerCase();
 
@@ -198,6 +199,115 @@ function copyText(text) {
   }
   return copyTextFallback(text);
 }
+
+/* ---------- Placeholder {{...}}: ẩn khi chạy trên tên miền thật, hiện như cũ khi chạy local ---------- */
+
+var PLACEHOLDER_REPORT = [];
+
+/* true khi mở bằng file:// hoặc localhost / 127.0.0.1 / *.localhost. */
+function isDevHost() {
+  var host = window.location.hostname;
+  return window.location.protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || /\.localhost$/.test(host);
+}
+
+/* Liệt kê đường dẫn của mọi chuỗi còn {{ (vd PROFILE.bio.en[0]). */
+function findPlaceholderPaths(value, path, out) {
+  if (typeof value === 'string') {
+    if (value.indexOf('{{') !== -1) out.push(path);
+  } else if (Array.isArray(value)) {
+    value.forEach(function walkItem(item, i) { findPlaceholderPaths(item, path + '[' + i + ']', out); });
+  } else if (value && typeof value === 'object') {
+    Object.keys(value).forEach(function walkKey(key) { findPlaceholderPaths(value[key], path + '.' + key, out); });
+  }
+  return out;
+}
+
+/* Bản đang hiện (đã qua pickLang) còn {{ không. */
+function isPlaceholder(value) {
+  var picked = pickLang(value);
+  if (Array.isArray(picked)) return picked.some(function hasPlaceholder(item) { return isPlaceholder(item); });
+  return typeof picked === 'string' && picked.indexOf('{{') !== -1;
+}
+
+function notePlaceholders(value, path) {
+  findPlaceholderPaths(value, path, []).forEach(function addPath(found) {
+    if (PLACEHOLDER_REPORT.indexOf(found) === -1) PLACEHOLDER_REPORT.push(found);
+  });
+}
+
+/* true → phần tử này cần ẩn (chỉ trên tên miền thật). Luôn ghi nhận đường dẫn để báo cáo. */
+function shouldHide(value, path) {
+  notePlaceholders(value, path);
+  return !isDevHost() && isPlaceholder(value);
+}
+
+/* Giá trị gốc, hoặc null nếu cần ẩn. */
+function liveValue(value, path) {
+  return shouldHide(value, path) ? null : value;
+}
+
+/* Chữ đã qua pickLang, hoặc null nếu cần ẩn. */
+function liveText(value, path) {
+  var kept = liveValue(value, path);
+  return kept == null ? null : pickLang(kept);
+}
+
+/* Mảng đã bỏ các phần tử còn placeholder. Hỗ trợ cả mảng dạng { vi, en }. */
+function liveList(list, path) {
+  notePlaceholders(list, path);
+  var base = pickLang(list || []);
+  if (!Array.isArray(base)) return [];
+  return base.filter(function keepItem(item, i) { return !shouldHide(item, path + '[' + i + ']'); });
+}
+
+/* Ẩn section (và link navbar/footer trỏ tới nó). Không làm gì trên local. */
+function hideSection(sectionId) {
+  if (isDevHost()) return;
+  var section = document.getElementById(sectionId);
+  if (section) section.hidden = true;
+  document.querySelectorAll('a[href="#' + sectionId + '"], a[href="index.html#' + sectionId + '"]').forEach(function hideLink(link) {
+    (link.closest('li') || link).hidden = true;
+  });
+}
+
+/* Lưới an toàn: trên tên miền thật, chữ/thuộc tính nào còn {{ mà chưa được lọc thì ẩn luôn. */
+function sweepPlaceholders() {
+  if (isDevHost()) return;
+
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  var textNodes = [];
+  while (walker.nextNode()) {
+    var node = walker.currentNode;
+    if (node.nodeValue.indexOf('{{') !== -1 && !node.parentElement.closest('script, style')) textNodes.push(node);
+  }
+  textNodes.forEach(function hideParent(node) {
+    var el = node.parentElement;
+    (el.closest('li, figure, article') || el).hidden = true;
+  });
+
+  document.body.querySelectorAll('*').forEach(function scanAttributes(el) {
+    Array.prototype.slice.call(el.attributes).forEach(function checkAttribute(attr) {
+      if (attr.value.indexOf('{{') === -1) return;
+      if (attr.name === 'href' || attr.name === 'src') {
+        (el.closest('li, figure, article') || el).hidden = true;
+      } else {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+}
+
+/* Trên local: in một lần danh sách trường còn {{ để biết đang thiếu gì. */
+function reportPlaceholders() {
+  if (!isDevHost() || !PLACEHOLDER_REPORT.length) return;
+  var header = '[placeholder] Còn ' + PLACEHOLDER_REPORT.length + ' trường chưa điền (trên tên miền thật các phần này sẽ bị ẩn):';
+  console.info(header + '\n' + PLACEHOLDER_REPORT.join('\n'));
+}
+
+window.addEventListener('load', function finishPlaceholders() {
+  sweepPlaceholders();
+  reportPlaceholders();
+});
 
 document.addEventListener('DOMContentLoaded', function initPage() {
   initNavbar();

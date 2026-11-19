@@ -1,4 +1,5 @@
-/* Trang chi tiết dự án: project.html?p=<slug>. Dùng escapeHtml/copyText (main.js), t/pickLang (i18n.js), projectTypeLabel/renderIconPlaceholder (render.js). */
+/* Trang chi tiết dự án: project.html?p=<slug>. Dùng escapeHtml/copyText (main.js), t/pickLang (i18n.js),
+   projectTypeLabel/renderIconPlaceholder/projectPath/cleanLinks/visibleProjects (render.js), liveText/liveValue/liveList (main.js). */
 
 var WIDE_QUERY = '(min-width: 768px)';
 var COPIED_RESET_MS = 2000;
@@ -7,9 +8,16 @@ function getProjectSlug() {
   return new URLSearchParams(window.location.search).get('p');
 }
 
+/* Trên tên miền thật: dự án còn placeholder ở slug/title/summary coi như không tồn tại. */
 function findProject(slug) {
   if (!slug || !window.PROJECTS) return null;
-  return PROJECTS.filter(function matchSlug(project) { return project.slug === slug; })[0] || null;
+  var found = PROJECTS.filter(function matchSlug(project) { return project.slug === slug; })[0] || null;
+  if (!found) return null;
+  var base = projectPath(found);
+  var slugBad = shouldHide(found.slug, base + '.slug');
+  var titleBad = shouldHide(found.title, base + '.title');
+  var summaryBad = shouldHide(found.summary, base + '.summary');
+  return (slugBad || titleBad || summaryBad) ? null : found;
 }
 
 /* ---------- Tiện ích nhỏ ---------- */
@@ -18,9 +26,9 @@ function renderExternalButton(label, url) {
   return '<a class="btn-bracket" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + label + '</a>';
 }
 
-function renderCover(project, size) {
-  return project.cover
-    ? '<img src="' + escapeHtml(project.cover) + '" alt="' + t('card.coverAlt') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy">'
+function renderCover(project, cover, size) {
+  return cover
+    ? '<img src="' + escapeHtml(cover) + '" alt="' + t('card.coverAlt') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy" width="1600" height="1000">'
     : renderIconPlaceholder(size);
 }
 
@@ -30,8 +38,8 @@ function getYoutubeId(url) {
   return match ? match[1] : null;
 }
 
-function renderVideo(project) {
-  var url = (project.links || {}).video;
+function renderVideo(project, links) {
+  var url = links.video;
   var youtubeId = getYoutubeId(url);
   var inner;
 
@@ -47,17 +55,17 @@ function renderVideo(project) {
 
 /* ---------- Khối "Xem thử" theo loại ---------- */
 
-function renderPreviewWeb(project, isWide) {
-  var demo = (project.links || {}).demo;
+function renderPreviewWeb(project, links, cover, isWide) {
+  var demo = links.demo;
   if (!demo) {
-    return '<div class="project-media">' + renderCover(project, '1600×1000') + '</div>';
+    return '<div class="project-media">' + renderCover(project, cover, '1600×1000') + '</div>';
   }
 
   var absoluteUrl = new URL(demo, window.location.href).href;
   var openButton = '<div class="project-preview__actions">' + renderExternalButton(t('project.openFull'), demo) + '</div>';
 
   if (!isWide) {
-    return '<div class="project-media">' + renderCover(project, '1600×1000') + '</div>' + openButton;
+    return '<div class="project-media">' + renderCover(project, cover, '1600×1000') + '</div>' + openButton;
   }
 
   return '<div class="browser-frame">' +
@@ -67,11 +75,11 @@ function renderPreviewWeb(project, isWide) {
     '</div>' + openButton;
 }
 
-function renderPreviewDesktop(project) {
-  var links = project.links || {};
-  var parts = [renderVideo(project)];
-  if (project.requirements) {
-    parts.push('<p class="project-requirements"><span class="label">' + t('project.requirements') + '</span> ' + escapeHtml(pickLang(project.requirements)) + '</p>');
+function renderPreviewDesktop(project, links, base) {
+  var parts = [renderVideo(project, links)];
+  var requirements = liveText(project.requirements, base + '.requirements');
+  if (requirements) {
+    parts.push('<p class="project-requirements"><span class="label">' + t('project.requirements') + '</span> ' + escapeHtml(requirements) + '</p>');
   }
   if (links.download) {
     parts.push('<div class="project-preview__actions">' + renderExternalButton(t('card.download'), links.download) + '</div>');
@@ -79,9 +87,9 @@ function renderPreviewDesktop(project) {
   return parts.join('');
 }
 
-function renderPreviewLocal(project) {
-  var commands = project.runLocal || [];
-  var parts = [renderVideo(project)];
+function renderPreviewLocal(project, links, base) {
+  var commands = liveList(project.runLocal, base + '.runLocal');
+  var parts = [renderVideo(project, links)];
 
   if (commands.length) {
     parts.push('<div class="codeblock">' +
@@ -94,44 +102,50 @@ function renderPreviewLocal(project) {
   return parts.join('');
 }
 
-function renderPreviewDesign(project) {
-  var figma = (project.links || {}).figma;
-  return '<div class="project-media">' + renderCover(project, '1600×1000') + '</div>' +
-    (figma ? '<div class="project-preview__actions">' + renderExternalButton(t('project.openFigma'), figma) + '</div>' : '');
+function renderPreviewDesign(project, links, cover) {
+  return '<div class="project-media">' + renderCover(project, cover, '1600×1000') + '</div>' +
+    (links.figma ? '<div class="project-preview__actions">' + renderExternalButton(t('project.openFigma'), links.figma) + '</div>' : '');
 }
 
 function renderPreview(project, isWide) {
-  if (project.type === 'web') return renderPreviewWeb(project, isWide);
-  if (project.type === 'desktop') return renderPreviewDesktop(project);
-  if (project.type === 'local') return renderPreviewLocal(project);
-  if (project.type === 'design') return renderPreviewDesign(project);
+  var base = projectPath(project);
+  var links = cleanLinks(project.links, base);
+  var cover = liveValue(project.cover, base + '.cover');
+  if (project.type === 'web') return renderPreviewWeb(project, links, cover, isWide);
+  if (project.type === 'desktop') return renderPreviewDesktop(project, links, base);
+  if (project.type === 'local') return renderPreviewLocal(project, links, base);
+  if (project.type === 'design') return renderPreviewDesign(project, links, cover);
   return '';
 }
 
 /* ---------- Các phần còn lại ---------- */
 
 function renderProjectHeader(project) {
-  var links = project.links || {};
+  var base = projectPath(project);
+  var links = cleanLinks(project.links, base);
   var buttons = [];
   if (links.demo) buttons.push(renderExternalButton(t('card.demo'), links.demo));
   if (links.github) buttons.push(renderExternalButton(t('card.code'), links.github));
   if (links.download) buttons.push(renderExternalButton(t('card.download'), links.download));
 
+  var meta = [liveText(project.year, base + '.year'), liveText(project.role, base + '.role')].filter(Boolean).join(' · ');
+
   return '<a class="btn-bracket project__back" href="projects.html"><span aria-hidden="true">←&nbsp;</span>' + t('common.back') + '</a>' +
     '<p class="project__type label">' + escapeHtml(projectTypeLabel(project.type)) + '</p>' +
     '<h1 class="project__title">' + escapeHtml(pickLang(project.title)) + '</h1>' +
     '<p class="project__summary">' + escapeHtml(pickLang(project.summary)) + '</p>' +
-    '<p class="project__meta label">' + escapeHtml(pickLang(project.year)) + ' · ' + escapeHtml(pickLang(project.role)) + '</p>' +
+    (meta ? '<p class="project__meta label">' + escapeHtml(meta) + '</p>' : '') +
     (buttons.length ? '<div class="btn-group project__actions">' + buttons.join('') + '</div>' : '');
 }
 
 function renderCaseStudy(project) {
+  var base = projectPath(project) + '.caseStudy';
   var study = project.caseStudy || {};
   var blocks = [
-    [t('project.problem'), pickLang(study.problem)],
-    [t('project.solution'), pickLang(study.solution)],
-    [t('project.result'), pickLang(study.result)],
-    [t('project.learned'), pickLang(study.learned)]
+    [t('project.problem'), liveText(study.problem, base + '.problem')],
+    [t('project.solution'), liveText(study.solution, base + '.solution')],
+    [t('project.result'), liveText(study.result, base + '.result')],
+    [t('project.learned'), liveText(study.learned, base + '.learned')]
   ].filter(function hasText(pair) { return pair[1]; });
 
   return blocks.map(function renderBlock(pair) {
@@ -140,10 +154,11 @@ function renderCaseStudy(project) {
 }
 
 function renderStackAndFeatures(project) {
-  var tags = pickLang(project.stack || []).map(function renderTag(name) {
+  var base = projectPath(project);
+  var tags = liveList(project.stack, base + '.stack').map(function renderTag(name) {
     return '<li class="tag">' + escapeHtml(name) + '</li>';
   }).join('');
-  var features = pickLang(project.features || []).map(function renderFeature(text) {
+  var features = liveList(project.features, base + '.features').map(function renderFeature(text) {
     return '<li>' + escapeHtml(text) + '</li>';
   }).join('');
 
@@ -152,22 +167,22 @@ function renderStackAndFeatures(project) {
 }
 
 function renderGallery(project) {
-  var items = project.gallery || [];
+  var items = liveList(project.gallery, projectPath(project) + '.gallery');
   if (!items.length) return '';
 
   return '<ul class="gallery">' + items.map(function renderItem(src, index) {
     var media = src
-      ? '<img src="' + escapeHtml(src) + '" alt="' + t('project.galleryAlt') + ' ' + (index + 1) + ' ' + t('project.of') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy">'
+      ? '<img src="' + escapeHtml(src) + '" alt="' + t('project.galleryAlt') + ' ' + (index + 1) + ' ' + t('project.of') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy" width="1600" height="1000">'
       : renderIconPlaceholder('1600×1000');
     return '<li class="gallery__item gray-img">' + media + '</li>';
   }).join('') + '</ul>';
 }
 
 function renderProjectNav(project) {
-  var list = window.PROJECTS || [];
+  var list = visibleProjects();
   var index = list.indexOf(project);
   var prev = index > 0 ? list[index - 1] : null;
-  var next = index < list.length - 1 ? list[index + 1] : null;
+  var next = index >= 0 && index < list.length - 1 ? list[index + 1] : null;
 
   function renderLink(target, className, text) {
     if (!target) return '<span></span>';
@@ -224,6 +239,7 @@ function renderProjectPage() {
   updateProjectMeta(projectTitle + ' — ' + ownerName, pickLang(project.summary), project.slug);
 
   var wide = window.matchMedia(WIDE_QUERY);
+  var gallery = renderGallery(project);
   container.innerHTML =
     '<header class="project__header">' + renderProjectHeader(project) + '</header>' +
     '<section class="project__section" aria-labelledby="preview-title"><h2 class="label project__heading" id="preview-title">' + t('project.preview') + '</h2>' +
@@ -231,8 +247,8 @@ function renderProjectPage() {
     '<section class="project__section" aria-labelledby="case-title"><h2 class="label project__heading" id="case-title">' + t('project.caseStudy') + '</h2>' +
       '<div class="case-grid">' + renderCaseStudy(project) + '</div></section>' +
     '<section class="project__section project__stack" aria-label="' + t('project.stackAndFeatures') + '">' + renderStackAndFeatures(project) + '</section>' +
-    (project.gallery && project.gallery.length
-      ? '<section class="project__section" aria-labelledby="gallery-title"><h2 class="label project__heading" id="gallery-title">' + t('project.gallery') + '</h2>' + renderGallery(project) + '</section>'
+    (gallery
+      ? '<section class="project__section" aria-labelledby="gallery-title"><h2 class="label project__heading" id="gallery-title">' + t('project.gallery') + '</h2>' + gallery + '</section>'
       : '') +
     '<nav class="project-nav" aria-label="' + t('project.otherProjects') + '">' + renderProjectNav(project) + '</nav>';
 

@@ -5,8 +5,4 @@
   <url><loc>https://{{domain}}/about.html</loc></url>
   <url><loc>https://{{domain}}/projects.html</loc></url>
   <url><loc>https://{{domain}}/life.html</loc></url>
-  <url><loc>https://{{domain}}/project.html?p=mau-1</loc></url>
-  <url><loc>https://{{domain}}/project.html?p=mau-2</loc></url>
-  <url><loc>https://{{domain}}/project.html?p=mau-3</loc></url>
-  <url><loc>https://{{domain}}/project.html?p=mau-4</loc></url>
 </urlset>

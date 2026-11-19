@@ -1,7 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Favicon là file ảnh nên ghi mã màu trực tiếp. Nguồn token (assets/css/tokens.css):
-       nền = --dark #111111, chữ = --on-dark #f2f2f2, chấm = --accent #ff4f1f.
-       Chữ "A" là chỗ giữ chỗ: thay bằng chữ cái đầu của bạn (xem {{AB}} trong navbar). -->
+  <!--
+  Favicon là FILE ẢNH TĨNH: không đọc được PROFILE.shortName, nên phải SỬA TAY chữ "A" bên dưới
+  (đổi thành chữ cái đầu của bạn, xem PROFILE.shortName trong data/profile.js).
+  Mã màu lấy từ assets/css/tokens.css: nền = --dark #111111, chữ = --on-dark #f2f2f2, chấm = --accent #ff4f1f.
+  Hướng dẫn: docs/HUONG_DAN_NOI_DUNG.md, mục E.
+-->
   <rect width="64" height="64" fill="#111111"/>
   <text x="30" y="46" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="40" fill="#f2f2f2">A</text>
   <circle cx="50" cy="44" r="5" fill="#ff4f1f"/>

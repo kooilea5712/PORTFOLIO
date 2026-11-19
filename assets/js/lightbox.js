@@ -4,8 +4,9 @@ var SWIPE_MIN_PX = 50;
 
 var lightboxState = { index: 0, opener: null, root: null, touchX: null };
 
+/* Danh sách đang hiện trên lưới (đã lọc placeholder) — chỉ số data-life-index khớp với danh sách này. */
 function getLifeItems() {
-  return window.LIFE || [];
+  return window.LIFE_SHOWN || window.LIFE || [];
 }
 
 function buildLightbox() {

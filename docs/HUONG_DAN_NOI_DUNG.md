@@ -257,7 +257,7 @@ Icon ở hero/menu/footer/contact và thẻ ở Life biến mất cùng lúc. Nh
 3. Trong web con, **mọi đường dẫn phải tương đối** (`css/style.css`, không phải `/css/style.css`) — nếu không sẽ hỏng khi đặt trong thư mục con.
 4. Trong `data/projects.js` đặt `links.demo: "lab/eatsome/"`.
 5. Mở `project.html?p=eatsome` để thử. Khung xem thử chạy iframe có `sandbox="allow-scripts allow-same-origin allow-forms"`: web con cần popup/tải file sẽ không chạy trong khung (vẫn chạy khi bấm "Mở toàn màn hình").
-6. Thư mục mẫu `lab/demo-site/` chỉ để thử — xoá khi không dùng.
+6. Thư mục mẫu `lab/demo-site/` đã được xoá trong phase 7a; dự án mẫu `mau-1` có `links.demo: null`. Khi có web con thật, đặt `links.demo` = `"lab/<slug>/"`.
 
 ### D6. Thêm ảnh: thư mục, kích thước, nén sang `.webp`
 
@@ -300,6 +300,9 @@ Tiêu đề tab của các trang con còn được `data/i18n.js` đặt lại b
 
 ---
 
+Lưu ý phase 7a: `favicon.svg` là file ảnh tĩnh nên **không** tự lấy `PROFILE.shortName` — mở file, sửa tay chữ "A" trong thẻ `<text>` (và comment đầu file nhắc việc này).
+Trên tên miền thật, placeholder `{{...}}` trong `data/` tự được ẩn; các `{{...}}` trong HTML (SEO ở trên) phải điền tay trước khi đăng.
+
 ## F. Tìm chỗ còn sót `{{...}}`
 
 Mở **PowerShell** trong thư mục `D:\PORTFOLIO` và chạy:
@@ -323,7 +326,7 @@ Select-String -Path *.html,data\*.js,*.xml,*.txt,*.svg -Pattern '\{\{' | Select-
 - [ ] CV: đặt `assets/files/cv.pdf` rồi `PROFILE.cv = "assets/files/cv.pdf"`.
 - [ ] SEO (mục E): `{{Họ tên}}`, `{{domain}}`, mô tả từng trang, JSON-LD; sửa `robots.txt`, `sitemap.xml`, `favicon.svg`.
 - [ ] Chạy lệnh PowerShell mục F → không còn `{{` nào .
-- [ ] Xoá `lab/demo-site/` nếu không dùng; xoá các dự án mẫu trong `data/projects.js` (mau-1 … mau-4) và thay bằng dự án thật.
+- [ ] Dự án mẫu `mau-*` trong `data/projects.js` tự ẩn trên tên miền thật; vẫn nên thay bằng dự án thật và xoá mẫu khi xong.
 - [ ] Thử ở **375px** (điện thoại) và **1440px** (máy tính), cả **VI** và **EN**: không cuộn ngang, F12 → Console không có lỗi đỏ.
 - [ ] Bấm thử mọi link: menu, nút Demo/Code/Tải xuống, thẻ mạng xã hội, form liên hệ, nút Copy.
 - [ ] Hosting: đặt `404.html` đúng chỗ hosting yêu cầu; site đặt ở **gốc tên miền** (vì `404.html` dùng đường dẫn tuyệt đối `/assets/...`).

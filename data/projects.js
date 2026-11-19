@@ -12,7 +12,7 @@ window.PROJECTS = [
     gallery: [null, null, null],
     stack: ["{{Công nghệ 1}}", "{{Công nghệ 2}}"],
     links: {
-      demo: "lab/demo-site/",
+      demo: null,
       github: "https://github.com/{{github-user}}/{{repo-1}}",
       download: null,
       video: null,

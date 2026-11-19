@@ -9,6 +9,17 @@ Website portfolio tĩnh, tối giản trắng đen + một màu nhấn. HTML/CSS
 
 ## Chạy local
 
+Cách nhanh nhất (Node, không cần cài thêm gì):
+
+```
+node tools/serve.js
+```
+
+Rồi mở `http://localhost:5500`. Máy chủ này phục vụ đúng như hosting thật: URL sai → `404.html` với mã 404.
+Hoặc vẫn có thể mở `index.html` trực tiếp bằng trình duyệt (`file://`).
+
+Lưu ý: trên local (`localhost`, `127.0.0.1`, `file://`) mọi placeholder `{{...}}` vẫn hiện để bạn thấy còn thiếu gì; trên tên miền thật chúng được ẩn tự động (xem mục "Placeholder" bên dưới).
+
 Mở `index.html` trực tiếp bằng trình duyệt (dữ liệu là file `.js`, không cần server).
 Muốn tự reload khi sửa: dùng extension Live Server của VS Code.
 
@@ -38,12 +49,12 @@ Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` /
 | `data/skills.js` | Kỹ năng: mastered / learning / tools | — | — | — |
 | `data/projects.js` | Danh sách dự án | — | — | — |
 | `data/life.js` | Ảnh đời sống | — | — | — |
-| `assets/js/main.js` | Hành vi chung | `initNavbar`, `initMobileMenu`, `initReveal`, `initInViewColor` + `observeInViewColor(root)` (mobile: ảnh hiện màu khi cuộn tới; render.js gọi lại sau khi sinh phần tử), `initHeroTyping`, `initBackToTop`, hàm dùng chung `escapeHtml`, `copyText` (đã chuyển từ render.js/contact.js) | `PROFILE.roles` | `header`, `.hero`, `[data-hero-role]` |
+| `tools/serve.js` | Máy chủ tĩnh cho local (Node thuần): `node tools/serve.js`, cổng 5500, URL sai → 404.html | — | — | — |
+| `assets/js/main.js` | Hành vi chung. **Placeholder:** `isDevHost`, `isPlaceholder`, `shouldHide`, `liveValue`, `liveText`, `liveList`, `hideSection`, `sweepPlaceholders` (lưới an toàn khi tải trang), `reportPlaceholders` (in danh sách `{{` trên local) | `initNavbar`, `initMobileMenu`, `initReveal`, `initInViewColor` + `observeInViewColor(root)` (mobile: ảnh hiện màu khi cuộn tới; render.js gọi lại sau khi sinh phần tử), `initHeroTyping`, `initBackToTop`, hàm dùng chung `escapeHtml`, `copyText` (đã chuyển từ render.js/contact.js) | `PROFILE.roles` | `header`, `.hero`, `[data-hero-role]` |
 | `assets/css/pages.css` | CSS riêng trang chủ: `.hero`, `.current`, `.about`, `.skills__*`, `.projects__*`, `.life__*`, `.now`, `.social-card`, `.contact` | — | — | — |
 | `assets/css/base.css` | Reset, typography, `.container`, `.section`, `.reveal`, `.visually-hidden` | — | — | — |
 | `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid(options)` (options: `featuredOnly`, `type`, `stack`), `filterProjects`, `renderProjectCard`, `initProjectFilter` (trang chủ), `initProjectsPage` (projects.html: lọc loại + công nghệ, đồng bộ URL `?type=&stack=`), `renderLife(limit)` (trang chủ 6 ảnh qua `data-limit`; `life-grid[data-lightbox]` → ảnh là `<button>`), `renderAboutBio`, `renderTimeline`, `renderCvLinks` (`[data-cv]`, ẩn khi `PROFILE.cv` rỗng), `renderSocials`, `renderNow`, `renderOpenToWork`, `renderBranding` (logo), `renderProfileText` (`[data-profile]`: greeting, contactLead, lifeIntro), `renderHomeBio`, `renderCurrent`, `renderServices`, `renderLocation`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid` (cả index.html và projects.html), `#life-grid`, `#now`, `#socials`, `[data-socials]`, `[data-short-name]`, `[data-profile]`, `[data-current]`, `[data-services]`, `#home-bio` |
 | `projects.html`, `project.html` | Trang con: danh sách tất cả dự án / chi tiết `?p=<slug>` (navbar `data-solid`, link `index.html#…`) | — | `PROJECTS` | `#project-grid`, `#project` |
-| `lab/demo-site/index.html` | Web con mẫu (thay bằng bản build thật; `links.demo` trỏ tới) | — | — | — |
 | `about.html`, `life.html` | Trang con: giới thiệu + timeline / ảnh đời sống + Now + social | — | `PROFILE`, `LIFE` | `#about-portrait`, `#about-bio`, `#timeline`, `#life-grid`, `#now`, `#socials` |
 | `404.html` | Trang lỗi. **Ngoại lệ:** dùng đường dẫn tuyệt đối từ gốc (`/assets/...`) vì server hiển thị nó tại mọi URL sai | — | `PROFILE` | `[data-socials]` |
 | `assets/js/lightbox.js` | Lightbox xem ảnh life.html (chuột, phím Esc/←/→/Tab, vuốt, khoá cuộn, trả focus) | `initLightbox`, `openLightbox`, `closeLightbox`, `showLightboxAt`, `handleLightboxKey` | `LIFE` | `.lightbox` (tạo bằng JS) |
@@ -54,6 +65,13 @@ Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` /
 | `assets/js/i18n.js` | Song ngữ | `getLanguage`, `setLanguage`, `t`, `pickLang`, `translatePage`, `initLanguageSwitch`, `initI18n` | `I18N` | `[data-i18n*]`, `[data-lang]` (nút VI/EN), `<html lang>` |
 | `assets/css/tokens.css` | Biến màu/font/khoảng cách | — | — | — |
 | `assets/css/components.css` | `.section-title`, `.btn-bracket`, `.btn-pill`, `.zigzag`, `.project-card`, `.tag`, `.filter-tabs`, `.input-underline`, `.status-dot`, `.social-icons`, `.site-header` (navbar), `.mobile-menu`, `.site-footer`, `.back-to-top` | — | — | — |
+
+## Placeholder `{{...}}` — ẩn khi lên tên miền thật
+
+- **Local** (`localhost`, `127.0.0.1`, `*.localhost`, `file://`): hiện như cũ; Console (F12) in một lần danh sách các trường còn `{{`, ví dụ `PROFILE.bio.en[0]`.
+- **Tên miền thật:** mọi phần tử còn `{{` bị bỏ qua khi vẽ (dự án, ảnh Life, kỹ năng, mạng xã hội, đoạn bio, mục timeline, khối dịch vụ, chữ rời, link, ảnh). Section trống hoàn toàn → ẩn luôn section và link navbar trỏ tới nó. Trang `project.html?p=<slug có {{>` → "Không tìm thấy dự án". Form liên hệ chưa có `web3formsKey` → ẩn form, chỉ còn nút copy email.
+- Lưới an toàn: sau khi tải xong, mọi chữ/thuộc tính còn `{{` còn sót (không kịp lọc) cũng bị ẩn trên tên miền thật.
+- `favicon.svg` là ảnh tĩnh nên không đọc được `PROFILE.shortName` — sửa tay (xem `docs/HUONG_DAN_NOI_DUNG.md`, mục E).
 
 ## Tra cứu khi debug
 
