@@ -32,12 +32,13 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | `data/skills.js` | Kỹ năng: mastered / learning / tools | — | — | — |
 | `data/projects.js` | Danh sách dự án | — | — | — |
 | `data/life.js` | Ảnh đời sống | — | — | — |
-| `assets/js/main.js` | Hành vi chung | `initNavbar`, `initMobileMenu`, `initReveal`, `initInViewColor` (mobile: ảnh hiện màu khi cuộn tới), `initHeroTyping`, `initBackToTop` | `PROFILE.roles` | `header`, `.hero` |
+| `assets/js/main.js` | Hành vi chung | `initNavbar`, `initMobileMenu`, `initReveal`, `initInViewColor` + `observeInViewColor(root)` (mobile: ảnh hiện màu khi cuộn tới; render.js gọi lại sau khi sinh phần tử), `initHeroTyping`, `initBackToTop` | `PROFILE.roles` | `header`, `.hero`, `[data-hero-role]` |
+| `assets/css/pages.css` | CSS riêng trang chủ: `.hero`, `.current`, `.about`, `.skills__*`, `.projects__*`, `.life__*`, `.now`, `.social-card`, `.contact` | — | — | — |
 | `assets/css/base.css` | Reset, typography, `.container`, `.section`, `.reveal`, `.visually-hidden` | — | — | — |
 | `components-demo.html` + `components-demo.js` | **Trang tạm** để duyệt component (xoá sau giai đoạn 1) | `initDemoTabs`, `initDemoForm` | — | `.filter-tabs`, `form` |
-| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid`, `renderProjectCard`, `initProjectFilter`, `renderLife`, `renderSocials`, `renderNow` | tất cả `data/*` | `#skills`, `#projects`, `#life`, `#socials` |
+| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid`, `renderProjectCard`, `initProjectFilter`, `renderLife`, `renderSocials`, `renderNow`, `renderOpenToWork`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid`, `#life-grid`, `#now`, `#socials`, `[data-socials]` |
 | `assets/js/project.js` | Trang chi tiết dự án | `getProjectSlug`, `findProject`, `renderProjectPage`, `renderPreviewWeb`, `renderPreviewDesktop`, `renderPreviewLocal`, `renderPreviewDesign`, `renderProjectNav` | `PROJECTS` | `#project` |
-| `assets/js/contact.js` | Form + copy email | `initContactForm`, `validateContactForm`, `submitContactForm`, `initCopyEmail` | `PROFILE.email` | `#contact` |
+| `assets/js/contact.js` | Form + copy email | `initContactForm`, `validateContactForm`, `submitContactForm`, `initCopyEmail` | `PROFILE.email` | `#contact-form`, `[data-copy-email]` (giai đoạn 2: chỉ kiểm tra dữ liệu; `submitContactForm` chưa gửi thật) |
 | `assets/js/i18n.js` | Song ngữ | `initI18n`, `setLanguage`, `translatePage` | `I18N` | `[data-i18n]` |
 | `assets/css/tokens.css` | Biến màu/font/khoảng cách | — | — | — |
 | `assets/css/components.css` | `.section-title`, `.btn-bracket`, `.btn-pill`, `.zigzag`, `.project-card`, `.tag`, `.filter-tabs`, `.input-underline`, `.status-dot`, `.social-icons`, `.site-header` (navbar), `.mobile-menu`, `.site-footer`, `.back-to-top` | — | — | — |

@@ -85,7 +85,8 @@
 .section--dark .zigzag { color: var(--on-dark); }
 
 /* ---------- SocialIcons ---------- */
-.social-icons { display: flex; justify-content: center; gap: var(--space-3); }
+.social-icons { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-1); }
+@media (min-width: 768px) { .social-icons { gap: var(--space-3); } }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: var(--touch-min); min-height: var(--touch-min);
@@ -176,7 +177,7 @@
   filter: none;
 }
 .project-card__type { color: var(--muted); }
-.project-card__title { font-size: var(--fs-h3); font-weight: 800; text-transform: lowercase; }
+.project-card__title { font-size: var(--fs-h3); font-weight: 800; }
 .project-card__desc { color: var(--ink-2); font-size: 0.9375rem; }
 .project-card__actions { display: flex; flex-wrap: wrap; gap: var(--space-1); }
 

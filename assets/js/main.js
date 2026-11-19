@@ -88,20 +88,74 @@ function initBackToTop() {
 }
 
 /* Thiết bị cảm ứng (không có hover): ảnh grayscale hiện màu khi cuộn vào giữa màn hình. */
-function initInViewColor() {
-  if (!window.matchMedia('(hover: none)').matches) return;
-  if (!('IntersectionObserver' in window)) return;
+var inViewObserver = null;
 
-  var items = document.querySelectorAll('.gray-img, .project-card');
-  if (!items.length) return;
+function getInViewObserver() {
+  if (inViewObserver) return inViewObserver;
+  if (!window.matchMedia('(hover: none)').matches) return null;
+  if (!('IntersectionObserver' in window)) return null;
 
-  var observer = new IntersectionObserver(function handleInView(entries) {
+  inViewObserver = new IntersectionObserver(function handleInView(entries) {
     entries.forEach(function toggleInView(entry) {
       entry.target.classList.toggle('is-inview', entry.isIntersecting);
     });
   }, { threshold: 0.6 });
+  return inViewObserver;
+}
 
+/* Gọi lại sau khi render.js sinh phần tử mới (card dự án, ảnh life…). */
+function observeInViewColor(root) {
+  var observer = getInViewObserver();
+  if (!observer) return;
+  var scope = root || document;
+  var items = scope.querySelectorAll('.gray-img, .project-card');
   items.forEach(function observeItem(item) { observer.observe(item); });
+}
+
+function initInViewColor() {
+  observeInViewColor(document);
+}
+
+/* Hero: chữ vai trò tự gõ/xoá lần lượt theo PROFILE.roles. */
+var HERO_TYPE_MS = 100;
+var HERO_DELETE_MS = 50;
+var HERO_HOLD_MS = 1600;
+var HERO_SWITCH_MS = 400;
+
+function initHeroTyping() {
+  var target = document.querySelector('[data-hero-role]');
+  if (!target || !window.PROFILE || !PROFILE.roles || !PROFILE.roles.length) return;
+
+  var roles = PROFILE.roles;
+  var srText = document.querySelector('[data-hero-roles-text]');
+  if (srText) srText.textContent = roles.join(', ').toLowerCase();
+
+  target.textContent = roles[0];
+  if (roles.length < 2) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var roleIndex = 0;
+  var charCount = roles[0].length;
+  var isDeleting = true;
+
+  function typeStep() {
+    var word = roles[roleIndex];
+    charCount += isDeleting ? -1 : 1;
+    target.textContent = word.slice(0, charCount);
+
+    var delay = isDeleting ? HERO_DELETE_MS : HERO_TYPE_MS;
+    if (!isDeleting && charCount === word.length) {
+      isDeleting = true;
+      delay = HERO_HOLD_MS;
+    } else if (isDeleting && charCount === 0) {
+      isDeleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
+      delay = HERO_SWITCH_MS;
+    }
+    window.setTimeout(typeStep, delay);
+  }
+
+  window.setTimeout(typeStep, HERO_HOLD_MS);
 }
 
 document.addEventListener('DOMContentLoaded', function initPage() {
@@ -110,4 +164,5 @@ document.addEventListener('DOMContentLoaded', function initPage() {
   initReveal();
   initBackToTop();
   initInViewColor();
+  initHeroTyping();
 });
