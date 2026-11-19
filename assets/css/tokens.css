@@ -14,6 +14,8 @@
   --accent: #ff4f1f;
   --ok: #2bb673;
   --white: #ffffff;
+  --placeholder-bg: #cfcfcf;
+  --placeholder-bg-2: #c4c4c4;
   --overlay-hero: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65));
 
   /* Font */
@@ -38,11 +40,12 @@
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2.5rem;
-  --space-section: clamp(5rem, 12vw, 9rem);
+  --space-section: 4.5rem;
   --container: 1120px;
   --container-text: 720px;
-  --gutter: clamp(1.25rem, 4vw, 2.5rem);
-  --nav-h: 64px;
+  --gutter: 20px;
+  --nav-h: 57px;
+  --touch-min: 44px;
   --border-thick: 4px;
   --border-thin: 2px;
   --radius: 0;
@@ -57,4 +60,26 @@
   /* Lớp */
   --z-nav: 100;
   --z-menu: 90;
+}
+
+/*
+  Mốc màn hình (mobile-first, dùng min-width):
+    mobile  < 768px   (kiểm tra 375px, 360px)
+    tablet  >= 768px  (kiểm tra 768px)
+    desktop >= 1024px (kiểm tra 1440px, 1024px)
+    wide    >= 1440px (nội dung không giãn quá --container)
+*/
+@media (min-width: 768px) {
+  :root {
+    --space-section: 6rem;
+    --gutter: 40px;
+    --nav-h: 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --space-section: 9rem;
+    --nav-h: 66px;
+  }
 }

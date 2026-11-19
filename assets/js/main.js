@@ -87,9 +87,27 @@ function initBackToTop() {
   });
 }
 
+/* Thiết bị cảm ứng (không có hover): ảnh grayscale hiện màu khi cuộn vào giữa màn hình. */
+function initInViewColor() {
+  if (!window.matchMedia('(hover: none)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  var items = document.querySelectorAll('.gray-img, .project-card');
+  if (!items.length) return;
+
+  var observer = new IntersectionObserver(function handleInView(entries) {
+    entries.forEach(function toggleInView(entry) {
+      entry.target.classList.toggle('is-inview', entry.isIntersecting);
+    });
+  }, { threshold: 0.6 });
+
+  items.forEach(function observeItem(item) { observer.observe(item); });
+}
+
 document.addEventListener('DOMContentLoaded', function initPage() {
   initNavbar();
   initMobileMenu();
   initReveal();
   initBackToTop();
+  initInViewColor();
 });
