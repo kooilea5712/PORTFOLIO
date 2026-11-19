@@ -309,7 +309,6 @@ Select-String -Path *.html,data\*.js,*.xml,*.txt,*.svg -Pattern '\{\{' | Select-
 ```
 
 - Mỗi dòng in ra là một chỗ chưa điền. Đếm nhanh: thêm `| Measure-Object` ở cuối.
-- `components-demo.html` là **trang tạm** để xem các thành phần giao diện, chứa nhiều `{{...}}` — **xoá file này** trước khi đăng (xem checklist).
 - Lệnh trên không quét `lab/`; web con của bạn tự kiểm tra riêng.
 - Muốn xem số lượng theo file: `Select-String -Path *.html,data\*.js,*.xml,*.txt,*.svg -Pattern '\{\{' | Group-Object Path | Select-Object Count,Name`
 
@@ -323,8 +322,8 @@ Select-String -Path *.html,data\*.js,*.xml,*.txt,*.svg -Pattern '\{\{' | Select-
 - [ ] **Web3Forms:** đăng ký miễn phí tại web3forms.com (nhập email nhận thư) → dán Access Key vào `PROFILE.web3formsKey`. Gửi thử một thư.
 - [ ] CV: đặt `assets/files/cv.pdf` rồi `PROFILE.cv = "assets/files/cv.pdf"`.
 - [ ] SEO (mục E): `{{Họ tên}}`, `{{domain}}`, mô tả từng trang, JSON-LD; sửa `robots.txt`, `sitemap.xml`, `favicon.svg`.
-- [ ] Chạy lệnh PowerShell mục F → không còn `{{` nào (ngoài `components-demo.html`).
-- [ ] **Xoá** `components-demo.html` và `components-demo.js` (trang tạm); xoá `lab/demo-site/` nếu không dùng.
+- [ ] Chạy lệnh PowerShell mục F → không còn `{{` nào .
+- [ ] Xoá `lab/demo-site/` nếu không dùng; xoá các dự án mẫu trong `data/projects.js` (mau-1 … mau-4) và thay bằng dự án thật.
 - [ ] Thử ở **375px** (điện thoại) và **1440px** (máy tính), cả **VI** và **EN**: không cuộn ngang, F12 → Console không có lỗi đỏ.
 - [ ] Bấm thử mọi link: menu, nút Demo/Code/Tải xuống, thẻ mạng xã hội, form liên hệ, nút Copy.
 - [ ] Hosting: đặt `404.html` đúng chỗ hosting yêu cầu; site đặt ở **gốc tên miền** (vì `404.html` dùng đường dẫn tuyệt đối `/assets/...`).

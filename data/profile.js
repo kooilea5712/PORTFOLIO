@@ -6,18 +6,18 @@
    ===================================================================== */
 window.PROFILE = {
   // --- Nhận diện ---
-  name: "{{Họ tên}}",                  // dùng ở tiêu đề tab, footer, alt ảnh chân dung
-  shortName: "{{AB}}",                 // chữ viết tắt ở logo navbar (mọi trang)
-  email: "{{email}}",
-  location: { vi: "{{Thành phố}}, Việt Nam", en: "{{City}}, Vietnam" },
+  name: "Fein Le",                  // dùng ở tiêu đề tab, footer, alt ảnh chân dung
+  shortName: "FK",                 // chữ viết tắt ở logo navbar (mọi trang)
+  email: "the.real.mckoy7v@gmail.com",
+  location: { vi: "Thành phố Hồ Chí Minh, Việt Nam", en: "Ho Chi Minh City, Vietnam" },
   openToWork: true,                    // true → hiện chấm "Đang tìm cơ hội / Open to work"
   cv: null,                            // vd "assets/files/cv.pdf"; null → ẩn nút Tải CV
   portrait: null,                      // ảnh chân dung (đường dẫn); null → khối xám 800×1000
   web3formsKey: "{{WEB3FORMS_ACCESS_KEY}}",   // đăng ký miễn phí tại web3forms.com
 
   // --- Hero (đầu trang chủ) ---
-  greeting: { vi: "xin chào, mình là {{Tên}}", en: "hello, I'm {{Tên}}" },
-  roles: ["DEVELOPER", "DESIGNER", "STUDENT"],   // chữ tự gõ sau "I'M A"; mỗi phần tử có thể là { vi, en }
+  greeting: { vi: "xin chào, mình là Fein", en: "hello, I'm Fein" },
+  roles: ["DEVELOPER", "STUDENT", "DESIGNER", "TRAVELER"],   // chữ tự gõ sau "I'M A"; mỗi phần tử có thể là { vi, en }
 
   // --- Giới thiệu ---
   bio: {                               // 2 đoạn ngắn ở trang chủ

@@ -12,13 +12,13 @@ Mục có **[HTML]** là phần SEO nằm trong HTML (công cụ tìm kiếm đ�
 
 | Mục | Điền vào | Dùng ở |
 |---|---|---|
-| Họ tên đầy đủ | → | tiêu đề tab, footer, JSON-LD [HTML] |
-| Tên viết tắt cho logo (2–3 chữ, vd `NA`) | → | logo navbar (`shortName`) |
-| Email nhận thư | → | contact, mailto |
-| Thành phố **(VI/EN)** | → | contact ("Vị trí") |
-| Đang tìm việc/thực tập? (có/không) | → | chấm "Open to work" |
-| Câu chào ở hero **(VI/EN)** — vd "xin chào, mình là An" | → | hero |
-| Các chữ tự gõ sau "I'M A" (mặc định DEVELOPER, DESIGNER, STUDENT) | → | hero |
+| Họ tên đầy đủ | Fein Le | tiêu đề tab, footer, JSON-LD [HTML] |
+| Tên viết tắt cho logo (2–3 chữ, vd `NA`) | FK | logo navbar (`shortName`) |
+| Email nhận thư | the.real.mckoy7v@gmail.com | contact, mailto |
+| Thành phố **(VI/EN)** | Ho Chi Minh city | contact ("Vị trí") |
+| Đang tìm việc/thực tập? (có/không) | có | chấm "Open to work" |
+| Câu chào ở hero **(VI/EN)** — vd "xin chào, mình là An" | xin chào, mình là Fein | hero |
+| Các chữ tự gõ sau "I'M A" (mặc định DEVELOPER, DESIGNER, STUDENT) | DEVELOPER, STUDENT, DESIGNER, TRAVELER | hero |
 
 ## 2. Giới thiệu
 
