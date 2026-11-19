@@ -1,0 +1,21 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs & temp
+*.log
+*.tmp
+node_modules/
+
+# File lớn không đưa vào repo web (đưa lên GitHub Releases / YouTube)
+*.exe
+*.msi
+*.zip
+*.mov
+
+# Bí mật
+.env
+.env.*
