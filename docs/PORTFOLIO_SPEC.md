@@ -222,10 +222,10 @@ Quy tắc: màu nhấn chiếm **< 5% diện tích** màn hình. Không dùng l�
 
 ## 7. Cấu trúc thư mục & dữ liệu
 
-**Công nghệ đề xuất:** HTML + CSS + JavaScript thuần, **không cần build tool**. Lý do: dễ cho Sonnet/Haiku làm đúng, dễ cho bạn sửa, deploy miễn phí lên GitHub Pages trong 2 phút, và các "web con" chỉ là thư mục tĩnh.
+**Công nghệ đề xuất:** HTML + CSS + JavaScript thuần, **không cần build tool**. Lý do: dễ cho Sonnet/Haiku làm đúng, dễ cho bạn sửa, chạy trên mọi hosting (server riêng, Netlify, Vercel…), và các "web con" chỉ là thư mục tĩnh.
 
 ```
-PORFORLIO/
+PORTFOLIO/
 ├─ index.html  about.html  projects.html  project.html  life.html  404.html
 ├─ assets/
 │  ├─ css/
@@ -333,13 +333,9 @@ window.LIFE = [
 
 ## 9. Lộ trình dựng — chia giai đoạn & prompt mẫu
 
-Mỗi giai đoạn là một phiên làm việc riêng. Mở Claude Code trong thư mục `D:\PORFORLIO` (file `CLAUDE.md` ở gốc sẽ tự được đọc), rồi dán prompt.
+Mỗi giai đoạn là một phiên làm việc riêng. Mở Claude Code trong thư mục `D:\PORTFOLIO` (file `CLAUDE.md` ở gốc sẽ tự được đọc), rồi dán prompt.
 
-**Vòng lặp với Graphify:** xong mỗi giai đoạn → commit + push lên GitHub → chờ Graphify index lại (vài phút) → giai đoạn sau model tra cứu code bằng Graphify thay vì đọc lại toàn bộ file (tiết kiệm token, hợp với Haiku). Thêm câu này vào cuối mỗi prompt từ giai đoạn 2 trở đi:
-```
-Trước khi sửa, dùng Graphify (repo portfolio) để tìm hàm/file liên quan và kiểm tra ảnh hưởng.
-Xong việc thì cập nhật bảng "Bản đồ module" trong README.md.
-```
+**Vòng lặp mỗi giai đoạn:** dán prompt → model làm → kiểm tra 375px/1440px → `git commit` (bắt buộc, xem `CLAUDE.md`) → bạn review, thay `{{...}}` khi có nội dung thật. Giai đoạn sau, model đọc `README.md` (bản đồ module) trước để biết hàm/file nào cần sửa thay vì đọc lại toàn bộ code.
 
 | # | Giai đoạn | Model nên dùng |
 |---|---|---|
@@ -349,7 +345,7 @@ Xong việc thì cập nhật bảng "Bản đồ module" trong README.md.
 | 4 | `about.html`, `life.html`, `404.html` | Haiku |
 | 5 | Song ngữ VI/EN, form liên hệ thật, SEO | Haiku |
 | 6 | Điền nội dung thật, thêm dự án, đưa web con vào `/lab` | Haiku |
-| 7 | Deploy GitHub Pages | Haiku |
+| 7 | Deploy lên server + tên miền riêng | Haiku |
 
 **Prompt giai đoạn 1**
 ```
@@ -392,9 +388,12 @@ vào chỗ ACCESS_KEY). Thêm meta SEO + Open Graph cho mọi trang.
 
 **Prompt giai đoạn 7**
 ```
-Hướng dẫn mình đưa thư mục này lên GitHub repo {{user}}.github.io và bật GitHub Pages.
-Kiểm tra mọi đường dẫn là tương đối để chạy được cả trên GitHub Pages.
+Mình đã mua tên miền {{domain}} và có server/hosting {{loại hosting}}.
+Hướng dẫn mình đưa web lên (upload hoặc tự kéo từ GitHub repo), trỏ DNS tên miền về server,
+bật HTTPS. Kiểm tra mọi đường dẫn là tương đối và 404.html hoạt động trên server.
 ```
+> Trước khi mua tên miền, có thể xem thử miễn phí bằng Netlify / Vercel / Cloudflare Pages
+> (kết nối thẳng với GitHub repo, sau này gắn tên miền riêng vào cũng được).
 
 ---
 

@@ -1,9 +1,9 @@
 # Portfolio cá nhân
 
-Website portfolio tĩnh, tối giản trắng đen + một màu nhấn. HTML/CSS/JS thuần, không build tool, deploy GitHub Pages.
+Website portfolio tĩnh, tối giản trắng đen + một màu nhấn. HTML/CSS/JS thuần, không build tool, chạy trên mọi hosting tĩnh.
 
-> README này là **bản đồ kiến trúc** của dự án. Graphify (gói Free) chỉ index file tài liệu `README.md`,
-> nên mọi thông tin cấu trúc quan trọng phải nằm ở đây. Đặc tả thiết kế chi tiết: `docs/PORTFOLIO_SPEC.md`.
+> README này là **bản đồ kiến trúc** của dự án: đọc nó trước khi sửa code để biết file/hàm nào liên quan.
+> Đặc tả thiết kế chi tiết: `docs/PORTFOLIO_SPEC.md`.
 > **Khi thêm/đổi file hoặc hàm chính, cập nhật bảng "Bản đồ module" bên dưới.**
 
 ## Chạy local
@@ -51,9 +51,9 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | Navbar không đổi màu khi cuộn / menu mobile không mở | `main.js` `initNavbar`, `initMobileMenu` |
 | Màu/font sai | `tokens.css` — không được có mã màu viết thẳng ở file khác |
 | Form không gửi | `contact.js` `submitContactForm`, access key Web3Forms |
-| Chạy local được nhưng hỏng trên GitHub Pages | đường dẫn bắt đầu bằng `/` (phải là tương đối) |
+| Chạy local được nhưng hỏng khi đưa lên server | đường dẫn bắt đầu bằng `/` (phải là tương đối) |
 
-## Quy ước code (giúp Graphify dựng call graph chính xác)
+## Quy ước code (để dễ đọc, dễ tìm và debug)
 
 - Logic chính viết bằng **hàm khai báo có tên** (`function renderProjectCard(project) {…}`), không dùng arrow function ẩn danh cho logic chính.
 - Một file = một trách nhiệm như bảng trên. Hàm khởi tạo đặt tên `initX`, hàm sinh HTML đặt tên `renderX`.

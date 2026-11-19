@@ -1,12 +1,13 @@
 # Portfolio cá nhân — quy tắc cho Claude
 
 Đặc tả đầy đủ: `docs/PORTFOLIO_SPEC.md`. Ảnh tham chiếu phong cách: `docs/reference/*.png`.
+Bản đồ module + bảng debug: `README.md`.
 Đọc mục liên quan trong spec trước khi làm bất kỳ giai đoạn nào.
 
 ## Công nghệ
 - HTML + CSS + JavaScript thuần. Không framework, không build tool, không npm (trừ khi người dùng yêu cầu).
 - Dữ liệu nằm ở `data/*.js` dạng `window.X = ...`. Không dùng `fetch()` file local, để mở `index.html` trực tiếp vẫn chạy.
-- Mọi đường dẫn đều tương đối (để chạy trên GitHub Pages).
+- Mọi đường dẫn đều tương đối (không bắt đầu bằng `/`), để chạy được khi mở file trực tiếp và trên mọi server/tên miền.
 
 ## Phong cách — bắt buộc giữ
 - Nền xám nhạt `--bg`, chữ đen `--ink`, section tối `--dark`. Chỉ **một** màu nhấn `--accent`, chiếm < 5% màn hình.
@@ -18,20 +19,25 @@
 - Font: Montserrat (tiêu đề, nav, nút), Open Sans (nội dung), Comfortaa 300 (chỉ dòng chào ở hero).
 - Rất nhiều khoảng trắng giữa các section (`--space-section`).
 
-## Graphify (bản đồ code)
-Repo này được index bởi Graphify sau khi đẩy lên GitHub (`list_repositories` → dùng `owner/name` của repo portfolio).
-- Trước khi sửa, tra cứu bằng Graphify thay vì grep: hàm ở đâu → `graphify_find`; ai gọi hàm → `graphify_callers`;
-  sửa hàm ảnh hưởng gì → `graphify_impact`; file phụ thuộc/bị phụ thuộc → `graphify_file_neighbors`;
-  "phần X hoạt động thế nào" → `query_graph`.
-- So `commitSha` trong kết quả với `git rev-parse HEAD`. Khác nhau, hoặc file chưa được push → đọc file hiện tại.
-  Graph chỉ cập nhật sau khi push.
-- Bản đồ module và bảng debug nằm trong `README.md`. Thêm/đổi tên file hoặc hàm chính → cập nhật README trong cùng lần sửa.
-- Tuân thủ "Quy ước code" trong README (hàm có tên, `initX`/`renderX`, không inline onclick) để call graph đúng.
+## Thông tin cá nhân — giữ nguyên placeholder
+- Mọi thông tin cá nhân chưa có (tên, email, link social, bio, dự án, ảnh…) **để nguyên dạng `{{...}}`**,
+  ví dụ `{{Họ tên}}`, `{{email}}`, `{{github-user}}`. Người dùng sẽ tự thay khi review.
+- Không bịa tên, email, link, số liệu, mô tả dự án. Không thay `{{...}}` có sẵn bằng nội dung tự nghĩ ra.
+- Ảnh chưa có: dùng khối xám ghi kích thước (VD `1600×900`), không lấy ảnh ngẫu nhiên trên mạng.
+- Dữ liệu mẫu (dự án/kỹ năng demo) phải ghi rõ là mẫu, ví dụ `title: "{{Tên dự án 1}}"`.
 
 ## Cách làm việc
 - Làm đúng phạm vi giai đoạn được yêu cầu, không tự làm thêm giai đoạn sau.
 - Tái sử dụng component có sẵn trong `components.css` trước khi viết CSS mới.
 - Nội dung tiếng Việt có dấu; mọi thứ hiển thị phải đúng font tiếng Việt.
 - Sau khi làm xong: kiểm tra ở chiều rộng 375px và 1440px, không có cuộn ngang, không lỗi console.
-- Chỗ chưa có nội dung thật: dùng placeholder `{{...}}` hoặc ảnh xám ghi kích thước, không bịa thông tin cá nhân.
 - Accessibility: HTML ngữ nghĩa, `alt` cho ảnh, `aria-label` cho nút icon, focus nhìn thấy được, tôn trọng `prefers-reduced-motion`.
+- Thêm/đổi tên file hoặc hàm chính → cập nhật bảng "Bản đồ module" trong `README.md` trong cùng lần sửa.
+- Viết code theo "Quy ước code" trong `README.md` (hàm có tên, `initX`/`renderX`, không inline onclick).
+
+## Git — bắt buộc commit sau mỗi lần làm
+- **Kết thúc mỗi lượt có thay đổi file đều phải `git commit`**, kể cả thay đổi nhỏ. Không để thay đổi dở dang chưa commit.
+- Chỉ commit khi trang chạy được (không lỗi console). Nếu chưa xong, vẫn commit nhưng ghi `WIP:` ở đầu message.
+- Message ngắn gọn, dạng: `<giai đoạn/phạm vi>: <làm gì>` — ví dụ `phase1: add design tokens and navbar`.
+- `git add` đúng file đã sửa; không commit file bí mật (`.env`) hay file lớn (`.exe`, `.zip`).
+- Không `git push`, không đổi nhánh, không `reset`/`rebase` trừ khi người dùng yêu cầu.
