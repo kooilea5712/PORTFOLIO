@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- SEO — sửa tay: {{Họ tên}}, {{domain}}, mô tả trang (title, meta description, canonical, og:*, JSON-LD). Nội dung khác sửa trong data/*.js -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{Họ tên}} — Portfolio</title>
@@ -52,7 +53,7 @@
 
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home"><span data-short-name></span><span class="logo__dot">.</span></a>
       <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
           <li><a href="#about" data-i18n="nav.about">Giới thiệu</a></li>
@@ -91,7 +92,7 @@
         <div class="hero__overlay"></div>
       </div>
       <div class="hero__content">
-        <p class="hero__greeting" data-i18n="hero.greeting">xin chào, mình là {{Tên}}</p>
+        <p class="hero__greeting" data-profile="greeting"></p>
         <h1 class="hero__title">
           <span class="hero__prefix">I'M A</span>
           <span class="hero__role-wrap"><span class="hero__role" data-hero-role aria-hidden="true">DEVELOPER</span><span class="hero__cursor" aria-hidden="true"></span><span class="visually-hidden" data-hero-roles-text>developer</span></span>
@@ -105,12 +106,12 @@
 
     <!-- 5.2 Hiện tại -->
     <section class="section section--dark current" id="current" aria-labelledby="current-title">
-      <div class="current__logo" aria-hidden="true">{{LOGO}}</div>
+      <div class="current__logo" aria-hidden="true" data-current="logo"></div>
       <div class="container current__inner reveal">
         <p class="label current__eyebrow" data-i18n="current.eyebrow">Hiện tại</p>
-        <h2 class="current__title" id="current-title">{{TÊN TỔ CHỨC / ĐANG LÀM GÌ}}</h2>
-        <p class="current__text">{{Mô tả ngắn về việc đang làm}}</p>
-        <a class="btn-bracket" href="#about" data-i18n="common.more">Xem thêm</a>
+        <h2 class="current__title" id="current-title" data-current="title"></h2>
+        <p class="current__text" data-current="text"></p>
+        <a class="btn-bracket" href="about.html" data-current-link data-i18n="common.more">Xem thêm</a>
       </div>
     </section>
 
@@ -121,29 +122,12 @@
         <div class="about reveal">
           <div class="about__photo gray-img"><div class="img-placeholder">600×750</div></div>
           <div class="about__text">
-            <p class="text-body">{{Đoạn giới thiệu 1}}</p>
-            <p class="text-body">{{Đoạn giới thiệu 2}}</p>
+            <div class="about__bio" id="home-bio"></div>
             <a class="btn-bracket" href="about.html" data-i18n="about.explore">Khám phá</a>
           </div>
         </div>
         <div class="zigzag about__zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
-        <ul class="about__do reveal">
-          <li class="about__do-item">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            <h3 class="label" data-i18n="do.design">Thiết kế</h3>
-            <p>{{Mô tả 2 dòng}}</p>
-          </li>
-          <li class="about__do-item">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            <h3 class="label" data-i18n="do.development">Phát triển</h3>
-            <p>{{Mô tả 2 dòng}}</p>
-          </li>
-          <li class="about__do-item">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <h3 class="label" data-i18n="do.learning">Học tập / Nghiên cứu</h3>
-            <p>{{Mô tả 2 dòng}}</p>
-          </li>
-        </ul>
+        <ul class="about__do reveal" data-services></ul>
       </div>
     </section>
 
@@ -189,7 +173,7 @@
     <section class="section" id="life" aria-labelledby="life-title">
       <div class="container">
         <div class="section-title-wrap reveal"><h2 class="section-title" id="life-title" data-i18n="life.title">Cuộc sống</h2></div>
-        <p class="text-body life__intro text-center reveal" data-i18n="life.intro">Khi không ngồi trước màn hình, mình {{...}}</p>
+        <p class="text-body life__intro text-center reveal" data-profile="lifeIntro"></p>
         <div class="life__grid" id="life-grid" data-limit="6"></div>
         <h3 class="label life__subtitle" data-i18n="life.now">Hiện tại</h3>
         <dl class="now" id="now"></dl>
@@ -203,15 +187,15 @@
     <section class="section" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <div class="section-title-wrap reveal"><h2 class="section-title" id="contact-title" data-i18n="contact.title">Liên hệ</h2></div>
-        <p class="text-body contact__lead text-center reveal">{{Câu mời liên hệ ngắn}}</p>
+        <p class="text-body contact__lead text-center reveal" data-profile="contactLead"></p>
         <div class="zigzag contact__zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
         <div class="contact">
           <div class="contact__info">
             <p class="label" data-i18n="contact.email">Email</p>
-            <button class="copy-email" type="button" data-copy-email aria-label="Sao chép email" data-i18n-aria-label="contact.copyEmail"><span data-email-text>{{email}}</span></button>
+            <button class="copy-email" type="button" data-copy-email aria-label="Sao chép email" data-i18n-aria-label="contact.copyEmail"><span data-email-text></span></button>
             <span class="copy-email__status" role="status" aria-live="polite" data-copy-status></span>
             <p class="label contact__label" data-i18n="contact.location">Vị trí</p>
-            <p data-location>{{Thành phố}}, Việt Nam</p>
+            <p data-location></p>
             <p class="status" data-open-to-work><span class="status-dot" aria-hidden="true"></span><span data-i18n="status.openToWork">Đang tìm cơ hội thực tập</span></p>
             <a class="btn-bracket" href="#" data-cv download hidden data-i18n="contact.cv">Tải CV</a>
             <div class="social-icons contact__social" data-socials></div>
@@ -250,7 +234,7 @@
     <div class="container site-footer__inner">
       <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

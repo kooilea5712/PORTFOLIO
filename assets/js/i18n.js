@@ -23,12 +23,19 @@ function setLanguage(lang) {
   window.location.reload();
 }
 
+/* Thay biến {name} trong chuỗi từ điển bằng PROFILE.name (đã qua pickLang). */
+function fillVariables(text) {
+  if (typeof text !== 'string' || text.indexOf('{name}') === -1) return text;
+  var name = window.PROFILE ? pickLang(window.PROFILE.name) : '';
+  return text.split('{name}').join(name);
+}
+
 /* Thiếu key ở ngôn ngữ hiện tại → dùng bản "vi"; cảnh báo 1 lần mỗi key. */
 function t(key) {
   var dictionary = window.I18N || {};
   var lang = getLanguage();
   var value = dictionary[lang] && dictionary[lang][key];
-  if (value !== undefined) return value;
+  if (value !== undefined) return fillVariables(value);
 
   var fallback = dictionary[DEFAULT_LANGUAGE] && dictionary[DEFAULT_LANGUAGE][key];
   var warnId = lang + ':' + key;
@@ -36,7 +43,7 @@ function t(key) {
     warnedMissingKeys[warnId] = true;
     console.warn('[i18n] Thiếu key "' + key + '" cho "' + lang + '"' + (fallback === undefined ? ' và cả "vi"' : ', dùng bản "vi"'));
   }
-  return fallback !== undefined ? fallback : key;
+  return fallback !== undefined ? fillVariables(fallback) : key;
 }
 
 /* Chuỗi → giữ nguyên; { vi, en } → đúng ngôn ngữ (thiếu thì dùng vi); mảng → áp dụng cho từng phần tử. */

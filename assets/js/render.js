@@ -262,7 +262,7 @@ function renderLife(limit) {
 
 function buildSocialLinks() {
   var profile = window.PROFILE || {};
-  var links = [{ id: 'email', url: 'mailto:' + (profile.email || '') }];
+  var links = [{ id: 'email', url: 'mailto:' + (pickLang(profile.email) || '') }];
   return links.concat((profile.socials || []).map(function mapSocial(item) {
     return { id: item.id, url: item.url };
   }));
@@ -359,6 +359,65 @@ function renderLocation() {
   });
 }
 
+/* ---------- Nội dung cá nhân lấy từ data/profile.js ---------- */
+
+var SERVICE_ICONS = {
+  design: '<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
+  development: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  learning: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'
+};
+var SERVICE_ICON_FALLBACK = '<circle cx="12" cy="12" r="9"/>';
+
+/* Chữ viết tắt ở logo navbar: PROFILE.shortName */
+function renderBranding() {
+  if (!window.PROFILE) return;
+  document.querySelectorAll('[data-short-name]').forEach(function fillName(el) {
+    el.textContent = pickLang(PROFILE.shortName);
+  });
+}
+
+/* Chữ rời: phần tử có data-profile="tên-trường" nhận PROFILE[tên-trường] (greeting, contactLead, lifeIntro…). */
+function renderProfileText() {
+  if (!window.PROFILE) return;
+  document.querySelectorAll('[data-profile]').forEach(function fillText(el) {
+    el.textContent = pickLang(PROFILE[el.getAttribute('data-profile')]) || '';
+  });
+}
+
+/* Đoạn giới thiệu ngắn ở trang chủ: PROFILE.bio */
+function renderHomeBio() {
+  var box = document.getElementById('home-bio');
+  if (!box || !window.PROFILE) return;
+  box.innerHTML = pickLang(PROFILE.bio || []).map(function renderParagraph(text) {
+    return '<p class="text-body">' + escapeHtml(text) + '</p>';
+  }).join('');
+}
+
+/* Section "Hiện tại": PROFILE.current { logo, title, text, link } */
+function renderCurrent() {
+  if (!window.PROFILE || !PROFILE.current) return;
+  document.querySelectorAll('[data-current]').forEach(function fillCurrent(el) {
+    el.textContent = pickLang(PROFILE.current[el.getAttribute('data-current')]) || '';
+  });
+  document.querySelectorAll('[data-current-link]').forEach(function setLink(el) {
+    el.href = PROFILE.current.link || '#';
+  });
+}
+
+/* 3 khối "Tôi làm gì": PROFILE.services (trang chủ + about.html) */
+function renderServices() {
+  if (!window.PROFILE) return;
+  var html = (PROFILE.services || []).map(function renderService(item) {
+    return '<li class="about__do-item">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true">' + (SERVICE_ICONS[item.key] || SERVICE_ICON_FALLBACK) + '</svg>' +
+      '<h3 class="label">' + escapeHtml(pickLang(item.title)) + '</h3>' +
+      '<p>' + escapeHtml(pickLang(item.text)) + '</p></li>';
+  }).join('');
+  document.querySelectorAll('[data-services]').forEach(function fillServices(list) {
+    list.innerHTML = html;
+  });
+}
+
 /* Nút Tải CV: chỉ hiện khi PROFILE.cv có giá trị. */
 function renderCvLinks() {
   if (!window.PROFILE) return;
@@ -383,6 +442,11 @@ document.addEventListener('DOMContentLoaded', function initRender() {
   renderOpenToWork();
   renderCvLinks();
   renderLocation();
+  renderBranding();
+  renderProfileText();
+  renderHomeBio();
+  renderCurrent();
+  renderServices();
   renderAboutBio();
   renderTimeline();
 });

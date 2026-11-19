@@ -409,3 +409,5 @@ button.life-item__media {
   font-size: var(--fs-hero); line-height: 1; letter-spacing: 0.1em;
 }
 .error-page .section-title-wrap { margin-bottom: 0; }
+
+.about__bio { display: flex; flex-direction: column; gap: var(--space-2); }

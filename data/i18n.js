@@ -1,13 +1,13 @@
 /* Từ điển giao diện VI/EN. Key dạng "nhóm.tên". Thiếu key ở "en" → dùng bản "vi" (i18n.js cảnh báo 1 lần).
-   Nội dung trong {{...}} là placeholder của bạn, không dịch ở đây. */
+   Biến {name} trong chuỗi được t() thay bằng PROFILE.name. File này KHÔNG chứa nội dung cá nhân. */
 window.I18N = {
   vi: {
     "skip": "Bỏ qua điều hướng",
-    "title.about": "Giới thiệu — {{Họ tên}}",
-    "title.life": "Cuộc sống — {{Họ tên}}",
-    "title.projects": "Dự án — {{Họ tên}}",
-    "title.project": "Dự án — {{Họ tên}}",
-    "title.notFound": "Không tìm thấy trang — {{Họ tên}}",
+    "title.about": "Giới thiệu — {name}",
+    "title.life": "Cuộc sống — {name}",
+    "title.projects": "Dự án — {name}",
+    "title.project": "Dự án — {name}",
+    "title.notFound": "Không tìm thấy trang — {name}",
 
     "nav.home": "Trang chủ",
     "nav.main": "Điều hướng chính",
@@ -22,7 +22,6 @@ window.I18N = {
     "lang.label": "Ngôn ngữ",
 
     "hero.section": "Giới thiệu",
-    "hero.greeting": "xin chào, mình là {{Tên}}",
     "hero.scroll": "Cuộn xuống",
     "status.openToWork": "Đang tìm cơ hội thực tập",
 
@@ -34,9 +33,6 @@ window.I18N = {
     "about.explore": "Khám phá",
     "about.portraitAlt": "Ảnh chân dung",
     "about.journey": "Hành trình",
-    "do.design": "Thiết kế",
-    "do.development": "Phát triển",
-    "do.learning": "Học tập / Nghiên cứu",
     "timeline.education": "Học tập",
     "timeline.work": "Công việc",
     "timeline.club": "Câu lạc bộ",
@@ -76,8 +72,6 @@ window.I18N = {
     "card.coverAlt": "Ảnh bìa",
 
     "life.title": "Cuộc sống",
-    "life.intro": "Khi không ngồi trước màn hình, mình {{...}}",
-    "life.introPage": "{{Khi không ngồi trước màn hình, mình…}}",
     "life.now": "Hiện tại",
     "life.find": "Tìm mình ở đâu",
     "life.zoom": "Phóng to ảnh",
@@ -118,7 +112,7 @@ window.I18N = {
     "form.mailtoFallback": "Bạn có thể gửi email trực tiếp:",
 
     "footer.top": "Lên đầu trang",
-    "footer.copy": "© 2026 {{Họ tên}}. Làm bằng ♥ & cà phê.",
+    "footer.copy": "© 2026 {name}. Làm bằng ♥ & cà phê.",
 
     "project.preview": "Xem thử",
     "project.previewTitle": "Xem thử",
@@ -151,15 +145,16 @@ window.I18N = {
     "project.backToList": "Về danh sách dự án",
 
     "nf.title": "Không tìm thấy trang",
+    "nf.text": "Trang bạn tìm không tồn tại hoặc đã được chuyển đi.",
     "nf.home": "Về trang chủ"
   },
   en: {
     "skip": "Skip navigation",
-    "title.about": "About — {{Họ tên}}",
-    "title.life": "Life — {{Họ tên}}",
-    "title.projects": "Projects — {{Họ tên}}",
-    "title.project": "Project — {{Họ tên}}",
-    "title.notFound": "Page not found — {{Họ tên}}",
+    "title.about": "About — {name}",
+    "title.life": "Life — {name}",
+    "title.projects": "Projects — {name}",
+    "title.project": "Project — {name}",
+    "title.notFound": "Page not found — {name}",
 
     "nav.home": "Home",
     "nav.main": "Main navigation",
@@ -174,7 +169,6 @@ window.I18N = {
     "lang.label": "Language",
 
     "hero.section": "Introduction",
-    "hero.greeting": "hello, I'm {{Tên}}",
     "hero.scroll": "Scroll down",
     "status.openToWork": "Open to work",
 
@@ -186,9 +180,6 @@ window.I18N = {
     "about.explore": "Explore",
     "about.portraitAlt": "Portrait photo",
     "about.journey": "Journey",
-    "do.design": "Design",
-    "do.development": "Development",
-    "do.learning": "Learning / Research",
     "timeline.education": "Education",
     "timeline.work": "Work",
     "timeline.club": "Club",
@@ -228,8 +219,6 @@ window.I18N = {
     "card.coverAlt": "Cover image",
 
     "life.title": "Life",
-    "life.intro": "When I'm away from the screen, I {{...}}",
-    "life.introPage": "{{When I'm away from the screen, I…}}",
     "life.now": "Now",
     "life.find": "Find me online",
     "life.zoom": "Enlarge photo",
@@ -270,7 +259,7 @@ window.I18N = {
     "form.mailtoFallback": "You can email me directly:",
 
     "footer.top": "Back to top",
-    "footer.copy": "© 2026 {{Họ tên}}. Made with ♥ & coffee.",
+    "footer.copy": "© 2026 {name}. Made with ♥ & coffee.",
 
     "project.preview": "Preview",
     "project.previewTitle": "Preview of",
@@ -303,6 +292,7 @@ window.I18N = {
     "project.backToList": "Back to all projects",
 
     "nf.title": "Page not found",
+    "nf.text": "The page you are looking for does not exist or has moved.",
     "nf.home": "Back to home"
   }
 };

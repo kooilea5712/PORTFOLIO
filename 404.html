@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- SEO — sửa tay: {{Họ tên}}, {{domain}}, mô tả trang (title, meta description, canonical, og:*, JSON-LD). Nội dung khác sửa trong data/*.js -->
 <!--
   NGOẠI LỆ ĐƯỜNG DẪN: server hiển thị 404.html tại MỌI URL sai (vd /a/b/c), nên đường dẫn tương đối sẽ hỏng.
   Riêng file này dùng đường dẫn tuyệt đối từ gốc (/assets/..., /index.html). Cần site đặt ở gốc tên miền;
@@ -36,7 +37,7 @@
 
   <header class="site-header" data-solid>
     <div class="container site-header__inner">
-      <a class="logo" href="/index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <a class="logo" href="/index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home"><span data-short-name></span><span class="logo__dot">.</span></a>
       <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
           <li><a href="/about.html" data-i18n="nav.about">Giới thiệu</a></li>
@@ -73,7 +74,7 @@
         <p class="error-page__code" aria-hidden="true">404</p>
         <div class="section-title-wrap"><h1 class="section-title" id="nf-title" data-i18n="nf.title">Không tìm thấy trang</h1></div>
         <div class="zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
-        <p class="text-body">{{Trang bạn tìm không tồn tại hoặc đã được chuyển đi.}}</p>
+        <p class="text-body" data-i18n="nf.text">Trang bạn tìm không tồn tại hoặc đã được chuyển đi.</p>
         <div class="btn-group">
           <a class="btn-bracket" href="/index.html" data-i18n="nf.home">Về trang chủ</a>
           <a class="btn-bracket" href="/projects.html" data-i18n="cta.projects">Xem dự án</a>
@@ -87,7 +88,7 @@
     <div class="container site-footer__inner">
       <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

@@ -1,30 +1,71 @@
-/* Thông tin cá nhân. Mọi {{...}} là placeholder — tự thay khi có nội dung thật. */
+/* =====================================================================
+   THÔNG TIN CÁ NHÂN — nơi DUY NHẤT để sửa nội dung cá nhân (trừ phần SEO trong HTML).
+   Mọi {{...}} là placeholder: thay bằng nội dung thật của bạn.
+   Trường văn bản có thể là chuỗi  "Xin chào"   hoặc song ngữ  { vi: "Xin chào", en: "Hello" }.
+   Hướng dẫn chi tiết: docs/HUONG_DAN_NOI_DUNG.md
+   ===================================================================== */
 window.PROFILE = {
-  name: "{{Họ tên}}",
-  shortName: "{{AB}}",
-  greeting: "xin chào, mình là {{Tên}}",
-  roles: ["DEVELOPER", "DESIGNER", "STUDENT"],
-  bio: ["{{Đoạn 1}}", "{{Đoạn 2}}"],
-  bioLong: ["{{Đoạn dài 1}}", "{{Đoạn dài 2}}", "{{Đoạn dài 3}}", "{{Đoạn dài 4}}"],
+  // --- Nhận diện ---
+  name: "{{Họ tên}}",                  // dùng ở tiêu đề tab, footer, alt ảnh chân dung
+  shortName: "{{AB}}",                 // chữ viết tắt ở logo navbar (mọi trang)
+  email: "{{email}}",
+  location: { vi: "{{Thành phố}}, Việt Nam", en: "{{City}}, Vietnam" },
+  openToWork: true,                    // true → hiện chấm "Đang tìm cơ hội / Open to work"
+  cv: null,                            // vd "assets/files/cv.pdf"; null → ẩn nút Tải CV
+  portrait: null,                      // ảnh chân dung (đường dẫn); null → khối xám 800×1000
+  web3formsKey: "{{WEB3FORMS_ACCESS_KEY}}",   // đăng ký miễn phí tại web3forms.com
+
+  // --- Hero (đầu trang chủ) ---
+  greeting: { vi: "xin chào, mình là {{Tên}}", en: "hello, I'm {{Tên}}" },
+  roles: ["DEVELOPER", "DESIGNER", "STUDENT"],   // chữ tự gõ sau "I'M A"; mỗi phần tử có thể là { vi, en }
+
+  // --- Giới thiệu ---
+  bio: {                               // 2 đoạn ngắn ở trang chủ
+    vi: ["{{Đoạn 1}}", "{{Đoạn 2}}"],
+    en: ["{{Paragraph 1}}", "{{Paragraph 2}}"]
+  },
+  bioLong: {                           // 3–4 đoạn dài ở about.html
+    vi: ["{{Đoạn dài 1}}", "{{Đoạn dài 2}}", "{{Đoạn dài 3}}", "{{Đoạn dài 4}}"],
+    en: ["{{Long paragraph 1}}", "{{Long paragraph 2}}", "{{Long paragraph 3}}", "{{Long paragraph 4}}"]
+  },
+
+  // --- Section "Hiện tại" (nền tối, trang chủ) ---
+  current: {
+    logo: "{{LOGO}}",                  // chữ lớn mờ làm nền (tên tổ chức viết tắt)
+    title: { vi: "{{TÊN TỔ CHỨC / ĐANG LÀM GÌ}}", en: "{{ORGANIZATION / WHAT I'M DOING}}" },
+    text: { vi: "{{Mô tả ngắn về việc đang làm}}", en: "{{Short description of what you're doing}}" },
+    link: "about.html"                 // nút "Xem thêm" dẫn tới đâu
+  },
+
+  // --- 3 khối "Tôi làm gì" (trang chủ + about.html). key: "design" | "development" | "learning" (chọn icon) ---
+  services: [
+    { key: "design",      title: { vi: "Thiết kế",  en: "Design" },      text: { vi: "{{Mô tả 2 dòng}}", en: "{{Two-line description}}" } },
+    { key: "development", title: { vi: "Phát triển", en: "Development" }, text: { vi: "{{Mô tả 2 dòng}}", en: "{{Two-line description}}" } },
+    { key: "learning",    title: { vi: "Học tập / Nghiên cứu", en: "Learning / Research" }, text: { vi: "{{Mô tả 2 dòng}}", en: "{{Two-line description}}" } }
+  ],
+
+  // --- Hành trình (about.html). kind: "education" | "work" | "club" | "course" ---
   timeline: [
     { period: "{{2023 – nay}}", kind: "education", title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
     { period: "{{2024 – nay}}", kind: "club",      title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
     { period: "{{2025}}",       kind: "work",      title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
     { period: "{{2026}}",       kind: "course",    title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" }
   ],
-  location: { vi: "{{Thành phố}}, Việt Nam", en: "{{City}}, Vietnam" },   // trường văn bản có thể là chuỗi hoặc { vi, en } (đọc qua pickLang)
-  email: "{{email}}",
-  web3formsKey: "{{WEB3FORMS_ACCESS_KEY}}",   // đăng ký miễn phí tại web3forms.com; còn "{{" thì form báo chưa cấu hình
-  openToWork: true,
-  portrait: null,                  // ảnh chân dung: đường dẫn, null → khối xám 800×1000
-  cv: null,                        // vd "assets/files/cv.pdf" — null thì ẩn nút Tải CV
+
+  // --- Câu chữ rời ---
+  contactLead: { vi: "{{Câu mời liên hệ ngắn}}", en: "{{Short invitation to get in touch}}" },
+  lifeIntro: { vi: "{{Khi không ngồi trước màn hình, mình…}}", en: "{{When I'm away from the screen, I…}}" },
+
+  // --- Mạng xã hội (xoá cả dòng để ẩn một mạng). id: github | linkedin | facebook | instagram | tiktok | youtube ---
   socials: [
-    { id: "github",    url: "https://github.com/{{github-user}}",       handle: "@{{github-user}}",   note: "{{Ghi chú GitHub}}" },
-    { id: "linkedin",  url: "https://linkedin.com/in/{{linkedin-user}}", handle: "{{linkedin-user}}",  note: "{{Ghi chú LinkedIn}}" },
-    { id: "facebook",  url: "https://facebook.com/{{facebook-user}}",    handle: "{{facebook-user}}",  note: "{{Ghi chú Facebook}}" },
-    { id: "instagram", url: "https://instagram.com/{{instagram-user}}", handle: "@{{instagram-user}}", note: "{{Ghi chú Instagram}}" },
-    { id: "tiktok",    url: "https://tiktok.com/@{{tiktok-user}}",      handle: "@{{tiktok-user}}",   note: "{{Ghi chú TikTok}}" }
+    { id: "github",    url: "https://github.com/{{github-user}}",        handle: "@{{github-user}}",    note: "{{Ghi chú GitHub}}" },
+    { id: "linkedin",  url: "https://linkedin.com/in/{{linkedin-user}}", handle: "{{linkedin-user}}",   note: "{{Ghi chú LinkedIn}}" },
+    { id: "facebook",  url: "https://facebook.com/{{facebook-user}}",    handle: "{{facebook-user}}",   note: "{{Ghi chú Facebook}}" },
+    { id: "instagram", url: "https://instagram.com/{{instagram-user}}",  handle: "@{{instagram-user}}", note: "{{Ghi chú Instagram}}" },
+    { id: "tiktok",    url: "https://tiktok.com/@{{tiktok-user}}",       handle: "@{{tiktok-user}}",    note: "{{Ghi chú TikTok}}" }
   ],
+
+  // --- Khối "Now" (mục Life) ---
   now: {
     reading: "{{Đang đọc}}",
     listening: "{{Đang nghe}}",

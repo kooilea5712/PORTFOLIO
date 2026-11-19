@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- SEO — sửa tay: {{Họ tên}}, {{domain}}, mô tả trang (title, meta description, canonical, og:*, JSON-LD). Nội dung khác sửa trong data/*.js -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-i18n="title.projects">Dự án — {{Họ tên}}</title>
@@ -33,7 +34,7 @@
 
   <header class="site-header" data-solid>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home"><span data-short-name></span><span class="logo__dot">.</span></a>
       <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
           <li><a href="about.html" data-i18n="nav.about">Giới thiệu</a></li>
@@ -87,7 +88,7 @@
     <div class="container site-footer__inner">
       <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

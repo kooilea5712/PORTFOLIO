@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- SEO — sửa tay: {{Họ tên}}, {{domain}}, mô tả trang (title, meta description, canonical, og:*, JSON-LD). Nội dung khác sửa trong data/*.js -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-i18n="title.life">Cuộc sống — {{Họ tên}}</title>
@@ -34,7 +35,7 @@
 
   <header class="site-header" data-solid>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home"><span data-short-name></span><span class="logo__dot">.</span></a>
       <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
           <li><a href="about.html" data-i18n="nav.about">Giới thiệu</a></li>
@@ -69,7 +70,7 @@
     <section class="section" aria-labelledby="life-title">
       <div class="container">
         <div class="section-title-wrap"><h1 class="section-title" id="life-title" data-i18n="life.title">Cuộc sống</h1></div>
-        <p class="text-body life__intro text-center" data-i18n="life.introPage">{{Khi không ngồi trước màn hình, mình…}}</p>
+        <p class="text-body life__intro text-center" data-profile="lifeIntro"></p>
         <div class="life__grid" id="life-grid" data-lightbox></div>
         <h2 class="label life__subtitle" data-i18n="life.now">Hiện tại</h2>
         <dl class="now" id="now"></dl>
@@ -84,7 +85,7 @@
     <div class="container site-footer__inner">
       <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

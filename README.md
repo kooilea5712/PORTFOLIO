@@ -4,6 +4,7 @@ Website portfolio tĩnh, tối giản trắng đen + một màu nhấn. HTML/CSS
 
 > README này là **bản đồ kiến trúc** của dự án: đọc nó trước khi sửa code để biết file/hàm nào liên quan.
 > Đặc tả thiết kế chi tiết: `docs/PORTFOLIO_SPEC.md`.
+> **Điền nội dung / hiểu cách web chạy (cho người mới): `docs/HUONG_DAN_NOI_DUNG.md`.**
 > **Khi thêm/đổi file hoặc hàm chính, cập nhật bảng "Bản đồ module" bên dưới.**
 
 ## Chạy local
@@ -25,13 +26,15 @@ assets/css/tokens.css → biến thiết kế; base → components → pages (th
 
 Thứ tự `<script>` trong mọi trang: `data/*.js` → `data/i18n.js` → `assets/js/i18n.js` → `assets/js/main.js` → script riêng của trang. Tất cả dùng `defer`.
 
+Nội dung cá nhân chỉ sửa trong `data/*.js`; `data/i18n.js` chỉ chứa chữ giao diện (biến `{name}` = `PROFILE.name`). Riêng SEO (`<title>`, meta, canonical, og, JSON-LD, robots, sitemap, favicon) phải sửa tay trong HTML — comment `SEO — sửa tay` ở đầu `<head>`.
+
 Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` / `data-i18n-aria-label` / `data-i18n-title` / `data-i18n-content`; chữ sinh bằng JS dùng `t("key")`; trường văn bản trong `data/*.js` đọc qua `pickLang()` nên có thể là chuỗi hoặc `{ vi: "…", en: "…" }` (mảng cũng được). Thêm chữ mới → thêm key vào cả `vi` lẫn `en` trong `data/i18n.js`.
 
 ## Bản đồ module
 
 | File | Trách nhiệm | Hàm chính (tên cố định) | Đọc dữ liệu | Ghi vào DOM |
 |---|---|---|---|---|
-| `data/profile.js` | Thông tin cá nhân, social, trạng thái | — | — | — |
+| `data/profile.js` | **Nguồn duy nhất** cho nội dung cá nhân: tên, shortName, greeting, bio/bioLong, current, services, timeline, contactLead, lifeIntro, socials, now, email, web3formsKey… (chuỗi hoặc `{ vi, en }`) | — | — | — |
 | `data/skills.js` | Kỹ năng: mastered / learning / tools | — | — | — |
 | `data/projects.js` | Danh sách dự án | — | — | — |
 | `data/life.js` | Ảnh đời sống | — | — | — |
@@ -39,7 +42,7 @@ Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` /
 | `assets/css/pages.css` | CSS riêng trang chủ: `.hero`, `.current`, `.about`, `.skills__*`, `.projects__*`, `.life__*`, `.now`, `.social-card`, `.contact` | — | — | — |
 | `assets/css/base.css` | Reset, typography, `.container`, `.section`, `.reveal`, `.visually-hidden` | — | — | — |
 | `components-demo.html` + `components-demo.js` | **Trang tạm** để duyệt component (xoá sau giai đoạn 1) | `initDemoTabs`, `initDemoForm` | — | `.filter-tabs`, `form` |
-| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid(options)` (options: `featuredOnly`, `type`, `stack`), `filterProjects`, `renderProjectCard`, `initProjectFilter` (trang chủ), `initProjectsPage` (projects.html: lọc loại + công nghệ, đồng bộ URL `?type=&stack=`), `renderLife(limit)` (trang chủ 6 ảnh qua `data-limit`; `life-grid[data-lightbox]` → ảnh là `<button>`), `renderAboutBio`, `renderTimeline`, `renderCvLinks` (`[data-cv]`, ẩn khi `PROFILE.cv` rỗng), `renderSocials`, `renderNow`, `renderOpenToWork`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid` (cả index.html và projects.html), `#life-grid`, `#now`, `#socials`, `[data-socials]` |
+| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid(options)` (options: `featuredOnly`, `type`, `stack`), `filterProjects`, `renderProjectCard`, `initProjectFilter` (trang chủ), `initProjectsPage` (projects.html: lọc loại + công nghệ, đồng bộ URL `?type=&stack=`), `renderLife(limit)` (trang chủ 6 ảnh qua `data-limit`; `life-grid[data-lightbox]` → ảnh là `<button>`), `renderAboutBio`, `renderTimeline`, `renderCvLinks` (`[data-cv]`, ẩn khi `PROFILE.cv` rỗng), `renderSocials`, `renderNow`, `renderOpenToWork`, `renderBranding` (logo), `renderProfileText` (`[data-profile]`: greeting, contactLead, lifeIntro), `renderHomeBio`, `renderCurrent`, `renderServices`, `renderLocation`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid` (cả index.html và projects.html), `#life-grid`, `#now`, `#socials`, `[data-socials]`, `[data-short-name]`, `[data-profile]`, `[data-current]`, `[data-services]`, `#home-bio` |
 | `projects.html`, `project.html` | Trang con: danh sách tất cả dự án / chi tiết `?p=<slug>` (navbar `data-solid`, link `index.html#…`) | — | `PROJECTS` | `#project-grid`, `#project` |
 | `lab/demo-site/index.html` | Web con mẫu (thay bằng bản build thật; `links.demo` trỏ tới) | — | — | — |
 | `about.html`, `life.html` | Trang con: giới thiệu + timeline / ảnh đời sống + Now + social | — | `PROFILE`, `LIFE` | `#about-portrait`, `#about-bio`, `#timeline`, `#life-grid`, `#now`, `#socials` |
@@ -58,6 +61,7 @@ Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` /
 
 | Triệu chứng | Xem ở đâu |
 |---|---|
+| Logo/chào/bio/"Hiện tại"/"Tôi làm gì" trống | trường tương ứng trong `data/profile.js` (xem bảng trường trong `docs/HUONG_DAN_NOI_DUNG.md`) → hàm `renderBranding`/`renderProfileText`/`renderHomeBio`/`renderCurrent`/`renderServices` |
 | Section trống, không có dự án/kỹ năng | Console lỗi cú pháp trong `data/*.js` → `render.js` (`renderProjectGrid`, `renderSkills`) |
 | Trang chi tiết dự án báo "không tìm thấy" | `?p=` trong URL khớp `slug` trong `data/projects.js`? → `project.js` `findProject` |
 | Khối "Xem thử" sai loại | trường `type` của dự án (`web`/`desktop`/`local`/`design`) → `renderProjectPage` |
