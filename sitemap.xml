@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thay {{domain}} bằng tên miền thật. Thêm 1 dòng <url> cho mỗi dự án mới (project.html?p=<slug>). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://{{domain}}/</loc></url>
+  <url><loc>https://{{domain}}/about.html</loc></url>
+  <url><loc>https://{{domain}}/projects.html</loc></url>
+  <url><loc>https://{{domain}}/life.html</loc></url>
+  <url><loc>https://{{domain}}/project.html?p=mau-1</loc></url>
+  <url><loc>https://{{domain}}/project.html?p=mau-2</loc></url>
+  <url><loc>https://{{domain}}/project.html?p=mau-3</loc></url>
+  <url><loc>https://{{domain}}/project.html?p=mau-4</loc></url>
+</urlset>

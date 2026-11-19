@@ -29,7 +29,7 @@ function initMobileMenu() {
 
   function setMenuOpen(isOpen) {
     toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Đóng menu' : 'Mở menu');
+    toggle.setAttribute('aria-label', isOpen ? t('nav.closeMenu') : t('nav.openMenu'));
     menu.classList.toggle('is-open', isOpen);
     header.classList.toggle('menu-open', isOpen);
     document.body.classList.toggle('is-locked', isOpen);
@@ -132,7 +132,7 @@ function initHeroTyping() {
   var target = document.querySelector('[data-hero-role]');
   if (!target || !window.PROFILE || !PROFILE.roles || !PROFILE.roles.length) return;
 
-  var roles = PROFILE.roles;
+  var roles = pickLang(PROFILE.roles);
   var srText = document.querySelector('[data-hero-roles-text]');
   if (srText) srText.textContent = roles.join(', ').toLowerCase();
 

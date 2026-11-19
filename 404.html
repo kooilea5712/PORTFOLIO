@@ -8,8 +8,16 @@
 -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Không tìm thấy trang — {{Họ tên}}</title>
-  <meta name="description" content="Trang không tồn tại">
+  <title data-i18n="title.notFound">Không tìm thấy trang — {{Họ tên}}</title>
+  <meta name="description" content="{{Mô tả trang lỗi}}">
+  <meta name="theme-color" content="#111111"><!-- = --dark trong tokens.css -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" data-i18n-content="title.notFound" content="Không tìm thấy trang — {{Họ tên}}">
+  <meta property="og:description" content="{{Mô tả trang lỗi}}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://{{domain}}/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=JetBrains+Mono:wght@400&family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -18,38 +26,42 @@
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/pages.css">
   <script src="/data/profile.js" defer></script>
+  <script src="/data/i18n.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
   <script src="/assets/js/render.js" defer></script>
 </head>
 <body id="top">
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua điều hướng</a>
 
   <header class="site-header" data-solid>
     <div class="container site-header__inner">
-      <a class="logo" href="/index.html" aria-label="Trang chủ">{{AB}}<span class="logo__dot">.</span></a>
-      <nav aria-label="Điều hướng chính">
+      <a class="logo" href="/index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/index.html#skills">Skills</a></li>
-          <li><a href="/projects.html">Projects</a></li>
-          <li><a href="/life.html">Life</a></li>
-          <li><a class="btn-pill" href="/index.html#contact">Contact me</a></li>
+          <li><a href="/about.html" data-i18n="nav.about">Giới thiệu</a></li>
+          <li><a href="/index.html#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+          <li><a href="/projects.html" data-i18n="nav.projects">Dự án</a></li>
+          <li><a href="/life.html" data-i18n="nav.life">Cuộc sống</a></li>
+          <li><a class="btn-pill" href="/index.html#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
         </ul>
       </nav>
-      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-i18n-aria-label="nav.openMenu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobile-menu" inert>
-    <nav aria-label="Menu di động">
+    <nav aria-label="Menu di động" data-i18n-aria-label="nav.mobile">
       <ul class="mobile-menu__list">
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/index.html#skills">Skills</a></li>
-        <li><a href="/projects.html">Projects</a></li>
-        <li><a href="/life.html">Life</a></li>
-        <li><a class="btn-pill" href="/index.html#contact">Contact me</a></li>
+        <li><a href="/about.html" data-i18n="nav.about">Giới thiệu</a></li>
+        <li><a href="/index.html#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+        <li><a href="/projects.html" data-i18n="nav.projects">Dự án</a></li>
+        <li><a href="/life.html" data-i18n="nav.life">Cuộc sống</a></li>
+        <li><a class="btn-pill" href="/index.html#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
       </ul>
     </nav>
     <div class="mobile-menu__social social-icons" data-socials></div>
@@ -59,12 +71,12 @@
     <section class="section" aria-labelledby="nf-title">
       <div class="container text-center error-page__inner">
         <p class="error-page__code" aria-hidden="true">404</p>
-        <div class="section-title-wrap"><h1 class="section-title" id="nf-title">Không tìm thấy trang</h1></div>
+        <div class="section-title-wrap"><h1 class="section-title" id="nf-title" data-i18n="nf.title">Không tìm thấy trang</h1></div>
         <div class="zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
         <p class="text-body">{{Trang bạn tìm không tồn tại hoặc đã được chuyển đi.}}</p>
         <div class="btn-group">
-          <a class="btn-bracket" href="/index.html">Về trang chủ</a>
-          <a class="btn-bracket" href="/projects.html">Xem dự án</a>
+          <a class="btn-bracket" href="/index.html" data-i18n="nf.home">Về trang chủ</a>
+          <a class="btn-bracket" href="/projects.html" data-i18n="cta.projects">Xem dự án</a>
         </div>
       </div>
     </section>
@@ -73,9 +85,9 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span>Back to top</a>
+      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy">© 2026 {{Họ tên}}. Made with ♥ &amp; coffee.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

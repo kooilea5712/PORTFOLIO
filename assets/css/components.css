@@ -348,3 +348,21 @@ textarea.input-underline { min-height: 8rem; resize: vertical; }
   text-decoration-thickness: 2px;
   text-underline-offset: 0.5em;
 }
+
+/* ---------- Nút đổi ngôn ngữ VI / EN ---------- */
+.lang-switch { display: inline-flex; align-items: center; gap: 0.25rem; font-family: var(--font-display); font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.05em; }
+.lang-switch button {
+  min-width: var(--touch-min); min-height: var(--touch-min);
+  color: var(--on-dark-muted);
+  text-decoration: underline; text-decoration-color: transparent;
+  text-decoration-thickness: 2px; text-underline-offset: 0.4em;
+  transition: color var(--t-fast);
+}
+/* Navbar nền tối: dùng --on-dark thay cho --ink (chữ đen sẽ không đọc được trên --dark) */
+.lang-switch button[aria-pressed="true"] { color: var(--on-dark); text-decoration-color: var(--accent); }
+@media (hover: hover) { .lang-switch button:hover { color: var(--on-dark); } }
+@media (min-width: 768px) { .lang-switch button { min-width: 0; min-height: 0; padding: 0.25rem; } }
+.mobile-menu .lang-switch { font-size: 1rem; }
+
+/* Ô bẫy bot (honeypot) — ẩn bằng CSS, không dùng display:none để bot vẫn thấy */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

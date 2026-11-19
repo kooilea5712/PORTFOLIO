@@ -13,12 +13,12 @@ function buildLightbox() {
   root.className = 'lightbox';
   root.setAttribute('role', 'dialog');
   root.setAttribute('aria-modal', 'true');
-  root.setAttribute('aria-label', 'Xem ảnh');
+  root.setAttribute('aria-label', t('lightbox.view'));
   root.hidden = true;
   root.innerHTML =
-    '<button type="button" class="lightbox__btn lightbox__close" data-lb-close aria-label="Đóng">✕</button>' +
-    '<button type="button" class="lightbox__btn lightbox__prev" data-lb-prev aria-label="Ảnh trước">←</button>' +
-    '<button type="button" class="lightbox__btn lightbox__next" data-lb-next aria-label="Ảnh sau">→</button>' +
+    '<button type="button" class="lightbox__btn lightbox__close" data-lb-close aria-label="' + t('lightbox.close') + '">✕</button>' +
+    '<button type="button" class="lightbox__btn lightbox__prev" data-lb-prev aria-label="' + t('lightbox.prev') + '">←</button>' +
+    '<button type="button" class="lightbox__btn lightbox__next" data-lb-next aria-label="' + t('lightbox.next') + '">→</button>' +
     '<figure class="lightbox__figure">' +
       '<div class="lightbox__media" data-lb-media></div>' +
       '<figcaption class="lightbox__caption" data-lb-caption aria-live="polite"></figcaption>' +
@@ -34,7 +34,7 @@ function renderLightboxItem() {
 
   var media = root.querySelector('[data-lb-media]');
   if (item.img) {
-    media.innerHTML = '<img src="' + escapeHtml(item.img) + '" alt="' + escapeHtml(item.caption) + '">';
+    media.innerHTML = '<img src="' + escapeHtml(item.img) + '" alt="' + escapeHtml(pickLang(item.caption)) + '">';
   } else {
     media.innerHTML = '<div class="img-placeholder">' + escapeHtml(item.size || '800×800') + '</div>';
     var ratio = String(item.size || '').split('×');
@@ -45,9 +45,9 @@ function renderLightboxItem() {
   }
 
   root.querySelector('[data-lb-caption]').innerHTML =
-    '<strong>' + escapeHtml(item.caption) + '</strong>' +
-    (item.date ? '<span>' + escapeHtml(item.date) + '</span>' : '') +
-    '<span>' + escapeHtml(item.note) + '</span>' +
+    '<strong>' + escapeHtml(pickLang(item.caption)) + '</strong>' +
+    (item.date ? '<span>' + escapeHtml(pickLang(item.date)) + '</span>' : '') +
+    '<span>' + escapeHtml(pickLang(item.note)) + '</span>' +
     '<span class="lightbox__count">' + (lightboxState.index + 1) + ' / ' + getLifeItems().length + '</span>';
 }
 

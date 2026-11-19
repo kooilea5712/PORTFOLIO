@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{Họ tên}} — Portfolio</title>
   <meta name="description" content="{{Mô tả ngắn}}">
+  <meta name="theme-color" content="#111111"><!-- = --dark trong tokens.css -->
+  <link rel="canonical" href="https://{{domain}}/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="{{Họ tên}} — Portfolio">
+  <meta property="og:description" content="{{Mô tả ngắn}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://{{domain}}/">
+  <meta property="og:image" content="https://{{domain}}/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=JetBrains+Mono:wght@400&family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -16,39 +25,59 @@
   <script src="data/skills.js" defer></script>
   <script src="data/projects.js" defer></script>
   <script src="data/life.js" defer></script>
+  <script src="data/i18n.js" defer></script>
+  <script src="assets/js/i18n.js" defer></script>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/render.js" defer></script>
   <script src="assets/js/contact.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{Họ tên}}",
+    "url": "https://{{domain}}/",
+    "email": "mailto:{{email}}",
+    "sameAs": [
+      "https://github.com/{{github-user}}",
+      "https://linkedin.com/in/{{linkedin-user}}",
+      "https://facebook.com/{{facebook-user}}",
+      "https://instagram.com/{{instagram-user}}",
+      "https://tiktok.com/@{{tiktok-user}}"
+    ]
+  }
+  </script>
 </head>
 <body id="top">
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua điều hướng</a>
 
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Trang chủ">{{AB}}<span class="logo__dot">.</span></a>
-      <nav aria-label="Điều hướng chính">
+      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#life">Life</a></li>
-          <li><a class="btn-pill" href="#contact">Contact me</a></li>
+          <li><a href="#about" data-i18n="nav.about">Giới thiệu</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+          <li><a href="#projects" data-i18n="nav.projects">Dự án</a></li>
+          <li><a href="#life" data-i18n="nav.life">Cuộc sống</a></li>
+          <li><a class="btn-pill" href="#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
         </ul>
       </nav>
-      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-i18n-aria-label="nav.openMenu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobile-menu" inert>
-    <nav aria-label="Menu di động">
+    <nav aria-label="Menu di động" data-i18n-aria-label="nav.mobile">
       <ul class="mobile-menu__list">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#life">Life</a></li>
-        <li><a class="btn-pill" href="#contact">Contact me</a></li>
+        <li><a href="#about" data-i18n="nav.about">Giới thiệu</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">Dự án</a></li>
+        <li><a href="#life" data-i18n="nav.life">Cuộc sống</a></li>
+        <li><a class="btn-pill" href="#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
       </ul>
     </nav>
     <div class="mobile-menu__social social-icons" data-socials></div>
@@ -56,62 +85,62 @@
 
   <main id="main">
     <!-- 5.1 Hero -->
-    <section class="hero" aria-label="Giới thiệu">
+    <section class="hero" aria-label="Giới thiệu" data-i18n-aria-label="hero.section">
       <div class="hero__bg" aria-hidden="true">
         <div class="img-placeholder">1920×1080</div>
         <div class="hero__overlay"></div>
       </div>
       <div class="hero__content">
-        <p class="hero__greeting">xin chào, mình là {{Tên}}</p>
+        <p class="hero__greeting" data-i18n="hero.greeting">xin chào, mình là {{Tên}}</p>
         <h1 class="hero__title">
           <span class="hero__prefix">I'M A</span>
           <span class="hero__role-wrap"><span class="hero__role" data-hero-role aria-hidden="true">DEVELOPER</span><span class="hero__cursor" aria-hidden="true"></span><span class="visually-hidden" data-hero-roles-text>developer</span></span>
         </h1>
         <div class="zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
         <div class="social-icons" data-socials></div>
-        <p class="status hero__status" data-open-to-work><span class="status-dot" aria-hidden="true"></span>Open to work</p>
+        <p class="status hero__status" data-open-to-work><span class="status-dot" aria-hidden="true"></span><span data-i18n="status.openToWork">Đang tìm cơ hội thực tập</span></p>
       </div>
-      <a class="hero__scroll" href="#current" aria-label="Cuộn xuống"><span aria-hidden="true">↓</span></a>
+      <a class="hero__scroll" href="#current" aria-label="Cuộn xuống" data-i18n-aria-label="hero.scroll"><span aria-hidden="true">↓</span></a>
     </section>
 
     <!-- 5.2 Hiện tại -->
     <section class="section section--dark current" id="current" aria-labelledby="current-title">
       <div class="current__logo" aria-hidden="true">{{LOGO}}</div>
       <div class="container current__inner reveal">
-        <p class="label current__eyebrow">Hiện tại</p>
+        <p class="label current__eyebrow" data-i18n="current.eyebrow">Hiện tại</p>
         <h2 class="current__title" id="current-title">{{TÊN TỔ CHỨC / ĐANG LÀM GÌ}}</h2>
         <p class="current__text">{{Mô tả ngắn về việc đang làm}}</p>
-        <a class="btn-bracket" href="#about">Xem thêm</a>
+        <a class="btn-bracket" href="#about" data-i18n="common.more">Xem thêm</a>
       </div>
     </section>
 
     <!-- 5.3 About -->
     <section class="section" id="about" aria-labelledby="about-title">
       <div class="container">
-        <div class="section-title-wrap reveal"><h2 class="section-title" id="about-title">About me</h2></div>
+        <div class="section-title-wrap reveal"><h2 class="section-title" id="about-title" data-i18n="about.title">Giới thiệu</h2></div>
         <div class="about reveal">
           <div class="about__photo gray-img"><div class="img-placeholder">600×750</div></div>
           <div class="about__text">
             <p class="text-body">{{Đoạn giới thiệu 1}}</p>
             <p class="text-body">{{Đoạn giới thiệu 2}}</p>
-            <a class="btn-bracket" href="about.html">Explore</a>
+            <a class="btn-bracket" href="about.html" data-i18n="about.explore">Khám phá</a>
           </div>
         </div>
         <div class="zigzag about__zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
         <ul class="about__do reveal">
           <li class="about__do-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            <h3 class="label">Design</h3>
+            <h3 class="label" data-i18n="do.design">Thiết kế</h3>
             <p>{{Mô tả 2 dòng}}</p>
           </li>
           <li class="about__do-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            <h3 class="label">Development</h3>
+            <h3 class="label" data-i18n="do.development">Phát triển</h3>
             <p>{{Mô tả 2 dòng}}</p>
           </li>
           <li class="about__do-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <h3 class="label">Learning / Research</h3>
+            <h3 class="label" data-i18n="do.learning">Học tập / Nghiên cứu</h3>
             <p>{{Mô tả 2 dòng}}</p>
           </li>
         </ul>
@@ -121,17 +150,17 @@
     <!-- 5.4 Skills -->
     <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="container">
-        <div class="section-title-wrap reveal"><h2 class="section-title" id="skills-title">Skills</h2></div>
+        <div class="section-title-wrap reveal"><h2 class="section-title" id="skills-title" data-i18n="skills.title">Kỹ năng</h2></div>
         <div class="skills__group reveal">
-          <h3 class="label skills__group-title">Đang dùng thành thạo</h3>
+          <h3 class="label skills__group-title" data-i18n="skills.mastered">Đang dùng thành thạo</h3>
           <ul class="skills__mastered" id="skills-mastered"></ul>
         </div>
         <div class="skills__group reveal">
-          <h3 class="label skills__group-title">Đang học</h3>
+          <h3 class="label skills__group-title" data-i18n="skills.learning">Đang học</h3>
           <ul class="skills__learning" id="skills-learning"></ul>
         </div>
         <div class="skills__group reveal">
-          <h3 class="label skills__group-title">Công cụ khác</h3>
+          <h3 class="label skills__group-title" data-i18n="skills.tools">Công cụ khác</h3>
           <ul class="tag-list" id="skills-tools"></ul>
         </div>
       </div>
@@ -140,18 +169,18 @@
     <!-- 5.5 Projects -->
     <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="container">
-        <div class="section-title-wrap reveal"><h2 class="section-title" id="projects-title">Projects</h2></div>
-        <div class="filter-tabs" role="tablist" aria-label="Lọc dự án" data-project-filter>
-          <button type="button" role="tab" aria-selected="true" aria-controls="project-grid" data-filter="all">Tất cả</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="web">Website</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="desktop">Desktop app</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="local">Localhost / Backend</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="design">Design</button>
+        <div class="section-title-wrap reveal"><h2 class="section-title" id="projects-title" data-i18n="projects.title">Dự án</h2></div>
+        <div class="filter-tabs" role="tablist" aria-label="Lọc dự án" data-i18n-aria-label="projects.filterAria" data-project-filter>
+          <button type="button" role="tab" aria-selected="true" aria-controls="project-grid" data-filter="all" data-i18n="filter.all">Tất cả</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="web" data-i18n="filter.web">Website</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="desktop" data-i18n="filter.desktop">Desktop app</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="local" data-i18n="filter.local">Localhost / Backend</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="project-grid" data-filter="design" data-i18n="filter.design">Design</button>
         </div>
         <div class="projects__grid" id="project-grid" role="tabpanel" aria-live="polite"></div>
         <div class="projects__more text-center reveal">
-          <p class="label">And many more to come!</p>
-          <a class="btn-bracket" href="projects.html">Xem tất cả</a>
+          <p class="label" data-i18n="projects.more">Còn nhiều dự án nữa!</p>
+          <a class="btn-bracket" href="projects.html" data-i18n="projects.viewAll">Xem tất cả</a>
         </div>
       </div>
     </section>
@@ -159,55 +188,56 @@
     <!-- 5.6 Life -->
     <section class="section" id="life" aria-labelledby="life-title">
       <div class="container">
-        <div class="section-title-wrap reveal"><h2 class="section-title" id="life-title">Life</h2></div>
-        <p class="text-body life__intro text-center reveal">Khi không ngồi trước màn hình, mình {{...}}</p>
+        <div class="section-title-wrap reveal"><h2 class="section-title" id="life-title" data-i18n="life.title">Cuộc sống</h2></div>
+        <p class="text-body life__intro text-center reveal" data-i18n="life.intro">Khi không ngồi trước màn hình, mình {{...}}</p>
         <div class="life__grid" id="life-grid" data-limit="6"></div>
-        <h3 class="label life__subtitle">Now</h3>
+        <h3 class="label life__subtitle" data-i18n="life.now">Hiện tại</h3>
         <dl class="now" id="now"></dl>
-        <h3 class="label life__subtitle">Tìm mình ở đâu</h3>
+        <h3 class="label life__subtitle" data-i18n="life.find">Tìm mình ở đâu</h3>
         <div class="socials-cards" id="socials"></div>
-        <div class="text-center life__more"><a class="btn-bracket" href="life.html">Xem thêm</a></div>
+        <div class="text-center life__more"><a class="btn-bracket" href="life.html" data-i18n="common.more">Xem thêm</a></div>
       </div>
     </section>
 
     <!-- 5.7 Contact -->
     <section class="section" id="contact" aria-labelledby="contact-title">
       <div class="container">
-        <div class="section-title-wrap reveal"><h2 class="section-title" id="contact-title">Contact</h2></div>
+        <div class="section-title-wrap reveal"><h2 class="section-title" id="contact-title" data-i18n="contact.title">Liên hệ</h2></div>
         <p class="text-body contact__lead text-center reveal">{{Câu mời liên hệ ngắn}}</p>
         <div class="zigzag contact__zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
         <div class="contact">
           <div class="contact__info">
-            <p class="label">Email</p>
-            <button class="copy-email" type="button" data-copy-email aria-label="Sao chép email"><span data-email-text>{{email}}</span></button>
+            <p class="label" data-i18n="contact.email">Email</p>
+            <button class="copy-email" type="button" data-copy-email aria-label="Sao chép email" data-i18n-aria-label="contact.copyEmail"><span data-email-text>{{email}}</span></button>
             <span class="copy-email__status" role="status" aria-live="polite" data-copy-status></span>
-            <p class="label contact__label">Vị trí</p>
+            <p class="label contact__label" data-i18n="contact.location">Vị trí</p>
             <p data-location>{{Thành phố}}, Việt Nam</p>
-            <p class="status" data-open-to-work><span class="status-dot" aria-hidden="true"></span>Open to work</p>
-            <a class="btn-bracket" href="#" data-cv download hidden>Tải CV</a>
+            <p class="status" data-open-to-work><span class="status-dot" aria-hidden="true"></span><span data-i18n="status.openToWork">Đang tìm cơ hội thực tập</span></p>
+            <a class="btn-bracket" href="#" data-cv download hidden data-i18n="contact.cv">Tải CV</a>
             <div class="social-icons contact__social" data-socials></div>
           </div>
           <form class="contact__form" id="contact-form" action="#" novalidate>
             <div class="field">
-              <label class="visually-hidden" for="cf-name">Tên (bắt buộc)</label>
-              <input class="input-underline" id="cf-name" name="name" type="text" placeholder="Tên *" autocomplete="name" required aria-describedby="cf-name-error">
+              <label class="visually-hidden" for="cf-name" data-i18n="form.nameLabel">Tên (bắt buộc)</label>
+              <input class="input-underline" id="cf-name" name="name" type="text" placeholder="Tên *" data-i18n-placeholder="form.namePlaceholder" autocomplete="name" required aria-describedby="cf-name-error">
               <p class="field-error" id="cf-name-error"></p>
             </div>
             <div class="field">
-              <label class="visually-hidden" for="cf-email">Email (bắt buộc)</label>
-              <input class="input-underline" id="cf-email" name="email" type="email" placeholder="Email *" autocomplete="email" required aria-describedby="cf-email-error">
+              <label class="visually-hidden" for="cf-email" data-i18n="form.emailLabel">Email (bắt buộc)</label>
+              <input class="input-underline" id="cf-email" name="email" type="email" placeholder="Email *" data-i18n-placeholder="form.emailPlaceholder" autocomplete="email" required aria-describedby="cf-email-error">
               <p class="field-error" id="cf-email-error"></p>
             </div>
             <div class="field">
-              <label class="visually-hidden" for="cf-subject">Chủ đề</label>
-              <input class="input-underline" id="cf-subject" name="subject" type="text" placeholder="Chủ đề">
+              <label class="visually-hidden" for="cf-subject" data-i18n="form.subjectLabel">Chủ đề</label>
+              <input class="input-underline" id="cf-subject" name="subject" type="text" placeholder="Chủ đề" data-i18n-placeholder="form.subjectPlaceholder">
             </div>
             <div class="field">
-              <label class="visually-hidden" for="cf-message">Lời nhắn (bắt buộc)</label>
-              <textarea class="input-underline" id="cf-message" name="message" placeholder="Lời nhắn *" required aria-describedby="cf-message-error"></textarea>
+              <label class="visually-hidden" for="cf-message" data-i18n="form.messageLabel">Lời nhắn (bắt buộc)</label>
+              <textarea class="input-underline" id="cf-message" name="message" placeholder="Lời nhắn *" data-i18n-placeholder="form.messagePlaceholder" required aria-describedby="cf-message-error"></textarea>
               <p class="field-error" id="cf-message-error"></p>
             </div>
-            <button class="btn-bracket contact__submit" type="submit">Gửi</button>
+            <div class="hp-field" aria-hidden="true"><label for="cf-botcheck">Leave this empty</label><input type="checkbox" id="cf-botcheck" name="botcheck" tabindex="-1" autocomplete="off"></div>
+            <button class="btn-bracket contact__submit" type="submit" data-i18n="form.send">Gửi</button>
             <p class="form-message" role="status" aria-live="polite" data-form-message></p>
           </form>
         </div>
@@ -218,9 +248,9 @@
   <!-- 5.8 Footer -->
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span>Back to top</a>
+      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy">© 2026 {{Họ tên}}. Made with ♥ &amp; coffee.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

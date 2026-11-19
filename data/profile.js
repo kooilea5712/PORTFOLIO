@@ -12,8 +12,9 @@ window.PROFILE = {
     { period: "{{2025}}",       kind: "work",      title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
     { period: "{{2026}}",       kind: "course",    title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" }
   ],
-  location: "{{Thành phố}}, Việt Nam",
+  location: { vi: "{{Thành phố}}, Việt Nam", en: "{{City}}, Vietnam" },   // trường văn bản có thể là chuỗi hoặc { vi, en } (đọc qua pickLang)
   email: "{{email}}",
+  web3formsKey: "{{WEB3FORMS_ACCESS_KEY}}",   // đăng ký miễn phí tại web3forms.com; còn "{{" thì form báo chưa cấu hình
   openToWork: true,
   portrait: null,                  // ảnh chân dung: đường dẫn, null → khối xám 800×1000
   cv: null,                        // vd "assets/files/cv.pdf" — null thì ẩn nút Tải CV

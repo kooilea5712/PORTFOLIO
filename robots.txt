@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /components-demo.html
+
+Sitemap: https://{{domain}}/sitemap.xml

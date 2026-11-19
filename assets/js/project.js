@@ -1,4 +1,4 @@
-/* Trang chi tiết dự án: project.html?p=<slug>. Dùng escapeHtml/copyText (main.js), PROJECT_TYPE_LABELS/renderIconPlaceholder (render.js). */
+/* Trang chi tiết dự án: project.html?p=<slug>. Dùng escapeHtml/copyText (main.js), t/pickLang (i18n.js), projectTypeLabel/renderIconPlaceholder (render.js). */
 
 var WIDE_QUERY = '(min-width: 768px)';
 var COPIED_RESET_MS = 2000;
@@ -20,7 +20,7 @@ function renderExternalButton(label, url) {
 
 function renderCover(project, size) {
   return project.cover
-    ? '<img src="' + escapeHtml(project.cover) + '" alt="Ảnh bìa ' + escapeHtml(project.title) + '" loading="lazy">'
+    ? '<img src="' + escapeHtml(project.cover) + '" alt="' + t('card.coverAlt') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy">'
     : renderIconPlaceholder(size);
 }
 
@@ -36,11 +36,11 @@ function renderVideo(project) {
   var inner;
 
   if (youtubeId) {
-    inner = '<iframe src="https://www.youtube-nocookie.com/embed/' + youtubeId + '" title="Video demo ' + escapeHtml(project.title) + '" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    inner = '<iframe src="https://www.youtube-nocookie.com/embed/' + youtubeId + '" title="' + t('project.videoTitle') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>';
   } else if (url) {
-    inner = '<video controls preload="metadata" src="' + escapeHtml(url) + '">Trình duyệt không hỗ trợ video.</video>';
+    inner = '<video controls preload="metadata" src="' + escapeHtml(url) + '">' + t('project.videoUnsupported') + '</video>';
   } else {
-    inner = renderIconPlaceholder('Video demo 1280×720');
+    inner = renderIconPlaceholder(t('project.videoPlaceholder'));
   }
   return '<div class="project-video">' + inner + '</div>';
 }
@@ -54,7 +54,7 @@ function renderPreviewWeb(project, isWide) {
   }
 
   var absoluteUrl = new URL(demo, window.location.href).href;
-  var openButton = '<div class="project-preview__actions">' + renderExternalButton('Mở toàn màn hình', demo) + '</div>';
+  var openButton = '<div class="project-preview__actions">' + renderExternalButton(t('project.openFull'), demo) + '</div>';
 
   if (!isWide) {
     return '<div class="project-media">' + renderCover(project, '1600×1000') + '</div>' + openButton;
@@ -63,7 +63,7 @@ function renderPreviewWeb(project, isWide) {
   return '<div class="browser-frame">' +
     '<div class="browser-frame__bar"><span class="browser-frame__dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
     '<span class="browser-frame__url">' + escapeHtml(absoluteUrl) + '</span></div>' +
-    '<iframe class="browser-frame__view" src="' + escapeHtml(demo) + '" title="Xem thử ' + escapeHtml(project.title) + '" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>' +
+    '<iframe class="browser-frame__view" src="' + escapeHtml(demo) + '" title="' + t('project.previewTitle') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>' +
     '</div>' + openButton;
 }
 
@@ -71,10 +71,10 @@ function renderPreviewDesktop(project) {
   var links = project.links || {};
   var parts = [renderVideo(project)];
   if (project.requirements) {
-    parts.push('<p class="project-requirements"><span class="label">Yêu cầu hệ thống</span> ' + escapeHtml(project.requirements) + '</p>');
+    parts.push('<p class="project-requirements"><span class="label">' + t('project.requirements') + '</span> ' + escapeHtml(pickLang(project.requirements)) + '</p>');
   }
   if (links.download) {
-    parts.push('<div class="project-preview__actions">' + renderExternalButton('Tải xuống', links.download) + '</div>');
+    parts.push('<div class="project-preview__actions">' + renderExternalButton(t('card.download'), links.download) + '</div>');
   }
   return parts.join('');
 }
@@ -85,8 +85,8 @@ function renderPreviewLocal(project) {
 
   if (commands.length) {
     parts.push('<div class="codeblock">' +
-      '<div class="codeblock__bar"><span class="label">Cách chạy local</span>' +
-      '<button class="btn-bracket" type="button" data-copy-code>Copy</button></div>' +
+      '<div class="codeblock__bar"><span class="label">' + t('project.runLocal') + '</span>' +
+      '<button class="btn-bracket" type="button" data-copy-code>' + t('project.copy') + '</button></div>' +
       '<pre class="codeblock__pre"><code>' +
       commands.map(function renderLine(line) { return '<span class="codeblock__line">' + escapeHtml(line) + '</span>'; }).join('') +
       '</code></pre></div>');
@@ -97,7 +97,7 @@ function renderPreviewLocal(project) {
 function renderPreviewDesign(project) {
   var figma = (project.links || {}).figma;
   return '<div class="project-media">' + renderCover(project, '1600×1000') + '</div>' +
-    (figma ? '<div class="project-preview__actions">' + renderExternalButton('Mở Figma', figma) + '</div>' : '');
+    (figma ? '<div class="project-preview__actions">' + renderExternalButton(t('project.openFigma'), figma) + '</div>' : '');
 }
 
 function renderPreview(project, isWide) {
@@ -113,25 +113,25 @@ function renderPreview(project, isWide) {
 function renderProjectHeader(project) {
   var links = project.links || {};
   var buttons = [];
-  if (links.demo) buttons.push(renderExternalButton('Demo', links.demo));
-  if (links.github) buttons.push(renderExternalButton('Code', links.github));
-  if (links.download) buttons.push(renderExternalButton('Tải xuống', links.download));
+  if (links.demo) buttons.push(renderExternalButton(t('card.demo'), links.demo));
+  if (links.github) buttons.push(renderExternalButton(t('card.code'), links.github));
+  if (links.download) buttons.push(renderExternalButton(t('card.download'), links.download));
 
-  return '<a class="btn-bracket project__back" href="projects.html"><span aria-hidden="true">←&nbsp;</span>Quay lại</a>' +
-    '<p class="project__type label">' + escapeHtml(PROJECT_TYPE_LABELS[project.type] || project.type) + '</p>' +
-    '<h1 class="project__title">' + escapeHtml(project.title) + '</h1>' +
-    '<p class="project__summary">' + escapeHtml(project.summary) + '</p>' +
-    '<p class="project__meta label">' + escapeHtml(project.year) + ' · ' + escapeHtml(project.role) + '</p>' +
+  return '<a class="btn-bracket project__back" href="projects.html"><span aria-hidden="true">←&nbsp;</span>' + t('common.back') + '</a>' +
+    '<p class="project__type label">' + escapeHtml(projectTypeLabel(project.type)) + '</p>' +
+    '<h1 class="project__title">' + escapeHtml(pickLang(project.title)) + '</h1>' +
+    '<p class="project__summary">' + escapeHtml(pickLang(project.summary)) + '</p>' +
+    '<p class="project__meta label">' + escapeHtml(pickLang(project.year)) + ' · ' + escapeHtml(pickLang(project.role)) + '</p>' +
     (buttons.length ? '<div class="btn-group project__actions">' + buttons.join('') + '</div>' : '');
 }
 
 function renderCaseStudy(project) {
   var study = project.caseStudy || {};
   var blocks = [
-    ['Vấn đề', study.problem],
-    ['Giải pháp', study.solution],
-    ['Kết quả', study.result],
-    ['Điều học được', study.learned]
+    [t('project.problem'), pickLang(study.problem)],
+    [t('project.solution'), pickLang(study.solution)],
+    [t('project.result'), pickLang(study.result)],
+    [t('project.learned'), pickLang(study.learned)]
   ].filter(function hasText(pair) { return pair[1]; });
 
   return blocks.map(function renderBlock(pair) {
@@ -140,15 +140,15 @@ function renderCaseStudy(project) {
 }
 
 function renderStackAndFeatures(project) {
-  var tags = (project.stack || []).map(function renderTag(name) {
+  var tags = pickLang(project.stack || []).map(function renderTag(name) {
     return '<li class="tag">' + escapeHtml(name) + '</li>';
   }).join('');
-  var features = (project.features || []).map(function renderFeature(text) {
+  var features = pickLang(project.features || []).map(function renderFeature(text) {
     return '<li>' + escapeHtml(text) + '</li>';
   }).join('');
 
-  return '<div><h3 class="label">Công nghệ đã dùng</h3><ul class="tag-list">' + tags + '</ul></div>' +
-    '<div><h3 class="label">Tính năng chính</h3><ul class="feature-list">' + features + '</ul></div>';
+  return '<div><h3 class="label">' + t('project.stack') + '</h3><ul class="tag-list">' + tags + '</ul></div>' +
+    '<div><h3 class="label">' + t('project.features') + '</h3><ul class="feature-list">' + features + '</ul></div>';
 }
 
 function renderGallery(project) {
@@ -157,7 +157,7 @@ function renderGallery(project) {
 
   return '<ul class="gallery">' + items.map(function renderItem(src, index) {
     var media = src
-      ? '<img src="' + escapeHtml(src) + '" alt="Ảnh ' + (index + 1) + ' của ' + escapeHtml(project.title) + '" loading="lazy">'
+      ? '<img src="' + escapeHtml(src) + '" alt="' + t('project.galleryAlt') + ' ' + (index + 1) + ' ' + t('project.of') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy">'
       : renderIconPlaceholder('1600×1000');
     return '<li class="gallery__item gray-img">' + media + '</li>';
   }).join('') + '</ul>';
@@ -172,46 +172,69 @@ function renderProjectNav(project) {
   function renderLink(target, className, text) {
     if (!target) return '<span></span>';
     return '<a class="project-nav__link ' + className + '" href="project.html?p=' + encodeURIComponent(target.slug) + '">' +
-      '<span class="label">' + text + '</span><strong>' + escapeHtml(target.title) + '</strong></a>';
+      '<span class="label">' + text + '</span><strong>' + escapeHtml(pickLang(target.title)) + '</strong></a>';
   }
 
-  return renderLink(prev, 'project-nav__prev', '← Dự án trước') + renderLink(next, 'project-nav__next', 'Dự án sau →');
+  return renderLink(prev, 'project-nav__prev', t('project.prev')) + renderLink(next, 'project-nav__next', t('project.next'));
 }
 
 function renderNotFound() {
   return '<div class="project-missing text-center">' +
-    '<h1 class="project__title">Không tìm thấy dự án</h1>' +
-    '<p class="text-body">Đường dẫn dự án không đúng hoặc dự án đã bị gỡ.</p>' +
-    '<a class="btn-bracket" href="projects.html">Về danh sách dự án</a></div>';
+    '<h1 class="project__title">' + t('project.notFound') + '</h1>' +
+    '<p class="text-body">' + t('project.notFoundText') + '</p>' +
+    '<a class="btn-bracket" href="projects.html">' + t('project.backToList') + '</a></div>';
+}
+
+/* Cập nhật title, meta description, og:title/description/url, canonical theo dự án. */
+function updateProjectMeta(titleText, descriptionText, slug) {
+  function setMeta(selector, value) {
+    var el = document.querySelector(selector);
+    if (el) el.setAttribute('content', value);
+  }
+
+  document.title = titleText;
+  setMeta('meta[name="description"]', descriptionText);
+  setMeta('meta[property="og:title"]', titleText);
+  setMeta('meta[property="og:description"]', descriptionText);
+
+  if (slug) {
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      var url = canonical.getAttribute('href').split('?')[0] + '?p=' + encodeURIComponent(slug);
+      canonical.setAttribute('href', url);
+      setMeta('meta[property="og:url"]', url);
+    }
+  }
 }
 
 function renderProjectPage() {
   var container = document.getElementById('project');
   if (!container) return;
 
-  var ownerName = (window.PROFILE && PROFILE.name) || '';
+  var ownerName = (window.PROFILE && pickLang(PROFILE.name)) || '';
   var project = findProject(getProjectSlug());
 
   if (!project) {
-    document.title = 'Không tìm thấy dự án — ' + ownerName;
+    updateProjectMeta(t('project.notFound') + ' — ' + ownerName, t('project.notFoundText'), null);
     container.innerHTML = renderNotFound();
     return;
   }
 
-  document.title = project.title + ' — ' + ownerName;
+  var projectTitle = pickLang(project.title);
+  updateProjectMeta(projectTitle + ' — ' + ownerName, pickLang(project.summary), project.slug);
 
   var wide = window.matchMedia(WIDE_QUERY);
   container.innerHTML =
     '<header class="project__header">' + renderProjectHeader(project) + '</header>' +
-    '<section class="project__section" aria-labelledby="preview-title"><h2 class="label project__heading" id="preview-title">Xem thử</h2>' +
+    '<section class="project__section" aria-labelledby="preview-title"><h2 class="label project__heading" id="preview-title">' + t('project.preview') + '</h2>' +
       '<div class="project-preview" data-preview>' + renderPreview(project, wide.matches) + '</div></section>' +
-    '<section class="project__section" aria-labelledby="case-title"><h2 class="label project__heading" id="case-title">Case study</h2>' +
+    '<section class="project__section" aria-labelledby="case-title"><h2 class="label project__heading" id="case-title">' + t('project.caseStudy') + '</h2>' +
       '<div class="case-grid">' + renderCaseStudy(project) + '</div></section>' +
-    '<section class="project__section project__stack" aria-label="Công nghệ và tính năng">' + renderStackAndFeatures(project) + '</section>' +
+    '<section class="project__section project__stack" aria-label="' + t('project.stackAndFeatures') + '">' + renderStackAndFeatures(project) + '</section>' +
     (project.gallery && project.gallery.length
-      ? '<section class="project__section" aria-labelledby="gallery-title"><h2 class="label project__heading" id="gallery-title">Gallery</h2>' + renderGallery(project) + '</section>'
+      ? '<section class="project__section" aria-labelledby="gallery-title"><h2 class="label project__heading" id="gallery-title">' + t('project.gallery') + '</h2>' + renderGallery(project) + '</section>'
       : '') +
-    '<nav class="project-nav" aria-label="Dự án khác">' + renderProjectNav(project) + '</nav>';
+    '<nav class="project-nav" aria-label="' + t('project.otherProjects') + '">' + renderProjectNav(project) + '</nav>';
 
   /* Web con: iframe chỉ dựng ở màn rộng, dựng lại khi đổi kích thước. */
   if (project.type === 'web') {
@@ -231,11 +254,11 @@ function initCopyCode(container) {
 
     var lines = [].map.call(container.querySelectorAll('.codeblock__line'), function readLine(el) { return el.textContent; });
     copyText(lines.join('\n')).then(function showCopied() {
-      button.textContent = 'Đã copy ✓';
+      button.textContent = t('project.copyDone');
     }, function showFailed() {
-      button.textContent = 'Không copy được';
+      button.textContent = t('project.copyFailed');
     }).then(function resetLabel() {
-      window.setTimeout(function restoreText() { button.textContent = 'Copy'; }, COPIED_RESET_MS);
+      window.setTimeout(function restoreText() { button.textContent = t('project.copy'); }, COPIED_RESET_MS);
     });
   });
 }

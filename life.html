@@ -3,8 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Life — {{Họ tên}}</title>
-  <meta name="description" content="Cuộc sống ngoài code">
+  <title data-i18n="title.life">Cuộc sống — {{Họ tên}}</title>
+  <meta name="description" content="{{Mô tả trang cuộc sống}}">
+  <meta name="theme-color" content="#111111"><!-- = --dark trong tokens.css -->
+  <link rel="canonical" href="https://{{domain}}/life.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" data-i18n-content="title.life" content="Cuộc sống — {{Họ tên}}">
+  <meta property="og:description" content="{{Mô tả trang cuộc sống}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://{{domain}}/life.html">
+  <meta property="og:image" content="https://{{domain}}/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=JetBrains+Mono:wght@400&family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -14,39 +23,43 @@
   <link rel="stylesheet" href="assets/css/pages.css">
   <script src="data/profile.js" defer></script>
   <script src="data/life.js" defer></script>
+  <script src="data/i18n.js" defer></script>
+  <script src="assets/js/i18n.js" defer></script>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/render.js" defer></script>
   <script src="assets/js/lightbox.js" defer></script>
 </head>
 <body id="top">
-  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+  <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua điều hướng</a>
 
   <header class="site-header" data-solid>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Trang chủ">{{AB}}<span class="logo__dot">.</span></a>
-      <nav aria-label="Điều hướng chính">
+      <a class="logo" href="index.html" aria-label="Trang chủ" data-i18n-aria-label="nav.home">{{AB}}<span class="logo__dot">.</span></a>
+      <nav aria-label="Điều hướng chính" data-i18n-aria-label="nav.main">
         <ul class="nav-list">
-          <li><a href="about.html">About</a></li>
-          <li><a href="index.html#skills">Skills</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="life.html" aria-current="page">Life</a></li>
-          <li><a class="btn-pill" href="index.html#contact">Contact me</a></li>
+          <li><a href="about.html" data-i18n="nav.about">Giới thiệu</a></li>
+          <li><a href="index.html#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+          <li><a href="projects.html" data-i18n="nav.projects">Dự án</a></li>
+          <li><a href="life.html" aria-current="page" data-i18n="nav.life">Cuộc sống</a></li>
+          <li><a class="btn-pill" href="index.html#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
         </ul>
       </nav>
-      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-i18n-aria-label="nav.openMenu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobile-menu" inert>
-    <nav aria-label="Menu di động">
+    <nav aria-label="Menu di động" data-i18n-aria-label="nav.mobile">
       <ul class="mobile-menu__list">
-        <li><a href="about.html">About</a></li>
-        <li><a href="index.html#skills">Skills</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="life.html" aria-current="page">Life</a></li>
-        <li><a class="btn-pill" href="index.html#contact">Contact me</a></li>
+        <li><a href="about.html" data-i18n="nav.about">Giới thiệu</a></li>
+        <li><a href="index.html#skills" data-i18n="nav.skills">Kỹ năng</a></li>
+        <li><a href="projects.html" data-i18n="nav.projects">Dự án</a></li>
+        <li><a href="life.html" aria-current="page" data-i18n="nav.life">Cuộc sống</a></li>
+        <li><a class="btn-pill" href="index.html#contact" data-i18n="nav.contact">Liên hệ</a></li>
+          <li><div class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria-label="lang.label"><button type="button" data-lang="vi" aria-pressed="true">VI</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></li>
       </ul>
     </nav>
     <div class="mobile-menu__social social-icons" data-socials></div>
@@ -55,12 +68,12 @@
   <main id="main" class="page-top">
     <section class="section" aria-labelledby="life-title">
       <div class="container">
-        <div class="section-title-wrap"><h1 class="section-title" id="life-title">Life</h1></div>
-        <p class="text-body life__intro text-center">{{Khi không ngồi trước màn hình, mình…}}</p>
+        <div class="section-title-wrap"><h1 class="section-title" id="life-title" data-i18n="life.title">Cuộc sống</h1></div>
+        <p class="text-body life__intro text-center" data-i18n="life.introPage">{{Khi không ngồi trước màn hình, mình…}}</p>
         <div class="life__grid" id="life-grid" data-lightbox></div>
-        <h2 class="label life__subtitle">Now</h2>
+        <h2 class="label life__subtitle" data-i18n="life.now">Hiện tại</h2>
         <dl class="now" id="now"></dl>
-        <h2 class="label life__subtitle">Tìm mình ở đâu</h2>
+        <h2 class="label life__subtitle" data-i18n="life.find">Tìm mình ở đâu</h2>
         <div class="socials-cards" id="socials"></div>
       </div>
     </section>
@@ -69,9 +82,9 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span>Back to top</a>
+      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span><span data-i18n="footer.top">Lên đầu trang</span></a>
       <div class="social-icons" data-socials></div>
-      <p class="site-footer__copy">© 2026 {{Họ tên}}. Made with ♥ &amp; coffee.</p>
+      <p class="site-footer__copy" data-i18n="footer.copy">© 2026 {{Họ tên}}. Làm bằng ♥ &amp; cà phê.</p>
     </div>
   </footer>
 </body>

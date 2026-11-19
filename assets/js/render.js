@@ -1,12 +1,17 @@
 /* Sinh HTML từ data/*.js cho skills, projects, life, socials, now. */
 
-var PROJECT_TYPE_LABELS = { web: 'Website', desktop: 'Desktop app', local: 'Localhost', design: 'Design' };
+var PROJECT_TYPES = ['web', 'desktop', 'local', 'design'];
 
-var NOW_LABELS = [
-  { key: 'reading', icon: '📖', label: 'Đang đọc' },
-  { key: 'listening', icon: '🎧', label: 'Đang nghe' },
-  { key: 'goal', icon: '🎯', label: 'Mục tiêu tháng này' },
-  { key: 'place', icon: '📍', label: 'Đang ở' }
+/* Nhãn loại dự án theo ngôn ngữ hiện tại. */
+function projectTypeLabel(type) {
+  return PROJECT_TYPES.indexOf(type) === -1 ? type : t('type.' + type);
+}
+
+var NOW_ITEMS = [
+  { key: 'reading', icon: '📖' },
+  { key: 'listening', icon: '🎧' },
+  { key: 'goal', icon: '🎯' },
+  { key: 'place', icon: '📍' }
 ];
 
 var SOCIAL_META = {
@@ -51,7 +56,7 @@ function renderSkills() {
     mastered.innerHTML = (SKILLS.mastered || []).map(function renderMastered(skill) {
       return '<li class="skill">' +
         '<div class="skill__icon">' + renderSkillIcon(skill, '96×96') + '</div>' +
-        '<span class="skill__name">' + escapeHtml(skill.name) + '</span></li>';
+        '<span class="skill__name">' + escapeHtml(pickLang(skill.name)) + '</span></li>';
     }).join('');
   }
 
@@ -61,16 +66,16 @@ function renderSkills() {
       return '<li class="skill-learning">' +
         '<div class="skill-learning__icon gray-img">' + renderSkillIcon(skill, '56×56') + '</div>' +
         '<div class="skill-learning__body">' +
-          '<span class="skill__name">' + escapeHtml(skill.name) + '</span>' +
-          '<span class="skill-learning__since">từ ' + escapeHtml(skill.since) + '</span>' +
-          '<div class="progress" role="progressbar" aria-label="Tiến độ ' + escapeHtml(skill.name) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + progress + '" style="--progress:' + progress + '%"></div>' +
+          '<span class="skill__name">' + escapeHtml(pickLang(skill.name)) + '</span>' +
+          '<span class="skill-learning__since">' + t('skills.since') + ' ' + escapeHtml(pickLang(skill.since)) + '</span>' +
+          '<div class="progress" role="progressbar" aria-label="' + t('skills.progress') + ' ' + escapeHtml(pickLang(skill.name)) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + progress + '" style="--progress:' + progress + '%"></div>' +
         '</div></li>';
     }).join('');
   }
 
   if (tools) {
     tools.innerHTML = (SKILLS.tools || []).map(function renderTool(name) {
-      return '<li class="tag">' + escapeHtml(name) + '</li>';
+      return '<li class="tag">' + escapeHtml(pickLang(name)) + '</li>';
     }).join('');
   }
 
@@ -83,24 +88,24 @@ function renderProjectCard(project) {
   var infoUrl = 'project.html?p=' + encodeURIComponent(project.slug);
   var links = project.links || {};
   var cover = project.cover
-    ? '<img src="' + escapeHtml(project.cover) + '" alt="Ảnh bìa ' + escapeHtml(project.title) + '" loading="lazy">'
+    ? '<img src="' + escapeHtml(project.cover) + '" alt="' + t('card.coverAlt') + ' ' + escapeHtml(pickLang(project.title)) + '" loading="lazy">'
     : renderIconPlaceholder('1600×1000');
 
   var actions = [];
-  if (links.demo) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.demo) + '">Demo</a>');
-  actions.push('<a class="btn-bracket" href="' + infoUrl + '">Info</a>');
-  if (links.github) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.github) + '" target="_blank" rel="noopener">Code</a>');
-  if (links.download) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.download) + '" target="_blank" rel="noopener">Tải xuống</a>');
+  if (links.demo) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.demo) + '">' + t('card.demo') + '</a>');
+  actions.push('<a class="btn-bracket" href="' + infoUrl + '">' + t('card.info') + '</a>');
+  if (links.github) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.github) + '" target="_blank" rel="noopener">' + t('card.code') + '</a>');
+  if (links.download) actions.push('<a class="btn-bracket" href="' + escapeHtml(links.download) + '" target="_blank" rel="noopener">' + t('card.download') + '</a>');
 
   var tags = (project.stack || []).map(function renderTag(item) {
-    return '<span class="tag">' + escapeHtml(item) + '</span>';
+    return '<span class="tag">' + escapeHtml(pickLang(item)) + '</span>';
   }).join('');
 
   return '<article class="project-card">' +
     '<a class="project-card__media" href="' + infoUrl + '" tabindex="-1" aria-hidden="true">' + cover + '</a>' +
-    '<p class="project-card__type label">' + escapeHtml(PROJECT_TYPE_LABELS[project.type] || project.type) + '</p>' +
-    '<h3 class="project-card__title">' + escapeHtml(project.title) + '</h3>' +
-    '<p class="project-card__desc">' + escapeHtml(project.summary) + '</p>' +
+    '<p class="project-card__type label">' + escapeHtml(projectTypeLabel(project.type)) + '</p>' +
+    '<h3 class="project-card__title">' + escapeHtml(pickLang(project.title)) + '</h3>' +
+    '<p class="project-card__desc">' + escapeHtml(pickLang(project.summary)) + '</p>' +
     '<div class="tag-list">' + tags + '</div>' +
     '<div class="project-card__actions">' + actions.join('') + '</div>' +
     '</article>';
@@ -113,7 +118,7 @@ function filterProjects(options) {
   return PROJECTS.filter(function isShown(project) {
     if (opts.featuredOnly && !project.featured) return false;
     if (type !== 'all' && project.type !== type) return false;
-    if (opts.stack && (project.stack || []).indexOf(opts.stack) === -1) return false;
+    if (opts.stack && pickLang(project.stack || []).indexOf(opts.stack) === -1) return false;
     return true;
   });
 }
@@ -125,7 +130,7 @@ function renderProjectGrid(options) {
   var items = filterProjects(options);
   grid.innerHTML = items.length
     ? items.map(renderProjectCard).join('')
-    : '<p class="projects__empty text-body">Chưa có dự án phù hợp bộ lọc.</p>';
+    : '<p class="projects__empty text-body">' + t('projects.empty') + '</p>';
 
   observeInViewColorIfReady(grid);
 }
@@ -153,7 +158,7 @@ function initProjectFilter() {
 function getCollectedStacks() {
   var seen = {};
   PROJECTS.forEach(function collect(project) {
-    (project.stack || []).forEach(function addStack(name) { seen[name] = true; });
+    pickLang(project.stack || []).forEach(function addStack(name) { seen[name] = true; });
   });
   return Object.keys(seen).sort();
 }
@@ -161,7 +166,7 @@ function getCollectedStacks() {
 function readProjectsQuery() {
   var params = new URLSearchParams(window.location.search);
   var type = params.get('type') || 'all';
-  var validTypes = Object.keys(PROJECT_TYPE_LABELS).concat('all');
+  var validTypes = PROJECT_TYPES.concat('all');
   return {
     type: validTypes.indexOf(type) === -1 ? 'all' : type,
     stack: getCollectedStacks().indexOf(params.get('stack')) === -1 ? '' : params.get('stack')
@@ -187,7 +192,7 @@ function initProjectsPage() {
     .concat(getCollectedStacks())
     .map(function renderChip(name) {
       return '<button class="chip" type="button" data-stack="' + escapeHtml(name) + '">' +
-        (name ? escapeHtml(name) : 'Mọi công nghệ') + '</button>';
+        (name ? escapeHtml(name) : t('projects.allStacks')) + '</button>';
     }).join('');
 
   function applyFilters() {
@@ -230,20 +235,20 @@ function renderLife(limit) {
 
   grid.innerHTML = items.map(function renderLifeItem(item, index) {
     var media = item.img
-      ? '<img src="' + escapeHtml(item.img) + '" alt="' + (useLightbox ? '' : escapeHtml(item.caption)) + '" loading="lazy">'
+      ? '<img src="' + escapeHtml(item.img) + '" alt="' + (useLightbox ? '' : escapeHtml(pickLang(item.caption))) + '" loading="lazy">'
       : '<span class="img-placeholder">' + escapeHtml(item.size || '800×800') + '</span>';
     var ratio = String(item.size || '').split('×');
     var ratioAttr = ratio.length === 2 ? ' data-ratio="' + Number(ratio[0]) + '/' + Number(ratio[1]) + '"' : '';
-    var label = escapeHtml(item.caption) + (item.date ? ', ' + escapeHtml(item.date) : '');
+    var label = escapeHtml(pickLang(item.caption)) + (item.date ? ', ' + escapeHtml(pickLang(item.date)) : '');
 
     var mediaTag = useLightbox
-      ? '<button type="button" class="life-item__media gray-img" data-life-index="' + index + '" aria-label="Phóng to ảnh: ' + label + '"' + ratioAttr + '>' + media + '</button>'
+      ? '<button type="button" class="life-item__media gray-img" data-life-index="' + index + '" aria-label="' + t('life.zoom') + ': ' + label + '"' + ratioAttr + '>' + media + '</button>'
       : '<div class="life-item__media gray-img"' + ratioAttr + '>' + media + '</div>';
 
     return '<figure class="life-item">' + mediaTag +
-      '<figcaption class="life-item__caption"><strong>' + escapeHtml(item.caption) + '</strong>' +
-      (item.date ? '<span>' + escapeHtml(item.date) + '</span>' : '') +
-      '<span>' + escapeHtml(item.note) + '</span></figcaption></figure>';
+      '<figcaption class="life-item__caption"><strong>' + escapeHtml(pickLang(item.caption)) + '</strong>' +
+      (item.date ? '<span>' + escapeHtml(pickLang(item.date)) + '</span>' : '') +
+      '<span>' + escapeHtml(pickLang(item.note)) + '</span></figcaption></figure>';
   }).join('');
 
   grid.querySelectorAll('[data-ratio]').forEach(function applyRatio(el) {
@@ -283,7 +288,7 @@ function renderSocials() {
         renderIconSvg(item.id) +
         '<span class="social-card__text"><strong>' + getSocialMeta(item.id).label + '</strong>' +
         '<span>' + escapeHtml(item.handle) + '</span>' +
-        '<span class="social-card__note">' + escapeHtml(item.note) + '</span></span></a>';
+        '<span class="social-card__note">' + escapeHtml(pickLang(item.note)) + '</span></span></a>';
     }).join('');
   }
 }
@@ -292,9 +297,9 @@ function renderNow() {
   var list = document.getElementById('now');
   if (!list || !window.PROFILE || !PROFILE.now) return;
 
-  list.innerHTML = NOW_LABELS.map(function renderNowItem(item) {
-    return '<div class="now__item"><dt class="label"><span aria-hidden="true">' + item.icon + '</span> ' + item.label + '</dt>' +
-      '<dd>' + escapeHtml(PROFILE.now[item.key]) + '</dd></div>';
+  list.innerHTML = NOW_ITEMS.map(function renderNowItem(item) {
+    return '<div class="now__item"><dt class="label"><span aria-hidden="true">' + item.icon + '</span> ' + t('now.' + item.key) + '</dt>' +
+      '<dd>' + escapeHtml(pickLang(PROFILE.now[item.key])) + '</dd></div>';
   }).join('');
 }
 
@@ -313,21 +318,19 @@ function renderOpenToWork() {
 
 /* ---------- About ---------- */
 
-var TIMELINE_KIND_LABELS = { education: 'Học tập', work: 'Công việc', club: 'Câu lạc bộ', course: 'Khoá học' };
-
 function renderAboutBio() {
   var bio = document.getElementById('about-bio');
   var portrait = document.getElementById('about-portrait');
   if (!window.PROFILE) return;
 
   if (bio) {
-    bio.innerHTML = (PROFILE.bioLong || PROFILE.bio || []).map(function renderParagraph(text) {
+    bio.innerHTML = pickLang(PROFILE.bioLong || PROFILE.bio || []).map(function renderParagraph(text) {
       return '<p class="text-body">' + escapeHtml(text) + '</p>';
     }).join('');
   }
   if (portrait) {
     portrait.innerHTML = PROFILE.portrait
-      ? '<img src="' + escapeHtml(PROFILE.portrait) + '" alt="Ảnh chân dung ' + escapeHtml(PROFILE.name) + '" loading="lazy">'
+      ? '<img src="' + escapeHtml(PROFILE.portrait) + '" alt="' + t('about.portraitAlt') + ' ' + escapeHtml(pickLang(PROFILE.name)) + '" loading="lazy">'
       : renderIconPlaceholder('800×1000');
     observeInViewColorIfReady(portrait.parentNode);
   }
@@ -339,14 +342,21 @@ function renderTimeline() {
 
   list.innerHTML = (PROFILE.timeline || []).map(function renderTimelineItem(item) {
     return '<li class="timeline__item">' +
-      '<p class="timeline__period">' + escapeHtml(item.period) + '</p>' +
+      '<p class="timeline__period">' + escapeHtml(pickLang(item.period)) + '</p>' +
       '<div class="timeline__body">' +
-        '<p class="label timeline__kind">' + escapeHtml(TIMELINE_KIND_LABELS[item.kind] || item.kind) + '</p>' +
-        '<h3 class="timeline__title">' + escapeHtml(item.title) + '</h3>' +
-        '<p class="timeline__org">' + escapeHtml(item.org) + '</p>' +
-        '<p class="text-body">' + escapeHtml(item.note) + '</p>' +
+        '<p class="label timeline__kind">' + escapeHtml(t('timeline.' + item.kind)) + '</p>' +
+        '<h3 class="timeline__title">' + escapeHtml(pickLang(item.title)) + '</h3>' +
+        '<p class="timeline__org">' + escapeHtml(pickLang(item.org)) + '</p>' +
+        '<p class="text-body">' + escapeHtml(pickLang(item.note)) + '</p>' +
       '</div></li>';
   }).join('');
+}
+
+function renderLocation() {
+  if (!window.PROFILE) return;
+  document.querySelectorAll('[data-location]').forEach(function fillLocation(el) {
+    el.textContent = pickLang(PROFILE.location);
+  });
 }
 
 /* Nút Tải CV: chỉ hiện khi PROFILE.cv có giá trị. */
@@ -372,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function initRender() {
   renderNow();
   renderOpenToWork();
   renderCvLinks();
+  renderLocation();
   renderAboutBio();
   renderTimeline();
 });

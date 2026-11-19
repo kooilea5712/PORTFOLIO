@@ -18,11 +18,14 @@ data/*.js  ──(window.PROFILE / SKILLS / PROJECTS / LIFE)──►  assets/js
                                                              assets/js/project.js ──►  project.html?p=<slug>
 assets/js/main.js   → hành vi chung mọi trang (navbar, menu mobile, reveal, typing hero)
 assets/js/contact.js→ form liên hệ + copy email
-assets/js/i18n.js   → đổi VI/EN (data-i18n="key")
+data/i18n.js        → từ điển { vi, en }
+assets/js/i18n.js   → t(key), pickLang(value), translatePage — đổi VI/EN (data-i18n="key"); lưu localStorage `portfolio-lang`, đổi xong reload
 assets/css/tokens.css → biến thiết kế; base → components → pages (thứ tự nạp cố định)
 ```
 
-Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` → script riêng của trang. Tất cả dùng `defer`.
+Thứ tự `<script>` trong mọi trang: `data/*.js` → `data/i18n.js` → `assets/js/i18n.js` → `assets/js/main.js` → script riêng của trang. Tất cả dùng `defer`.
+
+Song ngữ: chữ tĩnh trong HTML gắn `data-i18n` / `data-i18n-placeholder` / `data-i18n-aria-label` / `data-i18n-title` / `data-i18n-content`; chữ sinh bằng JS dùng `t("key")`; trường văn bản trong `data/*.js` đọc qua `pickLang()` nên có thể là chuỗi hoặc `{ vi: "…", en: "…" }` (mảng cũng được). Thêm chữ mới → thêm key vào cả `vi` lẫn `en` trong `data/i18n.js`.
 
 ## Bản đồ module
 
@@ -43,9 +46,11 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | `404.html` | Trang lỗi. **Ngoại lệ:** dùng đường dẫn tuyệt đối từ gốc (`/assets/...`) vì server hiển thị nó tại mọi URL sai | — | `PROFILE` | `[data-socials]` |
 | `assets/js/lightbox.js` | Lightbox xem ảnh life.html (chuột, phím Esc/←/→/Tab, vuốt, khoá cuộn, trả focus) | `initLightbox`, `openLightbox`, `closeLightbox`, `showLightboxAt`, `handleLightboxKey` | `LIFE` | `.lightbox` (tạo bằng JS) |
 | `assets/files/` | CV (`cv.pdf`) — chỉ có `.gitkeep`; đặt PDF thật rồi điền `PROFILE.cv` | — | — | — |
+| `favicon.svg`, `robots.txt`, `sitemap.xml` | SEO: icon, robots (chặn components-demo.html), sitemap (thêm dòng cho mỗi dự án mới) | — | — | — |
 | `assets/js/project.js` | Trang chi tiết dự án | `getProjectSlug`, `findProject`, `renderProjectPage`, `renderProjectHeader`, `renderCaseStudy`, `renderStackAndFeatures`, `renderGallery`, `renderVideo`, `initCopyCode`, `renderPreviewWeb`, `renderPreviewDesktop`, `renderPreviewLocal`, `renderPreviewDesign`, `renderProjectNav` | `PROJECTS`, `PROFILE.name` | `#project` |
-| `assets/js/contact.js` | Form + copy email | `initContactForm`, `validateContactForm`, `submitContactForm`, `initCopyEmail` | `PROFILE.email` | `#contact-form`, `[data-copy-email]` (giai đoạn 2: chỉ kiểm tra dữ liệu; `submitContactForm` chưa gửi thật) |
-| `assets/js/i18n.js` | Song ngữ | `initI18n`, `setLanguage`, `translatePage` | `I18N` | `[data-i18n]` |
+| `assets/js/contact.js` | Form + copy email | `initContactForm`, `validateContactForm`, `submitContactForm` (POST Web3Forms), `isWeb3formsConfigured`, `showFormMessage`, `initCopyEmail` | `PROFILE.email`, `PROFILE.web3formsKey` | `#contact-form`, `[data-copy-email]` (giai đoạn 2: chỉ kiểm tra dữ liệu; `submitContactForm` chưa gửi thật) |
+| `data/i18n.js` | Từ điển giao diện VI/EN (`window.I18N`) | — | — | — |
+| `assets/js/i18n.js` | Song ngữ | `getLanguage`, `setLanguage`, `t`, `pickLang`, `translatePage`, `initLanguageSwitch`, `initI18n` | `I18N` | `[data-i18n*]`, `[data-lang]` (nút VI/EN), `<html lang>` |
 | `assets/css/tokens.css` | Biến màu/font/khoảng cách | — | — | — |
 | `assets/css/components.css` | `.section-title`, `.btn-bracket`, `.btn-pill`, `.zigzag`, `.project-card`, `.tag`, `.filter-tabs`, `.input-underline`, `.status-dot`, `.social-icons`, `.site-header` (navbar), `.mobile-menu`, `.site-footer`, `.back-to-top` | — | — | — |
 
@@ -58,6 +63,7 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | Khối "Xem thử" sai loại | trường `type` của dự án (`web`/`desktop`/`local`/`design`) → `renderProjectPage` |
 | Iframe web con trắng | đường dẫn `links.demo` (tương đối, ví dụ `lab/<slug>/`) và `lab/<slug>/index.html` có tồn tại |
 | Navbar không đổi màu khi cuộn / menu mobile không mở | `main.js` `initNavbar`, `initMobileMenu` |
+| Chữ không đổi khi bấm VI/EN, hoặc hiện nguyên key | thiếu key ở `en` trong `data/i18n.js` (console.warn `[i18n] Thiếu key…`); trường data chưa qua `pickLang` |
 | Màu/font sai | `tokens.css` — không được có mã màu viết thẳng ở file khác |
 | Form không gửi | `contact.js` `submitContactForm`, access key Web3Forms |
 | Chạy local được nhưng hỏng khi đưa lên server | đường dẫn bắt đầu bằng `/` (phải là tương đối; **ngoại lệ duy nhất** là `404.html`) |
@@ -69,6 +75,16 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 - Không dùng `onclick="…"` trong HTML. Gắn sự kiện trong các hàm `initX`.
 - Mỗi file JS kết thúc bằng một khối khởi tạo duy nhất `document.addEventListener('DOMContentLoaded', …)` gọi các `initX`.
 - Không đổi tên hàm trong bảng trên mà không cập nhật README.
+
+## Việc cần làm trước khi đăng web
+
+1. **Web3Forms:** đăng ký miễn phí tại web3forms.com (nhập email nhận thư) → dán Access Key vào `PROFILE.web3formsKey` trong `data/profile.js`. Chưa thay thì form báo "chưa được cấu hình" và đưa link mailto.
+2. **Tên miền:** thay mọi `{{domain}}` (canonical, og:url, og:image, JSON-LD trong `index.html`, `robots.txt`, `sitemap.xml`).
+3. **Ảnh chia sẻ:** thêm `assets/img/og-image.jpg` (1200×630) — chưa có file này.
+4. **CV:** đặt `assets/files/cv.pdf` rồi điền `PROFILE.cv = "assets/files/cv.pdf"` (để `null` thì nút Tải CV ẩn).
+5. **Favicon:** sửa chữ "A" trong `favicon.svg` thành chữ cái đầu của bạn.
+6. Thay các `{{...}}` còn lại; cập nhật `sitemap.xml` khi thêm dự án; đồng bộ JSON-LD (`sameAs`) với link social trong `data/profile.js`.
+7. Đặt `404.html` đúng chỗ hosting yêu cầu (xem ngoại lệ đường dẫn tuyệt đối ở trên).
 
 ## Cấu trúc thư mục
 

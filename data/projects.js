@@ -25,12 +25,12 @@ window.PROJECTS = [
   },
   {
     slug: "mau-2",
-    title: "{{Tên dự án 2}}",
+    title: { vi: "{{Tên dự án 2}}", en: "{{Project name 2}}" },   // ví dụ trường song ngữ { vi, en }
     type: "desktop",
     featured: true,
     year: "{{Năm}}",
     role: "{{Vai trò}}",
-    summary: "{{Mô tả một dòng — dự án mẫu}}",
+    summary: { vi: "{{Mô tả một dòng — dự án mẫu}}", en: "{{One-line description — sample project}}" },
     cover: null,
     gallery: [null, null, null],
     stack: ["{{Công nghệ 1}}", "{{Công nghệ 2}}"],
@@ -42,7 +42,7 @@ window.PROJECTS = [
       figma: null
     },
     runLocal: null,
-    requirements: "{{Yêu cầu hệ thống}}",
+    requirements: { vi: "{{Yêu cầu hệ thống}}", en: "{{System requirements}}" },
     caseStudy: { problem: "{{Vấn đề}}", solution: "{{Giải pháp}}", result: "{{Kết quả}}", learned: "{{Điều học được}}" },
     features: ["{{Tính năng 1}}", "{{Tính năng 2}}"]
   },
