@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web con mẫu</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, sans-serif; background: Canvas; color: CanvasText; text-align: center; }
+    main { padding: 2rem; max-width: 32rem; }
+    h1 { font-size: 1.5rem; letter-spacing: 0.2em; text-transform: uppercase; border: 3px solid currentColor; display: inline-block; padding: 0.75rem 1.25rem; }
+    button { font: inherit; padding: 0.6rem 1.5rem; border: 0; border-left: 2px solid currentColor; border-right: 2px solid currentColor; background: none; color: inherit; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Web con mẫu</h1>
+    <p>Web con mẫu — thay bằng bản build dự án thật (đặt vào <code>lab/&lt;slug&gt;/</code>).</p>
+    <p><button type="button" id="counter">Đã bấm: 0</button></p>
+  </main>
+  <script>
+    var count = 0;
+    var counterButton = document.getElementById('counter');
+    counterButton.addEventListener('click', function handleClick() {
+      count += 1;
+      counterButton.textContent = 'Đã bấm: ' + count;
+    });
+  </script>
+</body>
+</html>

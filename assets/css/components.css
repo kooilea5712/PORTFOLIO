@@ -325,3 +325,17 @@ textarea.input-underline { min-height: 8rem; resize: vertical; }
 .back-to-top { min-height: var(--touch-min); justify-content: center; }
 @media (hover: hover) { .back-to-top:hover { color: var(--accent); } }
 .site-footer__copy { font-size: var(--fs-small); color: var(--on-dark-muted); }
+
+/* ---------- Chip (nút lọc theo công nghệ) ---------- */
+.chip-list { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.chip {
+  min-height: var(--touch-min);
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+@media (hover: hover) { .chip:hover { background: var(--ink); color: var(--bg); } }
+@media (min-width: 768px) { .chip { min-height: 0; } }

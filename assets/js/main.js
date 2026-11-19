@@ -7,6 +7,12 @@ function initNavbar() {
   var header = document.querySelector('.site-header');
   if (!header) return;
 
+  /* Trang con không có hero: navbar luôn đặc (data-solid). */
+  if (header.hasAttribute('data-solid')) {
+    header.classList.add('is-solid');
+    return;
+  }
+
   function updateNavbar() {
     header.classList.toggle('is-solid', window.scrollY > NAV_SOLID_OFFSET);
   }
@@ -156,6 +162,41 @@ function initHeroTyping() {
   }
 
   window.setTimeout(typeStep, HERO_HOLD_MS);
+}
+
+/* ---------- Hàm dùng chung (render.js, contact.js, project.js) ---------- */
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function copyTextFallback(text) {
+  return new Promise(function fallbackCopy(resolve, reject) {
+    var area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
+    document.body.removeChild(area);
+    if (ok) resolve(); else reject(new Error('copy failed'));
+  });
+}
+
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).catch(function useFallback() {
+      return copyTextFallback(text);
+    });
+  }
+  return copyTextFallback(text);
 }
 
 document.addEventListener('DOMContentLoaded', function initPage() {

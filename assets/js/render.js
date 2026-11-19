@@ -19,14 +19,6 @@ var SOCIAL_META = {
   youtube: { label: 'YouTube', path: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>' }
 };
 
-function escapeHtml(value) {
-  return String(value == null ? '' : value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
 function getSocialMeta(id) {
   return SOCIAL_META[id] || { label: id, path: '<circle cx="12" cy="12" r="9"/>' };
 }
@@ -114,22 +106,31 @@ function renderProjectCard(project) {
     '</article>';
 }
 
-function renderProjectGrid(filter) {
+/* options: { featuredOnly: bool, type: 'all'|'web'|..., stack: 'Tên công nghệ' | '' } */
+function filterProjects(options) {
+  var opts = options || {};
+  var type = opts.type || 'all';
+  return PROJECTS.filter(function isShown(project) {
+    if (opts.featuredOnly && !project.featured) return false;
+    if (type !== 'all' && project.type !== type) return false;
+    if (opts.stack && (project.stack || []).indexOf(opts.stack) === -1) return false;
+    return true;
+  });
+}
+
+function renderProjectGrid(options) {
   var grid = document.getElementById('project-grid');
   if (!grid || !window.PROJECTS) return;
 
-  var activeFilter = filter || 'all';
-  var items = PROJECTS.filter(function isShown(project) {
-    return project.featured && (activeFilter === 'all' || project.type === activeFilter);
-  });
-
+  var items = filterProjects(options);
   grid.innerHTML = items.length
     ? items.map(renderProjectCard).join('')
-    : '<p class="projects__empty text-body">Chưa có dự án thuộc loại này.</p>';
+    : '<p class="projects__empty text-body">Chưa có dự án phù hợp bộ lọc.</p>';
 
   observeInViewColorIfReady(grid);
 }
 
+/* Trang chủ: tab lọc theo loại, chỉ dự án featured. */
 function initProjectFilter() {
   var tabs = document.querySelector('[data-project-filter]');
   if (!tabs) return;
@@ -142,10 +143,79 @@ function initProjectFilter() {
     buttons.forEach(function updateTab(other) {
       other.setAttribute('aria-selected', String(other === button));
     });
-    renderProjectGrid(button.getAttribute('data-filter'));
+    renderProjectGrid({ featuredOnly: true, type: button.getAttribute('data-filter') });
   });
 
-  renderProjectGrid('all');
+  renderProjectGrid({ featuredOnly: true, type: 'all' });
+}
+
+/* projects.html: lọc theo loại + công nghệ, đồng bộ lên URL (?type=web&stack=...). */
+function getCollectedStacks() {
+  var seen = {};
+  PROJECTS.forEach(function collect(project) {
+    (project.stack || []).forEach(function addStack(name) { seen[name] = true; });
+  });
+  return Object.keys(seen).sort();
+}
+
+function readProjectsQuery() {
+  var params = new URLSearchParams(window.location.search);
+  var type = params.get('type') || 'all';
+  var validTypes = Object.keys(PROJECT_TYPE_LABELS).concat('all');
+  return {
+    type: validTypes.indexOf(type) === -1 ? 'all' : type,
+    stack: getCollectedStacks().indexOf(params.get('stack')) === -1 ? '' : params.get('stack')
+  };
+}
+
+function writeProjectsQuery(state) {
+  var params = new URLSearchParams();
+  if (state.type !== 'all') params.set('type', state.type);
+  if (state.stack) params.set('stack', state.stack);
+  var query = params.toString();
+  window.history.replaceState(null, '', window.location.pathname + (query ? '?' + query : ''));
+}
+
+function initProjectsPage() {
+  var typeTabs = document.querySelector('[data-type-filter]');
+  var stackBar = document.querySelector('[data-stack-filter]');
+  if (!typeTabs || !stackBar || !window.PROJECTS) return;
+
+  var state = readProjectsQuery();
+
+  stackBar.innerHTML = ['']
+    .concat(getCollectedStacks())
+    .map(function renderChip(name) {
+      return '<button class="chip" type="button" data-stack="' + escapeHtml(name) + '">' +
+        (name ? escapeHtml(name) : 'Mọi công nghệ') + '</button>';
+    }).join('');
+
+  function applyFilters() {
+    typeTabs.querySelectorAll('button[data-filter]').forEach(function markTab(button) {
+      button.setAttribute('aria-selected', String(button.getAttribute('data-filter') === state.type));
+    });
+    stackBar.querySelectorAll('button[data-stack]').forEach(function markChip(chip) {
+      chip.setAttribute('aria-pressed', String(chip.getAttribute('data-stack') === state.stack));
+    });
+    renderProjectGrid({ featuredOnly: false, type: state.type, stack: state.stack });
+    writeProjectsQuery(state);
+  }
+
+  typeTabs.addEventListener('click', function handleTypeClick(event) {
+    var button = event.target.closest('button[data-filter]');
+    if (!button) return;
+    state.type = button.getAttribute('data-filter');
+    applyFilters();
+  });
+
+  stackBar.addEventListener('click', function handleStackClick(event) {
+    var chip = event.target.closest('button[data-stack]');
+    if (!chip) return;
+    state.stack = chip.getAttribute('data-stack');
+    applyFilters();
+  });
+
+  applyFilters();
 }
 
 /* ---------- Life ---------- */
@@ -235,6 +305,7 @@ function renderOpenToWork() {
 document.addEventListener('DOMContentLoaded', function initRender() {
   renderSkills();
   initProjectFilter();
+  initProjectsPage();
   renderLife();
   renderSocials();
   renderNow();

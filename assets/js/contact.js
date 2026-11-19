@@ -67,24 +67,6 @@ function initContactForm() {
   });
 }
 
-function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  }
-  return new Promise(function fallbackCopy(resolve, reject) {
-    var area = document.createElement('textarea');
-    area.value = text;
-    area.setAttribute('readonly', '');
-    area.style.position = 'fixed';
-    area.style.opacity = '0';
-    document.body.appendChild(area);
-    area.select();
-    var ok = document.execCommand('copy');
-    document.body.removeChild(area);
-    if (ok) resolve(); else reject(new Error('copy failed'));
-  });
-}
-
 function initCopyEmail() {
   var button = document.querySelector('[data-copy-email]');
   var status = document.querySelector('[data-copy-status]');
