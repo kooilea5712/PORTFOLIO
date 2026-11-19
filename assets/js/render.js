@@ -220,20 +220,29 @@ function initProjectsPage() {
 
 /* ---------- Life ---------- */
 
-function renderLife() {
+/* limit: số ảnh tối đa (trang chủ 6). Grid có data-lightbox → mỗi ảnh là <button> để lightbox.js mở. */
+function renderLife(limit) {
   var grid = document.getElementById('life-grid');
   if (!grid || !window.LIFE) return;
 
-  grid.innerHTML = LIFE.map(function renderLifeItem(item) {
+  var useLightbox = grid.hasAttribute('data-lightbox');
+  var items = limit ? LIFE.slice(0, limit) : LIFE;
+
+  grid.innerHTML = items.map(function renderLifeItem(item, index) {
     var media = item.img
-      ? '<img src="' + escapeHtml(item.img) + '" alt="' + escapeHtml(item.caption) + '" loading="lazy">'
-      : renderIconPlaceholder(escapeHtml(item.size || '800×800'));
+      ? '<img src="' + escapeHtml(item.img) + '" alt="' + (useLightbox ? '' : escapeHtml(item.caption)) + '" loading="lazy">'
+      : '<span class="img-placeholder">' + escapeHtml(item.size || '800×800') + '</span>';
     var ratio = String(item.size || '').split('×');
     var ratioAttr = ratio.length === 2 ? ' data-ratio="' + Number(ratio[0]) + '/' + Number(ratio[1]) + '"' : '';
+    var label = escapeHtml(item.caption) + (item.date ? ', ' + escapeHtml(item.date) : '');
 
-    return '<figure class="life-item">' +
-      '<div class="life-item__media gray-img"' + ratioAttr + '>' + media + '</div>' +
+    var mediaTag = useLightbox
+      ? '<button type="button" class="life-item__media gray-img" data-life-index="' + index + '" aria-label="Phóng to ảnh: ' + label + '"' + ratioAttr + '>' + media + '</button>'
+      : '<div class="life-item__media gray-img"' + ratioAttr + '>' + media + '</div>';
+
+    return '<figure class="life-item">' + mediaTag +
       '<figcaption class="life-item__caption"><strong>' + escapeHtml(item.caption) + '</strong>' +
+      (item.date ? '<span>' + escapeHtml(item.date) + '</span>' : '') +
       '<span>' + escapeHtml(item.note) + '</span></figcaption></figure>';
   }).join('');
 
@@ -302,12 +311,67 @@ function renderOpenToWork() {
   });
 }
 
+/* ---------- About ---------- */
+
+var TIMELINE_KIND_LABELS = { education: 'Học tập', work: 'Công việc', club: 'Câu lạc bộ', course: 'Khoá học' };
+
+function renderAboutBio() {
+  var bio = document.getElementById('about-bio');
+  var portrait = document.getElementById('about-portrait');
+  if (!window.PROFILE) return;
+
+  if (bio) {
+    bio.innerHTML = (PROFILE.bioLong || PROFILE.bio || []).map(function renderParagraph(text) {
+      return '<p class="text-body">' + escapeHtml(text) + '</p>';
+    }).join('');
+  }
+  if (portrait) {
+    portrait.innerHTML = PROFILE.portrait
+      ? '<img src="' + escapeHtml(PROFILE.portrait) + '" alt="Ảnh chân dung ' + escapeHtml(PROFILE.name) + '" loading="lazy">'
+      : renderIconPlaceholder('800×1000');
+    observeInViewColorIfReady(portrait.parentNode);
+  }
+}
+
+function renderTimeline() {
+  var list = document.getElementById('timeline');
+  if (!list || !window.PROFILE) return;
+
+  list.innerHTML = (PROFILE.timeline || []).map(function renderTimelineItem(item) {
+    return '<li class="timeline__item">' +
+      '<p class="timeline__period">' + escapeHtml(item.period) + '</p>' +
+      '<div class="timeline__body">' +
+        '<p class="label timeline__kind">' + escapeHtml(TIMELINE_KIND_LABELS[item.kind] || item.kind) + '</p>' +
+        '<h3 class="timeline__title">' + escapeHtml(item.title) + '</h3>' +
+        '<p class="timeline__org">' + escapeHtml(item.org) + '</p>' +
+        '<p class="text-body">' + escapeHtml(item.note) + '</p>' +
+      '</div></li>';
+  }).join('');
+}
+
+/* Nút Tải CV: chỉ hiện khi PROFILE.cv có giá trị. */
+function renderCvLinks() {
+  if (!window.PROFILE) return;
+  document.querySelectorAll('[data-cv]').forEach(function toggleCv(link) {
+    if (PROFILE.cv) {
+      link.href = PROFILE.cv;
+      link.hidden = false;
+    } else {
+      link.hidden = true;
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function initRender() {
   renderSkills();
   initProjectFilter();
   initProjectsPage();
-  renderLife();
+  var lifeGrid = document.getElementById('life-grid');
+  renderLife(lifeGrid ? Number(lifeGrid.getAttribute('data-limit')) || 0 : 0);
   renderSocials();
   renderNow();
   renderOpenToWork();
+  renderCvLinks();
+  renderAboutBio();
+  renderTimeline();
 });

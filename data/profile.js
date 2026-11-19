@@ -5,10 +5,18 @@ window.PROFILE = {
   greeting: "xin chào, mình là {{Tên}}",
   roles: ["DEVELOPER", "DESIGNER", "STUDENT"],
   bio: ["{{Đoạn 1}}", "{{Đoạn 2}}"],
+  bioLong: ["{{Đoạn dài 1}}", "{{Đoạn dài 2}}", "{{Đoạn dài 3}}", "{{Đoạn dài 4}}"],
+  timeline: [
+    { period: "{{2023 – nay}}", kind: "education", title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
+    { period: "{{2024 – nay}}", kind: "club",      title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
+    { period: "{{2025}}",       kind: "work",      title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" },
+    { period: "{{2026}}",       kind: "course",    title: "{{Tên vị trí / ngành học}}", org: "{{Tên trường / công ty}}", note: "{{Một câu}}" }
+  ],
   location: "{{Thành phố}}, Việt Nam",
   email: "{{email}}",
   openToWork: true,
-  cv: "assets/files/cv.pdf",
+  portrait: null,                  // ảnh chân dung: đường dẫn, null → khối xám 800×1000
+  cv: null,                        // vd "assets/files/cv.pdf" — null thì ẩn nút Tải CV
   socials: [
     { id: "github",    url: "https://github.com/{{github-user}}",       handle: "@{{github-user}}",   note: "{{Ghi chú GitHub}}" },
     { id: "linkedin",  url: "https://linkedin.com/in/{{linkedin-user}}", handle: "{{linkedin-user}}",  note: "{{Ghi chú LinkedIn}}" },

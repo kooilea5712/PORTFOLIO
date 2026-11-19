@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<!--
+  NGOẠI LỆ ĐƯỜNG DẪN: server hiển thị 404.html tại MỌI URL sai (vd /a/b/c), nên đường dẫn tương đối sẽ hỏng.
+  Riêng file này dùng đường dẫn tuyệt đối từ gốc (/assets/..., /index.html). Cần site đặt ở gốc tên miền;
+  nếu đặt trong thư mục con thì thêm tiền tố thư mục vào mọi đường dẫn bắt đầu bằng "/" trong file này.
+-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Không tìm thấy trang — {{Họ tên}}</title>
+  <meta name="description" content="Trang không tồn tại">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=JetBrains+Mono:wght@400&family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+  <script src="/data/profile.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/render.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Bỏ qua điều hướng</a>
+
+  <header class="site-header" data-solid>
+    <div class="container site-header__inner">
+      <a class="logo" href="/index.html" aria-label="Trang chủ">{{AB}}<span class="logo__dot">.</span></a>
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-list">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/index.html#skills">Skills</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/life.html">Life</a></li>
+          <li><a class="btn-pill" href="/index.html#contact">Contact me</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" inert>
+    <nav aria-label="Menu di động">
+      <ul class="mobile-menu__list">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/index.html#skills">Skills</a></li>
+        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/life.html">Life</a></li>
+        <li><a class="btn-pill" href="/index.html#contact">Contact me</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu__social social-icons" data-socials></div>
+  </div>
+
+  <main id="main" class="page-top error-page">
+    <section class="section" aria-labelledby="nf-title">
+      <div class="container text-center error-page__inner">
+        <p class="error-page__code" aria-hidden="true">404</p>
+        <div class="section-title-wrap"><h1 class="section-title" id="nf-title">Không tìm thấy trang</h1></div>
+        <div class="zigzag" aria-hidden="true"><svg viewBox="0 0 160 14"><path d="M0 7h40l5 -6 10 12 10 -12 10 12 5 -6h40"/></svg></div>
+        <p class="text-body">{{Trang bạn tìm không tồn tại hoặc đã được chuyển đi.}}</p>
+        <div class="btn-group">
+          <a class="btn-bracket" href="/index.html">Về trang chủ</a>
+          <a class="btn-bracket" href="/projects.html">Xem dự án</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <a class="back-to-top" href="#top"><span aria-hidden="true">↑</span>Back to top</a>
+      <div class="social-icons" data-socials></div>
+      <p class="site-footer__copy">© 2026 {{Họ tên}}. Made with ♥ &amp; coffee.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -8,6 +8,7 @@ Bản đồ module + bảng debug: `README.md`.
 - HTML + CSS + JavaScript thuần. Không framework, không build tool, không npm (trừ khi người dùng yêu cầu).
 - Dữ liệu nằm ở `data/*.js` dạng `window.X = ...`. Không dùng `fetch()` file local, để mở `index.html` trực tiếp vẫn chạy.
 - Mọi đường dẫn đều tương đối (không bắt đầu bằng `/`), để chạy được khi mở file trực tiếp và trên mọi server/tên miền.
+  **Ngoại lệ duy nhất:** `404.html` dùng đường dẫn tuyệt đối từ gốc (`/assets/css/...`, `/index.html`), vì server hiển thị file này tại mọi URL sai (vd `/a/b/c`) nên đường dẫn tương đối sẽ hỏng. Cần đặt site ở gốc tên miền; ghi chú đầu file 404.html.
 
 ## Phong cách — bắt buộc giữ
 - Nền xám nhạt `--bg`, chữ đen `--ink`, section tối `--dark`. Chỉ **một** màu nhấn `--accent`, chiếm < 5% màn hình.

@@ -36,9 +36,13 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | `assets/css/pages.css` | CSS riêng trang chủ: `.hero`, `.current`, `.about`, `.skills__*`, `.projects__*`, `.life__*`, `.now`, `.social-card`, `.contact` | — | — | — |
 | `assets/css/base.css` | Reset, typography, `.container`, `.section`, `.reveal`, `.visually-hidden` | — | — | — |
 | `components-demo.html` + `components-demo.js` | **Trang tạm** để duyệt component (xoá sau giai đoạn 1) | `initDemoTabs`, `initDemoForm` | — | `.filter-tabs`, `form` |
-| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid(options)` (options: `featuredOnly`, `type`, `stack`), `filterProjects`, `renderProjectCard`, `initProjectFilter` (trang chủ), `initProjectsPage` (projects.html: lọc loại + công nghệ, đồng bộ URL `?type=&stack=`), `renderLife`, `renderSocials`, `renderNow`, `renderOpenToWork`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid` (cả index.html và projects.html), `#life-grid`, `#now`, `#socials`, `[data-socials]` |
+| `assets/js/render.js` | Sinh HTML từ dữ liệu | `renderSkills`, `renderProjectGrid(options)` (options: `featuredOnly`, `type`, `stack`), `filterProjects`, `renderProjectCard`, `initProjectFilter` (trang chủ), `initProjectsPage` (projects.html: lọc loại + công nghệ, đồng bộ URL `?type=&stack=`), `renderLife(limit)` (trang chủ 6 ảnh qua `data-limit`; `life-grid[data-lightbox]` → ảnh là `<button>`), `renderAboutBio`, `renderTimeline`, `renderCvLinks` (`[data-cv]`, ẩn khi `PROFILE.cv` rỗng), `renderSocials`, `renderNow`, `renderOpenToWork`, helper `escapeHtml` | tất cả `data/*` | `#skills-*`, `#project-grid` (cả index.html và projects.html), `#life-grid`, `#now`, `#socials`, `[data-socials]` |
 | `projects.html`, `project.html` | Trang con: danh sách tất cả dự án / chi tiết `?p=<slug>` (navbar `data-solid`, link `index.html#…`) | — | `PROJECTS` | `#project-grid`, `#project` |
 | `lab/demo-site/index.html` | Web con mẫu (thay bằng bản build thật; `links.demo` trỏ tới) | — | — | — |
+| `about.html`, `life.html` | Trang con: giới thiệu + timeline / ảnh đời sống + Now + social | — | `PROFILE`, `LIFE` | `#about-portrait`, `#about-bio`, `#timeline`, `#life-grid`, `#now`, `#socials` |
+| `404.html` | Trang lỗi. **Ngoại lệ:** dùng đường dẫn tuyệt đối từ gốc (`/assets/...`) vì server hiển thị nó tại mọi URL sai | — | `PROFILE` | `[data-socials]` |
+| `assets/js/lightbox.js` | Lightbox xem ảnh life.html (chuột, phím Esc/←/→/Tab, vuốt, khoá cuộn, trả focus) | `initLightbox`, `openLightbox`, `closeLightbox`, `showLightboxAt`, `handleLightboxKey` | `LIFE` | `.lightbox` (tạo bằng JS) |
+| `assets/files/` | CV (`cv.pdf`) — chỉ có `.gitkeep`; đặt PDF thật rồi điền `PROFILE.cv` | — | — | — |
 | `assets/js/project.js` | Trang chi tiết dự án | `getProjectSlug`, `findProject`, `renderProjectPage`, `renderProjectHeader`, `renderCaseStudy`, `renderStackAndFeatures`, `renderGallery`, `renderVideo`, `initCopyCode`, `renderPreviewWeb`, `renderPreviewDesktop`, `renderPreviewLocal`, `renderPreviewDesign`, `renderProjectNav` | `PROJECTS`, `PROFILE.name` | `#project` |
 | `assets/js/contact.js` | Form + copy email | `initContactForm`, `validateContactForm`, `submitContactForm`, `initCopyEmail` | `PROFILE.email` | `#contact-form`, `[data-copy-email]` (giai đoạn 2: chỉ kiểm tra dữ liệu; `submitContactForm` chưa gửi thật) |
 | `assets/js/i18n.js` | Song ngữ | `initI18n`, `setLanguage`, `translatePage` | `I18N` | `[data-i18n]` |
@@ -56,7 +60,7 @@ Thứ tự `<script>` trong mọi trang: `data/*.js` → `assets/js/main.js` →
 | Navbar không đổi màu khi cuộn / menu mobile không mở | `main.js` `initNavbar`, `initMobileMenu` |
 | Màu/font sai | `tokens.css` — không được có mã màu viết thẳng ở file khác |
 | Form không gửi | `contact.js` `submitContactForm`, access key Web3Forms |
-| Chạy local được nhưng hỏng khi đưa lên server | đường dẫn bắt đầu bằng `/` (phải là tương đối) |
+| Chạy local được nhưng hỏng khi đưa lên server | đường dẫn bắt đầu bằng `/` (phải là tương đối; **ngoại lệ duy nhất** là `404.html`) |
 
 ## Quy ước code (để dễ đọc, dễ tìm và debug)
 

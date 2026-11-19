@@ -339,3 +339,12 @@ textarea.input-underline { min-height: 8rem; resize: vertical; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 @media (hover: hover) { .chip:hover { background: var(--ink); color: var(--bg); } }
 @media (min-width: 768px) { .chip { min-height: 0; } }
+
+/* ---------- Trang hiện tại trên navbar ---------- */
+.nav-list a[aria-current="page"],
+.mobile-menu__list a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.5em;
+}

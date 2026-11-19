@@ -161,7 +161,7 @@
       <div class="container">
         <div class="section-title-wrap reveal"><h2 class="section-title" id="life-title">Life</h2></div>
         <p class="text-body life__intro text-center reveal">Khi không ngồi trước màn hình, mình {{...}}</p>
-        <div class="life__grid" id="life-grid"></div>
+        <div class="life__grid" id="life-grid" data-limit="6"></div>
         <h3 class="label life__subtitle">Now</h3>
         <dl class="now" id="now"></dl>
         <h3 class="label life__subtitle">Tìm mình ở đâu</h3>
@@ -184,7 +184,7 @@
             <p class="label contact__label">Vị trí</p>
             <p data-location>{{Thành phố}}, Việt Nam</p>
             <p class="status" data-open-to-work><span class="status-dot" aria-hidden="true"></span>Open to work</p>
-            <a class="btn-bracket" href="assets/files/cv.pdf" download>Tải CV</a>
+            <a class="btn-bracket" href="#" data-cv download hidden>Tải CV</a>
             <div class="social-icons contact__social" data-socials></div>
           </div>
           <form class="contact__form" id="contact-form" action="#" novalidate>
