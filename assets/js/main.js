@@ -306,19 +306,6 @@ window.addEventListener('load', function finishPlaceholders() {
   reportPlaceholders();
 });
 
-/* Section có data-section-link: bấm vào vùng trống của section sẽ mở trang con. Bỏ qua khi bấm vào phần tử tương tác (link, nút, ảnh, thẻ…). */
-var SECTION_LINK_IGNORE = 'a, button, input, textarea, select, label, [data-lightbox], .project-card, .life-item, .social-card, .filter-tabs, .chip';
-
-function initSectionLinks() {
-  document.querySelectorAll('[data-section-link]').forEach(function bindSection(section) {
-    var target = section.getAttribute('data-section-link');
-    section.addEventListener('click', function handleSectionClick(event) {
-      if (event.target.closest(SECTION_LINK_IGNORE)) return;
-      window.location.href = target;
-    });
-  });
-}
-
 document.addEventListener('DOMContentLoaded', function initPage() {
   initNavbar();
   initMobileMenu();
@@ -326,5 +313,4 @@ document.addEventListener('DOMContentLoaded', function initPage() {
   initBackToTop();
   initInViewColor();
   initHeroTyping();
-  initSectionLinks();
 });
