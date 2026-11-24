@@ -175,29 +175,26 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
-function copyTextFallback(text) {
-  return new Promise(function fallbackCopy(resolve, reject) {
-    var area = document.createElement('textarea');
-    area.value = text;
-    area.setAttribute('readonly', '');
-    area.style.position = 'fixed';
-    area.style.opacity = '0';
-    document.body.appendChild(area);
-    area.select();
-    var ok = false;
-    try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
-    document.body.removeChild(area);
-    if (ok) resolve(); else reject(new Error('copy failed'));
-  });
+/* Copy bằng textarea + execCommand. Phải gọi NGAY trong sự kiện click (cử chỉ người dùng), nên không để sau một Promise. */
+function copyWithTextarea(text) {
+  var area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch (error) { ok = false; }
+  document.body.removeChild(area);
+  return ok;
 }
 
+/* Thử execCommand trước (đồng bộ, còn cử chỉ người dùng); không được thì thử Clipboard API. */
 function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text).catch(function useFallback() {
-      return copyTextFallback(text);
-    });
-  }
-  return copyTextFallback(text);
+  if (copyWithTextarea(text)) return Promise.resolve();
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return Promise.reject(new Error('copy failed'));
 }
 
 /* ---------- Placeholder {{...}}: ẩn khi chạy trên tên miền thật, hiện như cũ khi chạy local ---------- */
